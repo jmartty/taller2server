@@ -1,5 +1,5 @@
 CC=g++
-CFLAGS=-Wall -pedantic -pedantic-errors -g -ggdb -DDEBUG
+CFLAGS=-Wall -pedantic -pedantic-errors -g -L/home/maxi/git/taller2server/libs/rocksdb-master/ -lrocksdb -I/home/maxi/git/taller2server/libs/rocksdb-master/include -ggdb -std=c++11  -lpthread -lrt -lsnappy -lgflags -lz -lbz2 -DROCKSDB_PLATFORM_POSIX  -DOS_LINUX -fno-builtin-memcm  -DDEBUG
 LDFLAGS=
 
 MODULES_SOURCES := $(shell find modules/* -name '*.cpp')
