@@ -38,6 +38,7 @@ static void* mg_serve(void *server) {
 
 void RequestHandler::serveRequests(const std::string& port) {
 
+	// Setup del los threads de poll de mongoose
 	log.msg(LOG_TYPE::INFO, "Starting web service...");
 	for(auto &i : servers) {
 		i = mg_create_server((void*)this, RequestHandler::web_evhandler);
@@ -54,7 +55,7 @@ void RequestHandler::serveRequests(const std::string& port) {
 		mg_start_thread(mg_serve, i);
 	}
 
-	// Do nothing till ctrl-break
+	// Do nothing on main thread till ctrl-break
 	while(true)
 		sleep(1);
 
@@ -62,29 +63,36 @@ void RequestHandler::serveRequests(const std::string& port) {
 
 int RequestHandler::web_evhandler(struct mg_connection *conn, enum mg_event ev) {
 
-	// Fake 'this' via global
+	// Fake 'this' via conn->server_param
 	RequestHandler* this_ = reinterpret_cast<RequestHandler*>(conn->server_param);
 
 	// Handler segun API mg
 	switch (ev) {
 		case MG_AUTH: return MG_TRUE;
 		case MG_REQUEST: {
-			log.msg(LOG_TYPE::INFO, "Received MG_REQUEST");
+
 			// Preparamos los datos y se los pasamos al servidor
-			if (!strcmp(conn->uri, "/hello")) {
-				mg_printf_data(conn, "{ \"msg\": \"Hello World\" }");
-				sleep(15);
-				return MG_TRUE;
-			}
-			return MG_FALSE;
+			std::stringstream ss;
+			std::string methodURI = std::string(conn->request_method) + "." + conn->uri;
+			ss << "Received MG_REQUEST: " << methodURI << " - Forwarding...";
+			log.msg(LOG_TYPE::DEBUG, ss.str());
+
+			return this_->serve(conn, methodURI, (conn->query_string == nullptr ? "" : conn->query_string), std::string(conn->content, conn->content_len) );
 		}
-		default:
-			return MG_FALSE;
+		default: return MG_FALSE;
 	}
 
 }
 
-void RequestHandler::serve(const std::string& methodURI, const std::string& params, const std::string& body) {
+int RequestHandler::serve(struct mg_connection *conn, const std::string& methodURI, const std::string& params, const std::string& content) {
+
+	// Servimos el request
+	log.msg(LOG_TYPE::DEBUG, std::string("methodURI: ") + methodURI);
+	log.msg(LOG_TYPE::DEBUG, std::string("params: ") + params);
+	log.msg(LOG_TYPE::DEBUG, std::string("content: ") + content);
+	mg_printf_data(conn, "");
+	return MG_TRUE;
+
 }
 
 void RequestHandler::install(const std::string& methodURI, Request* req) {

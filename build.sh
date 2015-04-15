@@ -33,14 +33,14 @@ else
 	pwd
 	cmake ..
 	make
+	if [ "$?" != 0 ]; then
+		exit 1
+	fi
 	if [ "$1" == "run" ] && [ -f server ]; then
 		echo "Ejecutando bin/server..."
 		echo "----------------------------------------------"
 		shift
 		./server "$@"
-		echo "----------------------------------------------"
-		echo "Tail 'event.log':"
-		tail event.log
 		cd ..
 	elif [ "$1" == "test" ]; then
 		shift

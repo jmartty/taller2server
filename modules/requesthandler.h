@@ -12,7 +12,7 @@
 // "POST./Usuario" -> &RequestPOSTUsuario
 typedef std::unordered_map<std::string, Request*> RequestTable;
 
-const int NUM_THREADS = 4;
+const int NUM_THREADS = 8;
 
 class RequestHandler {
 
@@ -28,7 +28,7 @@ class RequestHandler {
 	private:
 
 	// Methods to install and serve requests
-	void serve(const std::string& methodURI, const std::string& params, const std::string& body);
+	int serve(struct mg_connection *conn, const std::string& methodURI, const std::string& params, const std::string& content);
 	void install(const std::string& methodURI, Request* req);
 
 	// Table to store installed requests
