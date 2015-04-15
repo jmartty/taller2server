@@ -4,7 +4,7 @@
 #include "requesthandler.h"
 #include "logger.h"
 
-#define log Logger::get()
+static Logger& log = Logger::get();
 
 // esto es horrible pero no se me ocurrio una mejor manera
 // global para pasar "this" (desde RequestHandler::) al event_handler de mg

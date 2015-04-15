@@ -6,7 +6,7 @@
 #include "server.h"
 #include "logger.h"
 
-#define log Logger::get()
+static Logger& log = Logger::get();
 
 void Server::init(int argc, char* argv[]) {
 
