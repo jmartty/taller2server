@@ -6,12 +6,14 @@
 
 static Logger& log = Logger::get();
 
-// esto es horrible pero no se me ocurrio una mejor manera
-// global para pasar "this" (desde RequestHandler::) al event_handler de mg
-RequestHandler* UGLY_HACK;
-
 RequestHandler::RequestHandler() {
-	web_server = nullptr;
+
+	// Set number of servers and init pointers to null
+	servers.resize(NUM_THREADS);
+	for(auto &i : servers) {
+		i = nullptr;
+	}
+
 }
 
 RequestHandler::~RequestHandler() {
@@ -21,7 +23,11 @@ RequestHandler::~RequestHandler() {
 		delete it->second;
 
 	// Mongoose cleanup
-	mg_destroy_server(&web_server);
+
+        servers.resize(NUM_THREADS);
+        for(auto &i : servers) {
+                mg_destroy_server(&i);
+        }
 
 }
 
@@ -33,18 +39,22 @@ static void* mg_serve(void *server) {
 void RequestHandler::serveRequests(const std::string& port) {
 
 	log.msg(LOG_TYPE::INFO, "Starting web service...");
-	UGLY_HACK = this;
-	web_server = mg_create_server((void*)"1", RequestHandler::web_evhandler);
-	web_server2 = mg_create_server((void*)"2", RequestHandler::web_evhandler);
+	for(auto &i : servers) {
+		i = mg_create_server((void*)this, RequestHandler::web_evhandler);
+	}
 
-	mg_set_option(web_server, "listening_port", port.c_str());
-	log.msg(LOG_TYPE::INFO, std::string("Listening on port ") + mg_get_option(web_server, "listening_port"));
+	mg_set_option(servers[0], "listening_port", port.c_str());
+	log.msg(LOG_TYPE::INFO, std::string("Listening on port ") + mg_get_option(servers[0], "listening_port"));
 
-	mg_copy_listeners(web_server, web_server2);
+	for(auto i = 1;i < NUM_THREADS;i++) {
+		mg_copy_listeners(servers[0], servers[i]);
+	}
 
-	mg_start_thread(mg_serve, web_server);
-	mg_start_thread(mg_serve, web_server2);
+	for(auto &i : servers) {
+		mg_start_thread(mg_serve, i);
+	}
 
+	// Do nothing till ctrl-break
 	while(true)
 		sleep(1);
 
@@ -53,7 +63,7 @@ void RequestHandler::serveRequests(const std::string& port) {
 int RequestHandler::web_evhandler(struct mg_connection *conn, enum mg_event ev) {
 
 	// Fake 'this' via global
-	RequestHandler* this_ = UGLY_HACK;
+	RequestHandler* this_ = reinterpret_cast<RequestHandler*>(conn->server_param);
 
 	// Handler segun API mg
 	switch (ev) {

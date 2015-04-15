@@ -12,6 +12,8 @@
 // "POST./Usuario" -> &RequestPOSTUsuario
 typedef std::unordered_map<std::string, Request*> RequestTable;
 
+const int NUM_THREADS = 4;
+
 class RequestHandler {
 
 	public:
@@ -36,7 +38,7 @@ class RequestHandler {
 	Database* db;
 
 	// Mongoose stuff
-	struct mg_server* web_server, *web_server2;
+	std::vector<mg_server*> servers;
 	static int web_evhandler(struct mg_connection *conn, enum mg_event ev);
 
 };
