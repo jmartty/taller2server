@@ -34,6 +34,8 @@ include(CTest)
 set(CMAKE_CXX_OUTPUT_EXTENSION_REPLACE 1)
 set(CMAKE_CXX_FLAGS "-fprofile-arcs -ftest-coverage -g -O0 --coverage ${CMAKE_CXX_FLAGS}")
 
+set(CMAKE_C_FLAGS "-DMONGOOSE_ENABLE_THREADS")
+
 add_subdirectory(tests)
 
 # Build

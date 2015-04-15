@@ -36,7 +36,7 @@ class RequestHandler {
 	Database* db;
 
 	// Mongoose stuff
-	struct mg_server* web_server;
+	struct mg_server* web_server, *web_server2;
 	static int web_evhandler(struct mg_connection *conn, enum mg_event ev);
 
 };
