@@ -14,6 +14,6 @@ struct RequestResult {
 struct Request {
 
 	virtual ~Request() {}
-	virtual RequestResult process(Database* db, const std::string& params, const std::string& body) = 0;
+	virtual RequestResult process(Database* db, const std::string& uriparams, const std::string& queryparams, const std::string& body) = 0;
 
 };

@@ -28,7 +28,7 @@ class RequestHandler {
 	private:
 
 	// Methods to install and serve requests
-	int serve(struct mg_connection *conn, const std::string& methodURI, const std::string& params, const std::string& content);
+	int serve(struct mg_connection *conn, const std::string& method, const std::string& uri, const std::string& query_params, const std::string& content);
 	void install(const std::string& methodURI, Request* req);
 
 	// Table to store installed requests

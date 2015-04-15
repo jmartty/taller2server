@@ -70,26 +70,32 @@ int RequestHandler::web_evhandler(struct mg_connection *conn, enum mg_event ev) 
 		case MG_REQUEST: {
 
 			// Preparamos los datos y se los pasamos al servidor
-			std::stringstream ss;
-			std::string methodURI = std::string(conn->request_method) + "." + conn->uri;
-			ss << "Received MG_REQUEST: " << methodURI << " - Forwarding...";
-			log.msg(LOG_TYPE::DEBUG, ss.str());
-
-			return this_->serve(conn, methodURI, (conn->query_string == nullptr ? "" : conn->query_string), std::string(conn->content, conn->content_len) );
+			return this_->serve(conn, conn->request_method, conn->uri, (conn->query_string == nullptr ? "" : conn->query_string), std::string(conn->content, conn->content_len) );
 		}
 		default: return MG_FALSE;
 	}
 
 }
 
-int RequestHandler::serve(struct mg_connection *conn, const std::string& methodURI, const std::string& params, const std::string& content) {
+int RequestHandler::serve(struct mg_connection *conn, const std::string& method, const std::string& uri, const std::string& query_params, const std::string& content) {
+
+	log.msg(LOG_TYPE::DEBUG, std::string("Received MG_REQUEST: ") + uri);
+
+
+	// Parseamos el URI para diferenciar request de params
+	std::string uri_params;
+	std::string uri_resource;
+
+	// TODO: parsear uri y sacar resource tokens
+	uri_resource = uri;
+	std::string methodURI = method + "." + uri_resource;
 
 	// Servimos el request
 	if(routes.count(methodURI) == 0) {
 		// Si no encontramos el methodURI en la tabla, 404
 		return MG_FALSE;
 	}else{
-		auto res = routes[methodURI]->process(this->db, params, content);
+		auto res = routes[methodURI]->process(this->db, uri_params, query_params, content);
 		mg_send_status(conn, res.code);
 		mg_send_data(conn, res.data.c_str(), res.data.size());
 		return MG_TRUE;
