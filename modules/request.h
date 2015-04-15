@@ -7,7 +7,7 @@ struct RequestResult {
 	// Defaults to HTTP 200 OK
 	RequestResult() : code(200) { }
 	int code;
-	std::string body;
+	std::string data;
 };
 
 // Request abstract base class (interface)

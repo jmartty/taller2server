@@ -23,7 +23,6 @@ RequestHandler::~RequestHandler() {
 		delete it->second;
 
 	// Mongoose cleanup
-
         servers.resize(NUM_THREADS);
         for(auto &i : servers) {
                 mg_destroy_server(&i);
@@ -56,8 +55,7 @@ void RequestHandler::serveRequests(const std::string& port) {
 	}
 
 	// Do nothing on main thread till ctrl-break
-	while(true)
-		sleep(1);
+	while(true) sleep(60);
 
 }
 
@@ -87,11 +85,15 @@ int RequestHandler::web_evhandler(struct mg_connection *conn, enum mg_event ev) 
 int RequestHandler::serve(struct mg_connection *conn, const std::string& methodURI, const std::string& params, const std::string& content) {
 
 	// Servimos el request
-	log.msg(LOG_TYPE::DEBUG, std::string("methodURI: ") + methodURI);
-	log.msg(LOG_TYPE::DEBUG, std::string("params: ") + params);
-	log.msg(LOG_TYPE::DEBUG, std::string("content: ") + content);
-	mg_printf_data(conn, "");
-	return MG_TRUE;
+	if(routes.count(methodURI) == 0) {
+		// Si no encontramos el methodURI en la tabla, 404
+		return MG_FALSE;
+	}else{
+		auto res = routes[methodURI]->process(this->db, params, content);
+		mg_send_status(conn, res.code);
+		mg_send_data(conn, res.data.c_str(), res.data.size());
+		return MG_TRUE;
+	}
 
 }
 
