@@ -3,6 +3,8 @@
 
 
 class Database {
+	rocksdb::DB* db;
+
 	public:
 	// Debe crear si no existe
 	// Si existe, abrir
