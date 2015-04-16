@@ -19,7 +19,6 @@ include_directories(libs/rocksdb/include libs/jsoncpp libs/mongoose modules)
 
 # Execs
 add_executable(server ${SERVER_SRC} ${MODULES_SRC} libs/mongoose/mongoose.c)
-add_definitions(-std=c++11 -Wall)
 
 # Libraries
 # rocksdb
@@ -32,7 +31,7 @@ enable_testing()
 include(CTest)
 
 set(CMAKE_CXX_OUTPUT_EXTENSION_REPLACE 1)
-set(CMAKE_CXX_FLAGS "-fprofile-arcs -ftest-coverage -g -O0 --coverage ${CMAKE_CXX_FLAGS}")
+set(CMAKE_CXX_FLAGS "-std=c++11 -Wall -fprofile-arcs -ftest-coverage -g -O0 --coverage ${CMAKE_CXX_FLAGS}")
 
 set(CMAKE_C_FLAGS "-DMONGOOSE_ENABLE_THREADS")
 
