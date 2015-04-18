@@ -10,6 +10,17 @@ if [ ! -f libs/rocksdb/librocksdb.a ]; then
 	cd ../..
 fi
 
+# compilamos gmock y gtest si no estan presentes (mismo bundle)
+if [ ! -f libs/gmock/libgmock.a ]; then
+        echo "Compilando gmock-gtest bundle..."
+        cd libs/gmock
+	cmake .
+	make
+        # volvemos al dir base
+        cd ../..
+fi
+
+
 # clean o build
 if [ "$1" == "clean" ]; then
 	echo -n "Limpiando build..."
@@ -28,5 +39,8 @@ else
 		cd ..
 		bin/server
 		echo "----------------------------------------------"
+	elif [ "$1" == "test" ]; then
+		echo "Ejecutando tests..."
+		ctest .
 	fi
 fi
