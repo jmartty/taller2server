@@ -1,0 +1,6 @@
+Para compilar el proyecto correr el script ./build.sh
+
+Para forzar volver a hacer el build con nuevo makefile incluido, correr ./build.sh clean
+
+Software y librerias necesarias previo (instalar via sudo apt-get install):
+- cmake
