@@ -5,6 +5,6 @@ Software y librerias necesarias previo (instalar via sudo apt-get install):
 - zlib1g-dev
 - libbz2-dev
 
-* Para compilar el proyecto correr el script `./build.sh`
+* Para compilar el proyecto: `./build.sh`
 * Para forzar un nuevo build desde cero: `./build.sh clean`
-
+* Para compilar y correr los tests (modo verbose): `./build.sh test -V`
