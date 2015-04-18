@@ -41,6 +41,11 @@ void Logger::msg(const int& type, const std::string& str) {
 
 // Toggles for each log level
 void Logger::toggle(const int& type, bool val) {
-	assert(type > 0 && type < 4);
+	assert(type >= 0 && type < 4);
 	flags[type] = val;
+}
+
+// Close conexion
+void Logger::close() {
+	conexion.close();
 }

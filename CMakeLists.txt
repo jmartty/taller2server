@@ -16,7 +16,7 @@ file(GLOB SERVER_SRC
 )
 
 # Includes
-include_directories(libs/rocksdb/include libs/jsoncpp libs/mongoose)
+include_directories(libs/rocksdb/include libs/jsoncpp libs/mongoose modules)
 
 # Execs
 add_executable(server ${SERVER_SRC} ${MODULES_SRC})

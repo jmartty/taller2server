@@ -1,17 +1,17 @@
-#include "../../modules/logger.h"
+#include "logger.h"
 
 int main() {
 
-	Logger log;
+	Logger& log = Logger::get();
 
 	// Crea si no existe, append si existe
 	log.open("event.log");
 
 	//  Ponemos todos los modos de loggeo
-	log.toggleDebug(true);
-	log.toggleWarn(true);
-	log.toggleInfo(true);
-	log.toggleError(true);
+	log.toggle(LOG_TYPE::DEBUG, true);
+	log.toggle(LOG_TYPE::WARN, true);
+	log.toggle(LOG_TYPE::INFO, true);
+	log.toggle(LOG_TYPE::ERROR, true);
 
 	// Guardamos un mensaje de cada tipo
 	log.msg(LOG_TYPE::WARN, "log de tipo warning");
@@ -20,10 +20,10 @@ int main() {
 	log.msg(LOG_TYPE::DEBUG, "log de tipo debug");
 
 	// Desactivamos los modos de loggeo
-	log.toggleDebug(false);
-	log.toggleWarn(false);
-	log.toggleInfo(false);
-	log.toggleError(false);
+	log.toggle(LOG_TYPE::DEBUG, false);
+	log.toggle(LOG_TYPE::WARN, false);
+	log.toggle(LOG_TYPE::INFO, false);
+	log.toggle(LOG_TYPE::ERROR, false);
 
 	// Ninguno de estos deberia aparecer
 	log.msg(LOG_TYPE::WARN, "NO log de tipo warning");

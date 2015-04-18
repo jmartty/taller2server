@@ -17,10 +17,16 @@ namespace LOG_TYPE {
 class Logger {
 
 	public:
+
+	// Singleton instance get
+	static Logger& get() {
+		static Logger instance;
+		return instance;
+	}
+
 	// Open and close
 	bool open(const std::string& path);
 	void close();
-
 
 	// Log and level control
 	void msg(const int& type, const std::string& msg);
@@ -29,6 +35,12 @@ class Logger {
 
 	private:
 
+	// Singleton, no permitir crear o copiar
+	Logger() { }
+	Logger(const Logger&);
+	void operator=(const Logger&);
+
+	// members
 	std::ofstream conexion;
 	std::bitset<4> flags;
 };
