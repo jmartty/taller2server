@@ -12,11 +12,21 @@ fi
 
 # clean o build
 if [ "$1" == "clean" ]; then
-	rm -r bin
+	echo -n "Limpiando build..."
+	rm -rf bin
+	echo "OK"
 else
+	echo -n "Build..."
 	mkdir -p bin
 	cd bin
 	pwd
 	cmake ..
 	make
+	if [ "$1" == "run" ] && [ -f server ]; then
+		echo "Ejecutando bin/server..."
+		echo "----------------------------------------------"
+		cd ..
+		bin/server
+		echo "----------------------------------------------"
+	fi
 fi

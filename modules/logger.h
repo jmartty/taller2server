@@ -25,10 +25,7 @@ class Logger {
 	// Log and level control
 	void msg(const int& type, const std::string& msg);
 	// By default all levels are off
-	void toggleWarn(bool val);
-	void toggleDebug(bool val);
-	void toggleError(bool val);
-	void toggleInfo(bool val);
+	void toggle(const int& type, bool val);
 
 	private:
 

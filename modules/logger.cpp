@@ -2,7 +2,7 @@
 #include <fstream>
 #include <iomanip>
 #include <ctime>
-
+#include <cassert>
 
 bool Logger::open(const std::string& path) {
 	conexion.open(path.c_str(), std::ios_base::app);
@@ -40,26 +40,7 @@ void Logger::msg(const int& type, const std::string& str) {
 }
 
 // Toggles for each log level
-void Logger::toggleWarn(bool val) {
-	flags[LOG_TYPE::WARN] = val;
+void Logger::toggle(const int& type, bool val) {
+	assert(type > 0 && type < 4);
+	flags[type] = val;
 }
-
-void Logger::toggleDebug(bool val) {
-	flags[LOG_TYPE::DEBUG] = val;
-}
-
-void Logger::toggleError(bool val) {
-	flags[LOG_TYPE::ERROR] = val;
-}
-
-void Logger::toggleInfo(bool val) {
-	flags[LOG_TYPE::INFO] = val;
-}
-
-
-// 
-void Logger::close() {
-	conexion.close();
-}
-
-
