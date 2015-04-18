@@ -37,10 +37,10 @@ else
 		echo "Ejecutando bin/server..."
 		echo "----------------------------------------------"
 		cd ..
-		bin/server
+		bin/server $2
 		echo "----------------------------------------------"
 	elif [ "$1" == "test" ]; then
 		echo "Ejecutando tests..."
-		ctest .
+		ctest . $2
 	fi
 fi

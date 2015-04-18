@@ -1,16 +1,20 @@
 #include <iostream>
 #include <string>
-
+#include <rocksdb/db.h>
 
 class Database {
-	rocksdb::DB* db;
 
 	public:
 	// Debe crear si no existe
 	// Si existe, abrir
 	bool open(const std::string& file);
-	bool setValue(const std::string& key, const std::string& value);
-	bool keyExists(const std::string& key);
-	std::string getValue(const std::string& key);
+	bool put(const std::string& key, const std::string& value);
+	bool exists(const std::string& key);
+	bool del(const std::string& key);
+	std::string get(const std::string& key);
 	void close();
+
+	private:
+	rocksdb::DB* db;
+
 };
