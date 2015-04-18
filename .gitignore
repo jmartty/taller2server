@@ -30,5 +30,7 @@
 # Bins folder
 bin/
 
-# Settings folder
+# Cosas eclipse?
 .settings/
+.cproject
+.project
