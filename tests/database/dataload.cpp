@@ -5,7 +5,7 @@
 // Test para cargar una base de datos y un par key/value raw
 //
 
-int main(int argc, char* argv[]) {
+int test(int argc, char* argv[]) {
 
 	// Test open/create db
 	Database db;
@@ -21,15 +21,15 @@ int main(int argc, char* argv[]) {
 	}
 
 	// Test existe key
-	if(!db.keyExists("key)) {
-		std::cout << "Error, key existente no existe\n");
+	if(!db.keyExists("key")) {
+		std::cout << "Error, key existente no existe\n";
 		return -1;
 	}
 
 	// Test key value
 	std::string val = db.getValue("key");
 	if(val != "value") {
-		std::cout << "Error, key value mismatch\n");
+		std::cout << "Error, key value mismatch\n";
 		return -1;
 	}
 
