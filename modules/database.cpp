@@ -46,9 +46,3 @@ void Database::close(){
 	delete db;
 	return;
 }
-
-//TODO: Sacar main
-int main() {
-
-	return 1;
-}

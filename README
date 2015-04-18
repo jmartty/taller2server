@@ -1,6 +1,10 @@
-Para compilar el proyecto correr el script ./build.sh
-
-Para forzar volver a hacer el build con nuevo makefile incluido, correr ./build.sh clean
-
 Software y librerias necesarias previo (instalar via sudo apt-get install):
 - cmake
+- libsnappy-dev
+- libgflags-dev
+- zlib1g-dev
+- libbz2-dev
+
+* Para compilar el proyecto correr el script `./build.sh`
+* Para forzar un nuevo build desde cero: `./build.sh clean`
+
