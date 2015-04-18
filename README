@@ -1,4 +1,5 @@
 Software y librerias necesarias previo (instalar via sudo apt-get install):
+- g++
 - cmake
 - libsnappy-dev
 - libgflags-dev
@@ -8,3 +9,4 @@ Software y librerias necesarias previo (instalar via sudo apt-get install):
 * Para compilar el proyecto: `./build.sh`
 * Para forzar un nuevo build desde cero: `./build.sh clean`
 * Para compilar y correr los tests (modo verbose): `./build.sh test -V`
+* Para ejecutar el servidor: `./build.sh run`

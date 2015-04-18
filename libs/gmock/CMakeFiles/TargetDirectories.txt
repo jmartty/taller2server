@@ -1,4 +1,0 @@
-/home/jmartty/taller2server/libs/gmock/CMakeFiles/gmock.dir
-/home/jmartty/taller2server/libs/gmock/CMakeFiles/gmock_main.dir
-/home/jmartty/taller2server/libs/gmock/gtest/CMakeFiles/gtest.dir
-/home/jmartty/taller2server/libs/gmock/gtest/CMakeFiles/gtest_main.dir
