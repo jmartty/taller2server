@@ -29,3 +29,6 @@
 
 # Bins folder
 bin/
+
+# Settings folder
+.settings/
