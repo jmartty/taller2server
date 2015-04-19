@@ -19,10 +19,7 @@ class Logger {
 	public:
 
 	// Singleton instance get
-	static Logger& get() {
-		static Logger instance;
-		return instance;
-	}
+	static Logger& get();
 
 	// Open and close
 	bool open(const std::string& path);

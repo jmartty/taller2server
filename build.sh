@@ -36,11 +36,15 @@ else
 	if [ "$1" == "run" ] && [ -f server ]; then
 		echo "Ejecutando bin/server..."
 		echo "----------------------------------------------"
-		cd ..
-		bin/server $2
+		shift
+		./server "$@"
 		echo "----------------------------------------------"
+		echo "Tail 'event.log':"
+		tail event.log
+		cd ..
 	elif [ "$1" == "test" ]; then
+		shift
 		echo "Ejecutando tests..."
-		ctest . $2
+		ctest . "$@"
 	fi
 fi
