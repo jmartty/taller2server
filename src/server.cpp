@@ -1,7 +1,8 @@
 #include <iostream>
 #include "logger.h"
+#include "config.h"
 
 int main(int argc, char* argv[]) {
-	std::cout << "server stuff\n";
+	Config config(argc, argv);
 	return 0;
 }
