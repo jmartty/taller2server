@@ -6,7 +6,7 @@
 #include "request.h"
 #include "mongoose.h"
 
-// RequestTable type: strmethod.URI -> &Request
+// RequestTable type: strmethod.URI -> Request*
 // Examples:
 // "GET./Login" -> &RequestGETLogin
 // "POST./Usuario" -> &RequestPOSTUsuario
@@ -21,7 +21,7 @@ class RequestHandler {
 	// Install all REST resources and routes
 	void installRequests(Database* db);
 	// Start the web server and handle requests
-	void serveRequests(int port);
+	void serveRequests(const std::string& port);
 
 	private:
 
@@ -31,6 +31,9 @@ class RequestHandler {
 
 	// Table to store installed requests
 	RequestTable routes;
+
+	// Database pointer
+	Database* db;
 
 	// Mongoose stuff
 	struct mg_server* web_server;

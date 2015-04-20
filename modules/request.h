@@ -4,11 +4,13 @@
 // Interface para requests
 // Return type
 struct RequestResult {
+	// Defaults to HTTP 200 OK
+	RequestResult() : code(200) { }
 	int code;
 	std::string body;
 };
 
-// Interface
+// Request abstract base class (interface)
 struct Request {
 
 	virtual ~Request() {}

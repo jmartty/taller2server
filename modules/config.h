@@ -11,7 +11,7 @@ struct Config {
 	// Attribs
 	std::string db_file;
 	bool l_warn, l_debug, l_error, l_info;
-	int port;
+	std::string port;
 	bool start; // if false, the server startup is aborted
 
 	// Parse and store options
@@ -21,7 +21,7 @@ struct Config {
 		l_warn = l_error = l_info = true;
 		l_debug = false;
 		db_file = "database.db";
-		port = 4500;
+		port = "4500";
 		start = true;
 
 		// Parse
@@ -34,8 +34,7 @@ struct Config {
 					printUsage();
 					return;
 				case 'p': {
-					unsigned short p = (unsigned short)atoi(optarg);
-					port = p;
+					port = optarg;
 					break;
 				}
 				case 'd':
