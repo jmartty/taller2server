@@ -83,11 +83,21 @@ int RequestHandler::serve(struct mg_connection *conn, const std::string& method,
 
 
 	// Parseamos el URI para diferenciar request de params
-	std::string uri_params;
 	std::string uri_resource;
+	std::string uri_params;
 
-	// TODO: parsear uri y sacar resource tokens
-	uri_resource = uri;
+	// Parseamos uri y sacamos el resource y params como tokens
+	// Ej, foo/bar -> foo, bar
+	// Buscamos la posicion del primer '/' sin contar el primer caracter
+	auto fs_pos = uri.find('/', 1);
+	// Sacamos el substring hasta la posicion
+	uri_resource = uri.substr(0, fs_pos);
+	// Si lo encontramos, el otro substring son los caracteres que quedan
+	// Sin incluir el delimitador
+	if(fs_pos != std::string::npos) {
+		uri_params = uri.substr(fs_pos+1);
+	}
+	// Crafteamos el methodURI de acuerdo a la convencion
 	std::string methodURI = method + "." + uri_resource;
 
 	// Servimos el request
