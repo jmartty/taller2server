@@ -15,10 +15,22 @@ Json::Value JSONParse(const std::string& source) {
 
 
 // Define all requests here
-struct Request_PUT_Login : public Request {
+struct Request_POST_Login : public Request {
 	virtual RequestResult process(Database* db, const std::string& uriparams, const std::string& qparams, const std::string& body) {
 		RequestResult ret;
-		// Do something
+		// Parse and check credentials
+		auto js = JSONParse(body);
+		const std::string usr_id = js.get("user", "").asString();
+		const std::string pwd = js.get("pwd", "").asString();
+		Usuario usr;
+		if(db->loadUsuario(usr_id, usr) && usr.password == pwd) {
+			usr.last_action = std::time(nullptr);
+			usr.token = Request::genToken();
+			ret.data = std::string("{ \"token\": \"") + usr.token + "\" }";
+			ret.code = 201;
+		}else{
+			ret.code = 401;
+		}
 		return ret;
 	}
 };
@@ -41,11 +53,12 @@ struct Request_POST_Usuario : public Request {
 		auto js = JSONParse(body);
 		user.load(js);
 		if(db->createUsuario(user)) {
+			ret.code = 201;
 		}else{
 			log.msg(LOG_TYPE::INFO, std::string("Error creando usuario `") + user.id + "`");
-			// TODO: desdoblar en dos casos
+			// TODO: desdoblar en casos distintos para cada tipo de error
 			ret.code = 400;
-	                ret.data = "{ \"error\": \"Usuario invalido o ya existente\" }";
+	                ret.data = "{ \"error\": \"Atributos invalidos o usuario ya existe\" }";
 		}
                 return ret;
         }
@@ -79,7 +92,7 @@ void RequestHandler::installRequests(Database* db) {
 	// Store db pointer
 	this->db = db;
 	// Format: install("method.URI", Request)
-	install("PUT./login", new Request_PUT_Login);
+	install("POST./login", new Request_POST_Login);
 	install("GET./test", new Request_GET_Test);
 	install("GET./usuarios", new Request_GET_Usuarios);
 	install("POST./usuario", new Request_POST_Usuario);

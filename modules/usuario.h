@@ -14,13 +14,14 @@ struct Usuario {
 	Usuario(const std::string& str);
 	// Cargar desde un Json::value
 	void load(const Json::Value& js);
+	// Retornar como Json
 	std::string asJson() const;
 
 	// Serializacion
 	// Cereal method
 	template<class Archive>
 	void serialize(Archive& ar) {
-		ar(id, password, nombre, foto, ubicacion, estado, token, last_login);
+		ar(id, password, nombre, foto, ubicacion, estado, token, last_action);
 	}
 	// Actual serial
 	std::string serialStr() const;
@@ -34,7 +35,7 @@ struct Usuario {
 	std::string foto;
 	std::string ubicacion;
 	std::string token;
-	std::time_t last_login;
+	std::time_t last_action;
 	// Valores posibles para conectado
 	// "conectado", "desconectado"
 	std::string estado;

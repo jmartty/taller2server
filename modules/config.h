@@ -9,6 +9,8 @@
 // Constants
 // # mongoose threads
 const int NUM_THREADS = 8;
+// Segundos de inactividad para que expire la sesion
+const int SESSION_EXPIRE_SECONDS = 3600;
 
 // Clase config
 struct Config {

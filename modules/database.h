@@ -19,7 +19,10 @@ class Database {
 	ListaUsuarios getListaUsuarios();
 	std::string getListaUsuariosJson();
 	bool createUsuario(const Usuario& usr);
+	static bool validateUser(const Usuario& usr);
 	static bool validateUserId(const std::string& id);
+	static bool validateUserName(const std::string& name);
+	static bool validateUserPwd(const std::string& pwd);
 
 	// Operacion sobre conversaciones
 

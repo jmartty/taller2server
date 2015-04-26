@@ -70,7 +70,10 @@ bool Database::saveUsuario(const Usuario& usr) {
 
 bool Database::createUsuario(const Usuario& usr) {
 
-	if(!validateUserId(usr.id) || usuarioExists(usr.id)) return false;
+	// Validamos la info y nos fijamos que no exista
+	if(!validateUser(usr) || usuarioExists(usr.id))
+		return false;
+	// Agregamos
 	listaUsuariosAdd(usr.id);
 	return this->put(std::string("Usuario.") + usr.id, usr.serialStr());
 
@@ -121,7 +124,25 @@ ListaUsuarios Database::getListaUsuarios() {
 }
 
 bool Database::validateUserId(const std::string& id) {
+	// Debe tener mas de 0 caraceteres y menos de 8
+	// TODO: alphanum
 	return id.size() > 0 && id.size() <= 8;
+}
+
+bool Database::validateUserName(const std::string& name) {
+	// Debe tener mas de 0 caraceteres y menos de 24
+	// TODO: alphanum
+	return name.size() > 0 && name.size() <= 24;
+}
+
+bool Database::validateUserPwd(const std::string& pwd) {
+	// Debe tener mas de 0 caraceteres y menos de 24
+	// TODO: alphanum
+	return pwd.size() > 0 && pwd.size() <= 24;
+}
+
+bool Database::validateUser(const Usuario& usr) {
+	return validateUserId(usr.id) && validateUserPwd(usr.password) && validateUserName(usr.nombre);
 }
 
 std::string Database::getListaUsuariosJson() {
