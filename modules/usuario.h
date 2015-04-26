@@ -9,7 +9,7 @@
 struct Usuario {
 
 	// Constructor default
-	Usuario() : conectado(false) { }
+	Usuario() : estado("desconectado") { }
 	// Constructor from serialized string
 	Usuario(const std::string& str);
 	// Cargar desde un Json::value
@@ -20,7 +20,7 @@ struct Usuario {
 	// Cereal method
 	template<class Archive>
 	void serialize(Archive& ar) {
-		ar(id, nombre, foto, ubicacion, token, last_login);
+		ar(id, password, nombre, foto, ubicacion, estado, token, last_login);
 	}
 	// Actual serial
 	std::string serialStr() const;
@@ -35,6 +35,8 @@ struct Usuario {
 	std::string ubicacion;
 	std::string token;
 	std::time_t last_login;
-	bool conectado;
+	// Valores posibles para conectado
+	// "conectado", "desconectado"
+	std::string estado;
 
 };

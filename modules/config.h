@@ -6,6 +6,11 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+// Constants
+// # mongoose threads
+const int NUM_THREADS = 8;
+
+// Clase config
 struct Config {
 
 	// Attribs

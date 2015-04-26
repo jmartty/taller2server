@@ -48,5 +48,14 @@ void Usuario::load(const Json::Value& js) {
 std::string Usuario::asJson() const {
 
 	Json::Value js;
+	js["id"] = this->id;
+	js["nombre"] = this->nombre;
+	js["foto"] = this->foto;
+	js["ubicacion"] = this->ubicacion;
+	js["estado"] = this->estado;
 
+	std::stringstream ss;
+	ss << js;
+	std::cout << "USUARIO::ASJSON:: " << ss.str() << std::endl;
+	return ss.str();
 }

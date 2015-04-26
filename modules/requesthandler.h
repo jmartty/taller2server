@@ -5,14 +5,13 @@
 #include "database.h"
 #include "request.h"
 #include "mongoose.h"
+#include "config.h"
 
 // RequestTable type: strmethod.URI -> Request*
 // Examples:
 // "GET./Login" -> &RequestGETLogin
 // "POST./Usuario" -> &RequestPOSTUsuario
 typedef std::unordered_map<std::string, Request*> RequestTable;
-
-const int NUM_THREADS = 8;
 
 class RequestHandler {
 

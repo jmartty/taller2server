@@ -79,9 +79,9 @@ void RequestHandler::installRequests(Database* db) {
 	// Store db pointer
 	this->db = db;
 	// Format: install("method.URI", Request)
-	install("PUT./Login", new Request_PUT_Login);
-	install("GET./Test", new Request_GET_Test);
-	install("GET./Usuarios", new Request_GET_Usuarios);
-	install("POST./Usuario", new Request_POST_Usuario);
-	install("GET./Usuario", new Request_GET_Usuario);
+	install("PUT./login", new Request_PUT_Login);
+	install("GET./test", new Request_GET_Test);
+	install("GET./usuarios", new Request_GET_Usuarios);
+	install("POST./usuario", new Request_POST_Usuario);
+	install("GET./usuario", new Request_GET_Usuario);
 }

@@ -129,17 +129,23 @@ std::string Database::getListaUsuariosJson() {
 	auto lu = getListaUsuarios();
 	auto c = lu.size();
 	// Build JSON reply
-	std::string ret("{ \"usuarios\": [ ");
+	std::string ret("[ ");
 	size_t i = 0;
-	for(const auto& u : lu) {
-		ret += "\"";
-		ret += u;
-		ret += "\"";
+	for(const auto& id : lu) {
+		Usuario usr;
+		assert(this->loadUsuario(id, usr));
+		ret += "{\"id\": \"";
+		ret += usr.id;
+		ret += "\", \"nombre\": \"";
+		ret += usr.nombre;
+		ret += "\", \"estado\": \"";
+		ret += usr.estado;
+		ret += "\"}";
 		if(i+1 != c)
 			ret += ", ";
 			i++;
 		}
-	ret += " ] }";
+	ret += " ]";
 	return ret;
 
 }
