@@ -88,6 +88,7 @@ void Database::listaUsuariosAdd(const std::string& id) {
                 cereal::BinaryOutputArchive oarch(ss);
                 oarch(lu);
         }
+	put("Usuarios", ss.str());
 
 }
 
