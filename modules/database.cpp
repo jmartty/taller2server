@@ -41,3 +41,29 @@ std::string Database::get(const std::string& key){
 void Database::close(){
 	delete db;
 }
+
+bool Database::usuarioExists(const std::string& id) {
+
+	return exists(std::string("Usuario.") + id);
+
+}
+
+bool Database::loadUsuario(const std::string& id, Usuario& usr) {
+
+	if(!usuarioExists(id)) return false;
+	Usuario loaded_usr(get(std::string("Usuario.") + id));
+	if(loaded_usr.id == id) {
+		usr = loaded_usr;
+		return true;
+	}else{
+		return false;
+	}
+
+}
+
+bool Database::saveUsuario(const Usuario& usr) {
+
+	return this->put(std::string("Usuario.") + usr.id, usr.serialStr());
+
+}
+
