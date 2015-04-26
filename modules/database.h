@@ -17,6 +17,7 @@ class Database {
 	bool loadUsuario(const std::string& id, Usuario& usr);
 	bool saveUsuario(const Usuario& usr);
 	ListaUsuarios getListaUsuarios();
+	std::string getListaUsuariosJson();
 	bool createUsuario(const Usuario& usr);
 	static bool validateUserId(const std::string& id);
 

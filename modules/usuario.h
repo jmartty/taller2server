@@ -3,6 +3,7 @@
 #include <cereal/archives/binary.hpp>
 #include <string>
 #include <ctime>
+#include <json/json.h>
 
 // POD con serializacion
 struct Usuario {
@@ -11,6 +12,9 @@ struct Usuario {
 	Usuario() : conectado(false) { }
 	// Constructor from serialized string
 	Usuario(const std::string& str);
+	// Cargar desde un Json::value
+	void load(const Json::Value& js);
+	std::string asJson() const;
 
 	// Serializacion
 	// Cereal method
@@ -25,6 +29,7 @@ struct Usuario {
 
 	// Attribs
 	std::string id;
+	std::string password;
 	std::string nombre;
 	std::string foto;
 	std::string ubicacion;

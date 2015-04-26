@@ -1,6 +1,7 @@
 #include "usuario.h"
 #include <sstream>
 #include <string>
+#include <json/json.h>
 
 // Constructor from serialized string
 Usuario::Usuario(const std::string& str) {
@@ -34,3 +35,18 @@ void Usuario::unserialStr(const std::string& str) {
 
 }
 
+void Usuario::load(const Json::Value& js) {
+
+	this->id = js.get("id", this->id).asString();
+	this->password = js.get("password", this->password).asString();
+	this->nombre = js.get("nombre", this->nombre).asString();
+	this->foto = js.get("foto", this->foto).asString();
+	this->ubicacion = js.get("ubicacion", this->ubicacion).asString();
+
+}
+
+std::string Usuario::asJson() const {
+
+	Json::Value js;
+
+}

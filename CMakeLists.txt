@@ -20,7 +20,8 @@ include_directories(modules libs/rocksdb/include libs/jsoncpp libs/mongoose libs
 # Execs
 # Mongoose se compila como parte del proyecto
 # Cereal es headers-only
-add_executable(server ${SERVER_SRC} ${MODULES_SRC} libs/mongoose/mongoose.c)
+# Jsoncpp
+add_executable(server ${SERVER_SRC} ${MODULES_SRC} libs/mongoose/mongoose.c libs/jsoncpp/jsoncpp.cpp)
 
 # Libraries
 # rocksdb

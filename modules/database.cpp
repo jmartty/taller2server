@@ -123,3 +123,24 @@ ListaUsuarios Database::getListaUsuarios() {
 bool Database::validateUserId(const std::string& id) {
 	return id.size() > 0 && id.size() <= 8;
 }
+
+std::string Database::getListaUsuariosJson() {
+
+	auto lu = getListaUsuarios();
+	auto c = lu.size();
+	// Build JSON reply
+	std::string ret("{ \"usuarios\": [ ");
+	size_t i = 0;
+	for(const auto& u : lu) {
+		ret += "\"";
+		ret += u;
+		ret += "\"";
+		if(i+1 != c)
+			ret += ", ";
+			i++;
+		}
+	ret += " ] }";
+	return ret;
+
+}
+
