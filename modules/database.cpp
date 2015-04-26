@@ -63,7 +63,58 @@ bool Database::loadUsuario(const std::string& id, Usuario& usr) {
 
 bool Database::saveUsuario(const Usuario& usr) {
 
+	if(!usuarioExists(usr.id)) return false;
 	return this->put(std::string("Usuario.") + usr.id, usr.serialStr());
 
 }
 
+bool Database::createUsuario(const Usuario& usr) {
+
+	if(usuarioExists(usr.id)) return false;
+	listaUsuariosAdd(usr.id);
+	return this->put(std::string("Usuario.") + usr.id, usr.serialStr());
+
+}
+
+void Database::listaUsuariosAdd(const std::string& id) {
+
+	// Leemos la lista actual
+	ListaUsuarios lu = getListaUsuarios();
+	// Agregamos al usuario
+	lu.insert(id);
+	// Guardamos
+	std::stringstream ss(std::stringstream::out | std::stringstream::in | std::stringstream::binary);
+        {
+                cereal::BinaryOutputArchive oarch(ss);
+                oarch(lu);
+        }
+
+}
+
+ListaUsuarios Database::getListaUsuarios() {
+
+	// Creamos si no existe
+	if(!exists("Usuarios")) {
+		ListaUsuarios lu;
+		// Guardamos
+		std::stringstream ss(std::stringstream::out | std::stringstream::in | std::stringstream::binary);
+		{
+                	cereal::BinaryOutputArchive oarch(ss);
+	                oarch(lu);
+        	}
+		put("Usuarios", ss.str());
+		return lu;
+	}else{
+		// Leemos la lista
+		ListaUsuarios lu;
+		std::string str = this->get("Usuarios");
+		std::stringstream ss(std::stringstream::out | std::stringstream::in | std::stringstream::binary);
+		ss.write(str.data(), str.size());
+		{
+			cereal::BinaryInputArchive iarch(ss);
+			iarch(lu);
+		}
+		return lu;
+	}
+
+}

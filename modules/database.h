@@ -2,20 +2,26 @@
 #include <iostream>
 #include <string>
 #include <rocksdb/db.h>
+#include <set>
+#include <cereal/types/set.hpp>
 #include "usuario.h"
+
+typedef std::set<std::string> ListaUsuarios;
 
 class Database {
 
 	public:
 
-	// Operaciones sobre Usuario
+	// Operaciones sobre usuarios
 	bool usuarioExists(const std::string& id);
 	bool loadUsuario(const std::string& id, Usuario& usr);
 	bool saveUsuario(const Usuario& usr);
+	ListaUsuarios getListaUsuarios();
+	bool createUsuario(const Usuario& usr);
 
-	// Operacion sobre Conversacion
+	// Operacion sobre conversaciones
 
-	// Operaciones basicas
+	// Operaciones basicas de bajo nivel
 	// No deberian ser llamadas en general
 
 	// Debe crear si no existe
@@ -28,6 +34,10 @@ class Database {
 	void close();
 
 	private:
+	// Link a la DB
 	rocksdb::DB* db;
+	void listaUsuariosAdd(const std::string& id);
+	// Permite acceso a la clase de serializacion
+	friend class cereal::access;
 
 };

@@ -53,7 +53,8 @@ TEST(Database, TestUsuario) {
 	usr.id = "pepe";
 	EXPECT_TRUE(db.open("test.db"));
 	EXPECT_FALSE(db.usuarioExists(usr.id));
-	EXPECT_TRUE(db.saveUsuario(usr));
+	EXPECT_FALSE(db.saveUsuario(usr));
+	EXPECT_TRUE(db.createUsuario(usr));
 	EXPECT_TRUE(db.usuarioExists(usr.id));
 	EXPECT_FALSE(db.usuarioExists("otro_usuario"));
 	EXPECT_TRUE(db.loadUsuario(usr.id, usr2));
