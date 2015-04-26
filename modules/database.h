@@ -18,6 +18,7 @@ class Database {
 	bool saveUsuario(const Usuario& usr);
 	ListaUsuarios getListaUsuarios();
 	bool createUsuario(const Usuario& usr);
+	static bool validateUserId(const std::string& id);
 
 	// Operacion sobre conversaciones
 

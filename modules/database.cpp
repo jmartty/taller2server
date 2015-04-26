@@ -70,7 +70,7 @@ bool Database::saveUsuario(const Usuario& usr) {
 
 bool Database::createUsuario(const Usuario& usr) {
 
-	if(usuarioExists(usr.id)) return false;
+	if(!validateUserId(usr.id) || usuarioExists(usr.id)) return false;
 	listaUsuariosAdd(usr.id);
 	return this->put(std::string("Usuario.") + usr.id, usr.serialStr());
 
@@ -118,4 +118,8 @@ ListaUsuarios Database::getListaUsuarios() {
 		return lu;
 	}
 
+}
+
+bool Database::validateUserId(const std::string& id) {
+	return id.size() > 0 && id.size() <= 8;
 }
