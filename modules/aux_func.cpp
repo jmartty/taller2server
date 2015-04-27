@@ -26,3 +26,9 @@ std::vector<std::string> explode(const std::string& delim, const std::string& st
 	}
 
 }
+
+
+time_t secondsFrom(const time_t& t) {
+        return std::time(nullptr) - t;
+}
+

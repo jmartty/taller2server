@@ -3,6 +3,7 @@
 #include <string>
 #include "aux_func.h"
 #include "request.h"
+#include "config.h"
 
 std::string Request::genToken() {
 
@@ -15,7 +16,7 @@ std::string Request::genToken() {
                 const size_t max_index = (sizeof(charset) - 1);
                 return charset[ rand() % max_index ];
         };
-        const size_t length = 8;
+        const size_t length = TOKEN_LENGTH;
         std::string str(length, 0);
         std::generate_n(str.begin(), length, randchar);
         return str;

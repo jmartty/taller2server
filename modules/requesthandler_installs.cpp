@@ -75,10 +75,7 @@ struct Request_GET_Usuarios : public Request {
 			return ret;
 		}
 		Usuario usr;
-		std::cout << db->loadUsuario(qdict["r_user"], usr);
-		std::cout << "qdict['r_user']=" << qdict["r_user"] << std::endl;
-		std::cout << "qdict['token']=" << qdict["token"] << std::endl;
-		std::cout << "usr.token=" << usr.token << std::endl;
+		db->loadUsuario(qdict["r_user"], usr);
 		if(db->validateSession(qdict["r_user"], qdict["token"])) {
 			ret.data = db->getListaUsuariosJson();
 		}else{

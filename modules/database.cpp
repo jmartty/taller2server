@@ -3,6 +3,10 @@
 #include <rocksdb/db.h>
 #include "database.h"
 #include "config.h"
+#include "aux_func.h"
+#include "logger.h"
+
+static Logger& log = Logger::get();
 
 bool Database::open(const std::string& file){
 
@@ -148,6 +152,7 @@ bool Database::validateUser(const Usuario& usr) {
 
 std::string Database::getListaUsuariosJson() {
 
+	// Pasa la lista de usuarios a JSON y ademas 
 	auto lu = getListaUsuarios();
 	auto c = lu.size();
 	// Build JSON reply
@@ -155,6 +160,7 @@ std::string Database::getListaUsuariosJson() {
 	size_t i = 0;
 	for(const auto& id : lu) {
 		Usuario usr;
+		assert(this->heartbeatUsuario(id));
 		assert(this->loadUsuario(id, usr));
 		ret += "{\"id\": \"";
 		ret += usr.id;
@@ -178,7 +184,7 @@ bool Database::validateSession(const std::string& id, const std::string& token) 
 	Usuario usr;
 	bool res = loadUsuario(id, usr) &&
 		usr.token == token &&
-		std::time(nullptr) - usr.last_action < SESSION_EXPIRE_SECONDS;
+		secondsFrom(usr.last_action) < SESSION_EXPIRE_SECONDS;
 
 	if(res) {
 		// Si es valida, actualizamos el last_action
@@ -189,5 +195,22 @@ bool Database::validateSession(const std::string& id, const std::string& token) 
 		// Si no es valida, debe loggearse nuevamente
 		return false;
 	}
+
+}
+
+bool Database::heartbeatUsuario(const std::string& id) {
+
+	// Actualizamos el estado basado en el tiempo desde la ultima query
+	Usuario usr;
+	if(!loadUsuario(id, usr)) return false;
+	std::stringstream ss;
+	ss << "Usuario `" << usr.id << "`.seconds from last action: " << secondsFrom(usr.last_action);
+	log.msg(LOG_TYPE::DEBUG, ss.str());
+	if(secondsFrom(usr.last_action) > SESSION_EXPIRE_SECONDS) {
+		usr.estado = "desconectado";
+	}else{
+		usr.estado = "conectado";
+	}
+	return saveUsuario(usr);
 
 }
