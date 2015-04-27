@@ -70,16 +70,10 @@ struct Request_GET_Usuarios : public Request {
         virtual RequestResult process(Database* db, const std::string& uriparams, const std::string& qparams, const std::string& body) {
                 RequestResult ret;
 		auto qdict = Request::parseQueryParams(qparams);
-		if(qdict.size() < 2) {
+		if(qdict.size() < 2 || !db->validateSession(qdict["r_user"], qdict["token"])) {
 			ret.code = 401;
-			return ret;
-		}
-		Usuario usr;
-		db->loadUsuario(qdict["r_user"], usr);
-		if(db->validateSession(qdict["r_user"], qdict["token"])) {
-			ret.data = db->getListaUsuariosJson();
 		}else{
-			ret.code = 401;
+			ret.data = db->getListaUsuariosJson();
 		}
                 return ret;
         }
@@ -88,11 +82,11 @@ struct Request_GET_Usuarios : public Request {
 struct Request_GET_Usuario : public Request {
 	virtual RequestResult process(Database* db, const std::string& uriparams, const std::string& qparams, const std::string& body) {
 		RequestResult ret;
+		auto qdict = Request::parseQueryParams(qparams);
 		Usuario usr;
-		if(!db->loadUsuario(uriparams, usr)) {
-			ret.code = 404;
+		if(qdict.size() < 2 || !db->validateSession(qdict["r_user"], qdict["token"]) || !db->loadUsuario(uriparams, usr)) {
+			ret.code = 401;
 		}else{
-			ret.code = 200;
 			ret.data = usr.asJson();
 		}
 		return ret;
