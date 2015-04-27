@@ -51,6 +51,8 @@ TEST(Database, TestUsuario) {
 	Database db;
 	Usuario usr,usr2;
 	usr.id = "pepe";
+	usr.nombre = "Pepe";
+	usr.password = "123";
 	EXPECT_TRUE(db.open("test.db"));
 	EXPECT_FALSE(db.usuarioExists(usr.id));
 	EXPECT_FALSE(db.saveUsuario(usr));
