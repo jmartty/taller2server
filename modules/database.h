@@ -3,6 +3,7 @@
 #include <string>
 #include <rocksdb/db.h>
 #include <set>
+#include <mutex>
 #include <cereal/types/set.hpp>
 #include "usuario.h"
 
@@ -49,5 +50,6 @@ class Database {
 	void listaUsuariosAdd(const std::string& id);
 	// Permite acceso a la clase de serializacion
 	friend class cereal::access;
-
+	// Para exclusion mutua durante operacion de escritura y lectura de mas de un key
+	std::mutex conv_mutex;
 };

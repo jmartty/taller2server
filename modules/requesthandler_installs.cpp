@@ -93,15 +93,45 @@ struct Request_GET_Usuario : public Request {
 	}
 };
 
+struct Request_PUT_Usuario : public Request {
+	virtual RequestResult process(Database* db, const std::string& uriparams, const std::string& qparams, const std::string& body) {
+		RequestResult ret;
+		auto qdict = Request::parseQueryParams(qparams);
+		Usuario usr;
+		if(qdict.size() < 2 || !db->validateSession(qdict["r_user"], qdict["token"]) || uriparams != qdict["r_user"] || !db->loadUsuario(uriparams, usr)) {
+			ret.code = 401;
+		}else{
+			// Editamos los valores que nos pasaron (si los pasaron)
+			// Guardamos el usuario
+			auto js = JSONParse(body);
+			const std::string nombre = js.get("nombre", "!").asString();
+			if(nombre != "!") usr.nombre = nombre;
+			const std::string password = js.get("password", "!").asString();
+			if(password != "!") usr.password = password;
+			const std::string foto = js.get("foto", "!").asString();
+			if(foto != "!") usr.foto = foto;
+			const std::string ubicacion = js.get("ubicacion", "!").asString();
+			if(ubicacion != "!") usr.ubicacion = ubicacion;
+			if(!db->saveUsuario(usr)) {
+				ret.code = 400;
+				ret.data = "{ \"error\": \"Atributos invalidos\" }";
+			}
+		}
+
+		return ret;
+	}
+};
+
 // Install them
 void RequestHandler::installRequests(Database* db) {
 
 	// Store db pointer
 	this->db = db;
 	// Format: install("method.URI", Request)
-	install("POST./login", new Request_POST_Login);
 	install("GET./test", new Request_GET_Test);
+	install("POST./login", new Request_POST_Login);
 	install("GET./usuarios", new Request_GET_Usuarios);
 	install("POST./usuario", new Request_POST_Usuario);
 	install("GET./usuario", new Request_GET_Usuario);
+	install("PUT./usuario", new Request_PUT_Usuario);
 }
