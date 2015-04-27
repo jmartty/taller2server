@@ -21,8 +21,8 @@ struct Request_POST_Login : public Request {
 		RequestResult ret;
 		// Parse and check credentials
 		auto js = JSONParse(body);
-		const std::string usr_id = js.get("user", "").asString();
-		const std::string pwd = js.get("pwd", "").asString();
+		const std::string usr_id = js.get("id", "").asString();
+		const std::string pwd = js.get("password", "").asString();
 		Usuario usr;
 		if(db->loadUsuario(usr_id, usr) && usr.password == pwd) {
 			usr.last_action = std::time(nullptr);
