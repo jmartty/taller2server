@@ -26,6 +26,10 @@ class Database {
 
 	// Operacion sobre conversaciones
 
+
+	// Devuelve true si la sesion es valida y actualiza el last_action al time() actual
+	bool validateSession(const std::string& user_id, const std::string& token);
+
 	// Operaciones basicas de bajo nivel
 	// No deberian ser llamadas en general
 

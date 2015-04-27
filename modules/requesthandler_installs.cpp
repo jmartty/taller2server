@@ -1,3 +1,4 @@
+#include "aux_func.h"
 #include "requesthandler.h"
 #include "database.h"
 #include "logger.h"
@@ -26,6 +27,7 @@ struct Request_POST_Login : public Request {
 		if(db->loadUsuario(usr_id, usr) && usr.password == pwd) {
 			usr.last_action = std::time(nullptr);
 			usr.token = Request::genToken();
+			db->saveUsuario(usr);
 			ret.data = std::string("{ \"token\": \"") + usr.token + "\" }";
 			ret.code = 201;
 		}else{
@@ -67,7 +69,21 @@ struct Request_POST_Usuario : public Request {
 struct Request_GET_Usuarios : public Request {
         virtual RequestResult process(Database* db, const std::string& uriparams, const std::string& qparams, const std::string& body) {
                 RequestResult ret;
-		ret.data = db->getListaUsuariosJson();
+		auto qdict = Request::parseQueryParams(qparams);
+		if(qdict.size() < 2) {
+			ret.code = 401;
+			return ret;
+		}
+		Usuario usr;
+		std::cout << db->loadUsuario(qdict["r_user"], usr);
+		std::cout << "qdict['r_user']=" << qdict["r_user"] << std::endl;
+		std::cout << "qdict['token']=" << qdict["token"] << std::endl;
+		std::cout << "usr.token=" << usr.token << std::endl;
+		if(db->validateSession(qdict["r_user"], qdict["token"])) {
+			ret.data = db->getListaUsuariosJson();
+		}else{
+			ret.code = 401;
+		}
                 return ret;
         }
 };

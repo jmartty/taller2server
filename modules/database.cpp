@@ -2,6 +2,7 @@
 #include <iostream>
 #include <rocksdb/db.h>
 #include "database.h"
+#include "config.h"
 
 bool Database::open(const std::string& file){
 
@@ -171,3 +172,22 @@ std::string Database::getListaUsuariosJson() {
 
 }
 
+bool Database::validateSession(const std::string& id, const std::string& token) {
+
+	// Validamos la sesion
+	Usuario usr;
+	bool res = loadUsuario(id, usr) &&
+		usr.token == token &&
+		std::time(nullptr) - usr.last_action < SESSION_EXPIRE_SECONDS;
+
+	if(res) {
+		// Si es valida, actualizamos el last_action
+		usr.last_action = std::time(nullptr);
+		saveUsuario(usr);
+		return true;
+	}else{
+		// Si no es valida, debe loggearse nuevamente
+		return false;
+	}
+
+}

@@ -56,6 +56,5 @@ std::string Usuario::asJson() const {
 
 	std::stringstream ss;
 	ss << js;
-	std::cout << "USUARIO::ASJSON:: " << ss.str() << std::endl;
 	return ss.str();
 }
