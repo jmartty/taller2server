@@ -25,7 +25,7 @@ struct Usuario {
 	}
 	// Actual serial
 	std::string serialStr() const;
-	// Unserial from str
+	// Deserial from str
 	void unserialStr(const std::string& str);
 
 	// Attribs
