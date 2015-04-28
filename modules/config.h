@@ -13,6 +13,8 @@ const int NUM_THREADS = 8;
 const int SESSION_EXPIRE_SECONDS = 60;
 // Cantidad de chars en session token
 const int TOKEN_LENGTH = 16;
+// Cantidad de lineas de conversaciones a guardar
+const int CONVERSACION_MAX_LINES = 10;
 
 // Clase config
 struct Config {
