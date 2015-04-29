@@ -11,7 +11,7 @@ file(GLOB MODULES_SRC
 	"${PROJECT_SOURCE_DIR}/modules/*.cpp"
 )
 
-add_executable(testdatabase database/testsmain.cpp ${MODULES_SRC} "${PROJECT_SOURCE_DIR}/libs/mongoose/mongoose.c")
+add_executable(testdatabase database/testsmain.cpp ${MODULES_SRC} "${PROJECT_SOURCE_DIR}/libs/mongoose/mongoose.c" "${PROJECT_SOURCE_DIR}/libs/jsoncpp/jsoncpp.cpp")
 
 target_link_libraries(testdatabase ${GTEST_LIB})
 target_link_libraries(testdatabase ${GMOCK_LIB})

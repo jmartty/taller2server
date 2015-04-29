@@ -4,7 +4,7 @@
 #include "requesthandler.h"
 #include "logger.h"
 
-static Logger& log = Logger::get();
+static Logger& logger = Logger::get();
 
 RequestHandler::RequestHandler() {
 
@@ -38,13 +38,13 @@ static void* mg_serve(void *server) {
 void RequestHandler::serveRequests(const std::string& port) {
 
 	// Setup del los threads de poll de mongoose
-	log.msg(LOG_TYPE::INFO, "Starting web service...");
+	logger.msg(LOG_TYPE::INFO, "Starting web service...");
 	for(auto &i : servers) {
 		i = mg_create_server((void*)this, RequestHandler::web_evhandler);
 	}
 
 	mg_set_option(servers[0], "listening_port", port.c_str());
-	log.msg(LOG_TYPE::INFO, std::string("Listening on port ") + mg_get_option(servers[0], "listening_port"));
+	logger.msg(LOG_TYPE::INFO, std::string("Listening on port ") + mg_get_option(servers[0], "listening_port"));
 
 	for(auto i = 1;i < NUM_THREADS;i++) {
 		mg_copy_listeners(servers[0], servers[i]);
@@ -79,15 +79,25 @@ int RequestHandler::web_evhandler(struct mg_connection *conn, enum mg_event ev) 
 
 int RequestHandler::serve(struct mg_connection *conn, const std::string& method, const std::string& uri, const std::string& query_params, const std::string& content) {
 
-	log.msg(LOG_TYPE::DEBUG, std::string("Received MG_REQUEST: ") + uri);
+	logger.msg(LOG_TYPE::DEBUG, std::string("Received MG_REQUEST: ") + uri);
 
 
 	// Parseamos el URI para diferenciar request de params
-	std::string uri_params;
 	std::string uri_resource;
+	std::string uri_params;
 
-	// TODO: parsear uri y sacar resource tokens
-	uri_resource = uri;
+	// Parseamos uri y sacamos el resource y params como tokens
+	// Ej, foo/bar -> foo, bar
+	// Buscamos la posicion del primer '/' sin contar el primer caracter
+	auto fs_pos = uri.find('/', 1);
+	// Sacamos el substring hasta la posicion
+	uri_resource = uri.substr(0, fs_pos);
+	// Si lo encontramos, el otro substring son los caracteres que quedan
+	// Sin incluir el delimitador
+	if(fs_pos != std::string::npos) {
+		uri_params = uri.substr(fs_pos+1);
+	}
+	// Crafteamos el methodURI de acuerdo a la convencion
 	std::string methodURI = method + "." + uri_resource;
 
 	// Servimos el request
@@ -110,9 +120,8 @@ void RequestHandler::install(const std::string& methodURI, Request* req) {
 	}else{
 		std::stringstream error;
 		error << "Error installing '" << methodURI << "', entry already in table";
-		log.msg(LOG_TYPE::ERROR, error.str());
+		logger.msg(LOG_TYPE::ERROR, error.str());
 		throw std::runtime_error(error.str());
 	}
 
 }
-

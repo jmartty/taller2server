@@ -6,6 +6,17 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+// Constants
+// # mongoose threads
+const int NUM_THREADS = 8;
+// Segundos de inactividad para que expire la sesion
+const int SESSION_EXPIRE_SECONDS = 3600;
+// Cantidad de chars en session token
+const int TOKEN_LENGTH = 16;
+// Cantidad de lineas de conversaciones a guardar
+const size_t CONVERSACION_MAX_LINES = 10;
+
+// Clase config
 struct Config {
 
 	// Attribs
