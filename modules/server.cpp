@@ -8,15 +8,16 @@
 
 static Logger& log = Logger::get();
 
-void Server::init(int argc, char* argv[]) {
+bool Server::init(int argc, char* argv[]) {
 
 	// Parse and store settings
 	config.parse(argc, argv);
-	if(!config.start) return;
+	if(!config.start) return false;
 
 	// Setup logger
 	if(!log.open("event.log")) {
 		std::cerr << "Error abriendo log!\n";
+		return false;
 	}
 
         //  Ponemos todos los modos de loggeo
@@ -34,6 +35,7 @@ void Server::init(int argc, char* argv[]) {
 	}
 
 	log.msg(LOG_TYPE::INFO, "Server init");
+	return true;
 
 }
 

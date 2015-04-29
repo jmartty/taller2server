@@ -11,7 +11,9 @@ int main(int argc, char* argv[]) {
 	try {
 		srand(std::time(nullptr));
 		Server server;
-		server.init(argc, argv);
+		if(!server.init(argc, argv)) {
+			return 1;
+		}
 		server.run();
 		return 0;
 

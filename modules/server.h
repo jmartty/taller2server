@@ -7,7 +7,7 @@
 class Server {
 
 	public:
-	void init(int argc, char* argv[]);
+	bool init(int argc, char* argv[]);
 	void run();
 	~Server();
 

@@ -7,7 +7,7 @@ import json
 class TestRestApi(unittest.TestCase):
 	def __init__(self, *args, **kwargs):
 		super(TestRestApi, self).__init__(*args, **kwargs)
-		self.__api_base_url = "http://localhost:4500/server"
+		self.__api_base_url = "http://localhost:4500"
 		self.__user_url = "/usuario/"
 		self.__ruser = "/r_user="
 		self.__token = "&token="
@@ -22,21 +22,21 @@ class TestRestApi(unittest.TestCase):
 		'''Pruebo que falle cuando se loguea un usuario inexistente'''
 		user_incorrecto = { "id": "user", "password": "1234" }
 		user_incorrecto_js = json.dumps(user_incorrecto)
-		r = requests.get(self.__api_base_url + self.__login, auth = user_incorrecto_js)
+		r = requests.post(self.__api_base_url + self.__login, auth = user_incorrecto_js)
 		self.assertEqual(r.status_code, 401)
 
 	def test_authentication_default_user(self):
 		'''Pruebo que funcione el login de un usuario existente, con su pass adecuada'''
                 user_correcto = { "id": "admin", "password": "root" }
                 user_correcto_js = json.dumps(user_correcto)
-		r = requests.get(self.__api_base_url + self.__login, auth = user_correcto_js)
+		r = requests.post(self.__api_base_url + self.__login, auth = user_correcto_js)
 		self.assertEqual(r.status_code, 201)
 
 	def test_authentication_wrong_pass_fail(self):
 		'''Pruebo que falle cuando se loguea un usuario existente, con pass incorrecta'''
                 pass_incorrecto = { "id": "admin", "password": "1234" }
                 pass_incorrecto_js = json.dumps(pass_incorrecto)
-		r = requests.get(self.__api_base_url + self.__login, auth = pass_incorrecto_js)
+		r = requests.post(self.__api_base_url + self.__login, auth = pass_incorrecto_js)
 		self.assertEqual(r.status_code, 401)
 
 
