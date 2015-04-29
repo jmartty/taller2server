@@ -7,8 +7,8 @@ import json
 class TestRestApi(unittest.TestCase):
 	def __init__(self, *args, **kwargs):
 		super(TestRestApi, self).__init__(*args, **kwargs)
-		self.__api_base_url = "http://localhost:5000/server"
-		self.__user_url = "/usuario"
+		self.__api_base_url = "http://localhost:4500/server"
+		self.__user_url = "/usuario/"
 		self.__ruser = "/r_user="
 		self.__token = "&token="
 		self.__users_url = "/usuarios"
@@ -46,7 +46,7 @@ class TestRestApi(unittest.TestCase):
 	def test_user_add(self):
 		'''Pruebo que se cree correctamente un nuevo usuario'''
                 user_prueba = "Fulano"
-                registro_valido = { "password": "abcde", "nombre": "Fulano", "foto": "mifoto", "ubicación": "miubicacion"}
+                registro_valido = { "password": "abcde", "nombre": "Fulano", "foto": "mifoto", "ubicacion": "miubicacion"}
                 registro_valido_js = json.dumps(registro_valido)
 		r = requests.post(self.__api_base_url + self.__user_url + user_prueba, data = registro_valido_js)
 		self.assertEqual(r.status_code, 201)
@@ -91,7 +91,7 @@ class TestRestApi(unittest.TestCase):
                 user_valido = "Mengano"
                 registro_invalido = { "password": "", "nombre": "Admin", "foto": "mifoto", "ubicación": "miubicacion"}
                 registro_invalido_js = json.dumps(registro_invalido)
-		r = requests.post(self.__api_base_url + self.__user_url + user_wrong, data = registro_invalido_js)
+		r = requests.post(self.__api_base_url + self.__user_url + user_valido, data = registro_invalido_js)
 		self.assertEqual(r.status_code, 400)
 
 
@@ -100,7 +100,7 @@ class TestRestApi(unittest.TestCase):
                 user_valido = "Mengano"
                 registro_invalido = { "password": "abcde12", "nombre": "", "foto": "mifoto", "ubicación": "miubicacion"}
                 registro_invalido_js = json.dumps(registro_invalido)
-		r = requests.post(self.__api_base_url + self.__user_url + user_wrong, data = registro_invalido_js)
+		r = requests.post(self.__api_base_url + self.__user_url + user_valido, data = registro_invalido_js)
 		self.assertEqual(r.status_code, 400)
 
 
