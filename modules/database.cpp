@@ -6,7 +6,7 @@
 #include "aux_func.h"
 #include "logger.h"
 
-static Logger& log = Logger::get();
+//static Logger& log = Logger::get();
 
 bool Database::open(const std::string& file){
 
@@ -203,14 +203,45 @@ bool Database::heartbeatUsuario(const std::string& id) {
 	// Actualizamos el estado basado en el tiempo desde la ultima query
 	Usuario usr;
 	if(!loadUsuario(id, usr)) return false;
-	std::stringstream ss;
-	ss << "Usuario `" << usr.id << "`.seconds from last action: " << secondsFrom(usr.last_action);
-	log.msg(LOG_TYPE::DEBUG, ss.str());
+	//std::stringstream ss;
+	//ss << "Usuario `" << usr.id << "`.seconds from last action: " << secondsFrom(usr.last_action);
+	//log.msg(LOG_TYPE::DEBUG, ss.str());
 	if(secondsFrom(usr.last_action) > SESSION_EXPIRE_SECONDS) {
 		usr.estado = "desconectado";
 	}else{
 		usr.estado = "conectado";
 	}
 	return saveUsuario(usr);
+
+}
+
+bool Database::loadConversacion(const std::string& user1, const std::string& user2, Conversacion& conv) {
+
+	// Buscamos la key en la DB
+	const auto key = Conversacion::keyGen(user1, user2);
+	// Si no existe, creamos la conversacion desde 0
+	if(!exists(key)) {
+		conv = Conversacion(user1, user2);
+	}else{
+		// Si existe la cargamos
+		conv.deserialStr(this->get(key));
+	}
+	// Falta chequeo de errores
+	return true;
+}
+
+bool Database::postearMensaje(const std::string& source_user, const std::string& target_user, const std::string& mensaje) {
+
+	conv_mutex.lock();
+	Conversacion conv;
+	if(!loadConversacion(source_user, target_user, conv)) {
+		conv_mutex.unlock();
+		return false;
+	}else{
+		conv.postear(source_user, mensaje);
+		bool val = this->put(Conversacion::keyGen(source_user, target_user), conv.serialStr());
+		conv_mutex.unlock();
+		return val;
+	}
 
 }

@@ -6,7 +6,7 @@
 // Constructor from serialized string
 Usuario::Usuario(const std::string& str) {
 
-	unserialStr(str);
+	deserialStr(str);
 
 }
 
@@ -23,8 +23,8 @@ std::string Usuario::serialStr() const {
 
 }
 
-// Unserial from str
-void Usuario::unserialStr(const std::string& str) {
+// Deserial from str
+void Usuario::deserialStr(const std::string& str) {
 
 	std::stringstream ss(std::stringstream::out | std::stringstream::in | std::stringstream::binary);
 	ss.write(str.data(), str.size());

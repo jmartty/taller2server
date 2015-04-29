@@ -122,6 +122,52 @@ struct Request_PUT_Usuario : public Request {
 	}
 };
 
+struct Request_POST_Conversacion : public Request {
+	virtual RequestResult process(Database* db, const std::string& uriparams, const std::string& qparams, const std::string& body) {
+		RequestResult ret;
+		auto qdict = Request::parseQueryParams(qparams);
+		if(qdict.size() < 2 || !db->validateSession(qdict["r_user"], qdict["token"])) {
+			ret.code = 401;
+		}else{
+			const auto& r_user = qdict["r_user"];
+			const auto& t_user = uriparams;
+			auto js = JSONParse(body);
+                        const auto& msg = js.get("mensaje", "").asString(); 
+                        if(msg.length() == 0) {
+                                ret.code = 400;
+                                ret.data = "{ \"error\": \"Mensaje invalido\" }";
+                        }else if(!db->postearMensaje(r_user, t_user, msg)) {
+				ret.code = 500;
+			}else{
+				// Todo ok
+				ret.code = 201;
+			}
+		}
+		return ret;
+	}
+};
+
+struct Request_GET_Conversacion : public Request {
+	virtual RequestResult process(Database* db, const std::string& uriparams, const std::string& qparams, const std::string& body) {
+		RequestResult ret;
+		auto qdict = Request::parseQueryParams(qparams);
+		if(qdict.size() < 2 || !db->validateSession(qdict["r_user"], qdict["token"])) {
+			ret.code = 401;
+		}else{
+			const auto& r_user = qdict["r_user"];
+			const auto& t_user = uriparams;
+			Conversacion conv;
+			if(!db->loadConversacion(r_user, t_user, conv)) {
+				ret.code = 500;
+			}else{
+				ret.data = conv.asJson();
+			}
+		}
+		return ret;
+	}
+};
+
+
 // Install them
 void RequestHandler::installRequests(Database* db) {
 
@@ -134,4 +180,6 @@ void RequestHandler::installRequests(Database* db) {
 	install("POST./usuario", new Request_POST_Usuario);
 	install("GET./usuario", new Request_GET_Usuario);
 	install("PUT./usuario", new Request_PUT_Usuario);
+	install("GET./conversacion", new Request_GET_Conversacion);
+	install("POST./conversacion", new Request_POST_Conversacion);
 }

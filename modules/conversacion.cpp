@@ -1,5 +1,8 @@
+#include <ctime>
 #include <cassert>
 #include "conversacion.h"
+#include "config.h"
+#include "aux_func.h"
 #include <sstream>
 #include <string>
 #include <json/json.h>
@@ -18,8 +21,20 @@ std::string Conversacion::serialStr() const {
 
 }
 
-// Unserial from str
-void Conversacion::unserialStr(const std::string& str) {
+Conversacion::Conversacion(const std::string& user1, const std::string& user2) {
+
+	// Cargamos los usuarios en orden alfabetico
+	if(user1 > user2) {
+		users[0] = user2;
+		users[1] = user1;
+	}else{
+		users[0] = user1;
+		users[1] = user2;
+	}
+}
+
+// Deserial from str
+void Conversacion::deserialStr(const std::string& str) {
 
 	std::stringstream ss(std::stringstream::out | std::stringstream::in | std::stringstream::binary);
 	ss.write(str.data(), str.size());
@@ -32,18 +47,18 @@ void Conversacion::unserialStr(const std::string& str) {
 
 std::string Conversacion::asJson() const {
 
-/*        // Pasa la lista de usuarios a JSON y ademas
+        // Pasa la conversacion a JSON
         auto c = lines.size();
         // Build JSON reply
         std::string ret("[ ");
         size_t i = 0;
         for(const auto& line : lines) {
                 ret += "{\"id\": \"";
-                ret += usr.id;
-                ret += "\", \"nombre\": \"";
-                ret += usr.nombre;
-                ret += "\", \"estado\": \"";
-                ret += usr.estado;
+                ret += users[line.autor];
+                ret += "\", \"time\": \"";
+                ret += toString(line.timestamp);
+                ret += "\", \"msg\": \"";
+                ret += line.msg;
                 ret += "\"}";
                 if(i+1 != c)
                         ret += ", ";
@@ -51,14 +66,20 @@ std::string Conversacion::asJson() const {
                 }
         ret += " ]";
         return ret;
-*/
 
 }
 
 
-void Conversacion::orderUsers(std::string& lhs, std::string& rhs) {
+std::string Conversacion::keyGen(const std::string& user1, const std::string& user2) {
 
-	if(lhs > rhs) std::swap(lhs, rhs);
+	const std::string* fst = &user1;
+	const std::string* snd = &user2;
+	if(user1 > user2) {
+		std::swap(fst, snd);
+	}
+	std::stringstream ss;
+	ss << "Conversacion." << *fst << "." << *snd;
+	return ss.str();
 
 }
 
@@ -84,3 +105,16 @@ std::string Conversacion::indexToUser(size_t i) {
 
 }
 
+void Conversacion::postear(const std::string& autor, const std::string& msg) {
+	// Preparamos la nueva linea
+	Line newLine;
+	newLine.autor = userToIndex(autor);
+	newLine.msg = msg;
+	newLine.timestamp = std::time(nullptr);
+	// La agregamos
+	lines.push_back(newLine);
+	// Si excedemos la cantidad de lineas a guardar, borramos la del frente
+	if(lines.size() > CONVERSACION_MAX_LINES)
+		lines.pop_front();
+
+}

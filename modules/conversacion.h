@@ -17,7 +17,7 @@ struct Line {
 		ar(timestamp, msg, autor);
 	}
 	// Atribs
-	std::string timestamp;
+	time_t timestamp;
 	std::string msg;
 	// Valores posibles: 0, 1
 	// Index into Conversation.users
@@ -30,12 +30,16 @@ struct Conversacion {
 
 	// Constructor default
 	Conversacion() { }
+	// Constructor para crear vacia desde 2 usuarios
+	Conversacion(const std::string& user1, const std::string& user2);
 	// Constructor from serialized string
 	Conversacion(const std::string& str) {
-		unserialStr(str);
+		deserialStr(str);
 	}
 	// Retornar como Json
 	std::string asJson() const;
+	// Agregar mensaje
+	void postear(const std::string& autor, const std::string& msg);
 
 	// Serializacion
 	// Cereal method
@@ -46,15 +50,14 @@ struct Conversacion {
 	// Actual serial
 	std::string serialStr() const;
 	// Deserial from str
-	void unserialStr(const std::string& str);
+	void deserialStr(const std::string& str);
 
 	// Attribs
 	std::array<std::string, 2> users;
 	std::deque<Line> lines;
 
 	// Helper
-	// Si lhs > rhs hace swap
-	static void orderUsers(std::string& lhs, std::string& rhs);
+	static std::string keyGen(const std::string& user1, const std::string& user2);
 	// Convierte el user_id en indice para la conversacion
 	size_t userToIndex(const std::string& id);
 	// Convierte el indice en el nombre de usuario
