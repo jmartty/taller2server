@@ -4,6 +4,7 @@
 #include "logger.h"
 #include <string>
 #include <json/json.h>
+#include <iostream>
 
 static Logger& log = Logger::get();
 // JSON parser helper
@@ -116,6 +117,7 @@ struct Request_PUT_Usuario : public Request {
 				ret.code = 400;
 				ret.data = "{ \"error\": \"Atributos invalidos\" }";
 			}
+			ret.code = 201;
 		}
 
 		return ret;

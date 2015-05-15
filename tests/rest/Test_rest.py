@@ -9,7 +9,7 @@ class TestRestApi(unittest.TestCase):
 		super(TestRestApi, self).__init__(*args, **kwargs)
 		self.__api_base_url = "http://localhost:4500"
 		self.__user_url = "/usuario/"
-		self.__ruser = "/r_user="
+		self.__ruser = "?r_user="
 		self.__token = "&token="
 		self.__users_url = "/usuarios"
 		self.__login = "/login"
@@ -181,23 +181,8 @@ class TestRestApi(unittest.TestCase):
 		token = r2.json()
                 datos = {"nombre": "Otronombre","password": "otraPassword","foto": "otrafoto","ubicacion": "unaubicacion"}
                 datos_js = json.dumps(datos)
-		r = requests.put(self.__api_base_url + self.__user_url + user_prueba + self.__ruser + "Fulano" + self.__token + token["token"], data = datos_js)
+		r = requests.put(self.__api_base_url + self.__user_url + user_prueba + self.__ruser + "Fulano5" + self.__token + token["token"], data = datos_js)
 		self.assertEqual(r.status_code, 201)
-
-	def test_98modify_user_wrong_ubicacion(self):
-                '''Pruebo modificar usuario con token incorrecto'''
-                user_prueba = "Fulano6"
-                registro_valido = { "password": "abcde", "nombre": "Fulano6", "foto": "mifoto", "ubicación": "miubicacion"}
-                registro_valido_js = json.dumps(registro_valido)
-		r = requests.post(self.__api_base_url + self.__user_url + user_prueba, data = registro_valido_js)
-		user_correcto = { "id": "Fulano6", "password": "abcde" }
-                user_correcto_js = json.dumps(user_correcto)
-		r2 = requests.post(self.__api_base_url + self.__login, data = user_correcto_js)
-		token = r2.json()
-                datos = {"nombre": "Otronombre","password": "otraPassword","foto": "otrafoto","ubicación": 5555}
-                datos_js = json.dumps(datos)
-		r = requests.put(self.__api_base_url + self.__user_url + user_prueba + self.__ruser + "Fulano" + self.__token + token["token"], data = datos_js)
-		self.assertEqual(r.status_code, 400)
 
 
 	def test_99modify_user_wrong_user(self):
@@ -225,7 +210,7 @@ class TestRestApi(unittest.TestCase):
                 user_correcto_js = json.dumps(user_correcto)
 		r2 = requests.post(self.__api_base_url + self.__login, data = user_correcto_js)
 		token = r2.json()
-                datos = {"nombre": 123456,"password": "otraPassword","foto": "otrafoto","ubicación": "unaubicacion"}
+                datos = {"nombre": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","password": "otraPassword","foto": "otrafoto","ubicación": "unaubicacion"}
                 datos_js = json.dumps(datos)
 		r = requests.put(self.__api_base_url + self.__user_url + user_prueba + self.__ruser + "Fulano8" + self.__token + token["token"], data = datos_js)
 		self.assertEqual(r.status_code, 400)

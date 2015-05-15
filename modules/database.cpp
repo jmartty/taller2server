@@ -68,7 +68,9 @@ bool Database::loadUsuario(const std::string& id, Usuario& usr) {
 
 bool Database::saveUsuario(const Usuario& usr) {
 
-	if(!usuarioExists(usr.id)) return false;
+	// Validamos la info y nos fijamos que no exista
+	if(!validateUser(usr) || usuarioExists(usr.id))
+		return false;
 	return this->put(std::string("Usuario.") + usr.id, usr.serialStr());
 
 }
@@ -147,7 +149,11 @@ bool Database::validateUserPwd(const std::string& pwd) {
 }
 
 bool Database::validateUser(const Usuario& usr) {
-	return validateUserId(usr.id) && validateUserPwd(usr.password) && validateUserName(usr.nombre);
+	bool bol = validateUserId(usr.id) && validateUserPwd(usr.password) && validateUserName(usr.nombre);
+	if (!bol){
+		std::cout<<"viernes"<<std::endl;
+	}
+	return bol;
 }
 
 std::string Database::getListaUsuariosJson() {
@@ -182,9 +188,29 @@ bool Database::validateSession(const std::string& id, const std::string& token) 
 
 	// Validamos la sesion
 	Usuario usr;
-	bool res = loadUsuario(id, usr) &&
-		usr.token == token &&
-		secondsFrom(usr.last_action) < SESSION_EXPIRE_SECONDS;
+	bool uss = loadUsuario(id, usr);
+	bool tok = false;
+	std::cout<<usr.token<<" "<<token<<std::endl;
+	if (usr.token == token){
+		tok = true;
+	}
+	bool abcd = false;
+	if (secondsFrom(usr.last_action) < SESSION_EXPIRE_SECONDS){
+		abcd = true;
+	}
+	if (!uss){
+		std::cout<<"1"<<std::endl;
+	}
+	if (!tok){
+		std::cout<<"2"<<std::endl;
+	}
+	if (!abcd){
+		std::cout<<"3"<<std::endl;
+	}
+	//bool res = loadUsuario(id, usr) &&
+	//	usr.token == token &&
+	//	secondsFrom(usr.last_action) < SESSION_EXPIRE_SECONDS;
+	bool res = uss && tok && abcd;
 
 	if(res) {
 		// Si es valida, actualizamos el last_action
@@ -193,6 +219,7 @@ bool Database::validateSession(const std::string& id, const std::string& token) 
 		return true;
 	}else{
 		// Si no es valida, debe loggearse nuevamente
+		std::cout<<"validatesession"<<std::endl;
 		return false;
 	}
 
