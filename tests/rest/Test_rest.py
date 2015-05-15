@@ -13,7 +13,7 @@ class TestRestApi(unittest.TestCase):
 		self.__token = "&token="
 		self.__users_url = "/usuarios"
 		self.__login = "/login"
-		self.__conversation = "/conversacion"
+		self.__conversation = "/conversacion/"
 
 
 
@@ -112,11 +112,6 @@ class TestRestApi(unittest.TestCase):
 		token = r2.json()
                 r3 = requests.get(self.__api_base_url + self.__users_url + self.__ruser + "Wulano" + self.__token + token["token"])
                 self.assertEqual(r3.status_code, 200)
-		'''users = r.json()
-		respuesta_esperada = [{ "id": "Fulano1", "nombre": "Fulano1", "estado": "conectado"}]
-		respuesta_esperada_js = json.dumps(respuesta_esperada)
-		self.assertEqual(users, respuesta_esperada_js)
-		self.assertEqual(r.status_code, 200)'''
 
 	def test_93get_user_collection_wrong_token(self):
                 '''Pruebo obtener lista de usuarios con token incorrecto'''
@@ -248,11 +243,9 @@ class TestRestApi(unittest.TestCase):
 		mensaje_js = json.dumps(mensaje)
 		r5 = requests.post(self.__api_base_url + self.__conversation + "Menito" + self.__ruser + "Fulanito" + self.__token + token1["token"], data = mensaje_js)
 
-		r6 = requests.get(self.__api_base_url + self.__conversation + "Fulanito.Menito" + self.__ruser + "Fulanito" + self.__token + token1["token"])
+		r6 = requests.get(self.__api_base_url + self.__conversation + "Menito" + self.__ruser + "Fulanito" + self.__token + token1["token"])
                 print r6
-		mensajes = r6.json()
-		self.assertEqual(r.status_code, 200)
-		self.assertEqual(mensajes, {["hola"]})
+                self.assertEqual(r6.status_code, 200)
 
 	def test_993get_messages_wrong_token(self):
                 '''Pruebo obtener conversacion con token incorrecto'''
@@ -282,10 +275,10 @@ class TestRestApi(unittest.TestCase):
 		#Envio un mensaje
 		mensaje = {"mensaje" : "hola"}
 		mensaje_js = json.dumps(mensaje)
-		r = requests.post(self.__api_base_url + self.__conversation + "Menito2" + self.__ruser + "Fulanit1" + self.__token + token1["token"], data = mensaje_js)
+		r5 = requests.post(self.__api_base_url + self.__conversation + "Menito2" + self.__ruser + "Fulanit1" + self.__token + token1["token"], data = mensaje_js)
 
-		r = requests.get(self.__api_base_url + self.__conversation + "Fulanit1.Menito2"+ self.__ruser + "Fulanit1" + self.__token + "TokenIncorrecto")
-		self.assertEqual(r.status_code, 401)
+		r6 = requests.get(self.__api_base_url + self.__conversation + "Menito2"+ self.__ruser + "Fulanit1" + self.__token + "TokenIncorrecto")
+		self.assertEqual(r6.status_code, 401)
 
 	def test_994get_messages_wrong_user(self):
                 '''Pruebo obtener conversacion con user incorrecto'''
@@ -314,10 +307,10 @@ class TestRestApi(unittest.TestCase):
 		#Envio un mensaje
 		mensaje = {"mensaje" : "hola"}
 		mensaje_js = json.dumps(mensaje)
-		r = requests.post(self.__api_base_url + self.__conversation + "Menito3" + self.__ruser + "Fulanit3" + self.__token + token1["token"], data = mensaje_js)
+		r5 = requests.post(self.__api_base_url + self.__conversation + "Menito3" + self.__ruser + "Fulanit3" + self.__token + token1["token"], data = mensaje_js)
 
-		r = requests.get(self.__api_base_url + self.__conversation + "UserIncorrecto.Menito3" + self.__ruser + "Fulanit3" + self.__token + token1["token"])
-		self.assertEqual(r.status_code, 401)
+		r6 = requests.get(self.__api_base_url + self.__conversation + "Menito3" + self.__ruser + "UserIncorrecto" + self.__token + token1["token"])
+		self.assertEqual(r6.status_code, 401)
 
 #Enviar mensaje de usuario <user1> a <user2>
 
@@ -410,5 +403,5 @@ class TestRestApi(unittest.TestCase):
 		mensaje_js = json.dumps(mensaje)
 
 		r = requests.post(self.__api_base_url + self.__conversation + "sUsuarioIncorrecto"+ self.__ruser + "Fulanit6" + self.__token + token1["token"], data = mensaje_js)
-		self.assertEqual(r.status_code, 401)
+		self.assertEqual(r.status_code, 400)
 

@@ -4,7 +4,6 @@
 #include "logger.h"
 #include <string>
 #include <json/json.h>
-#include <iostream>
 
 static Logger& log = Logger::get();
 // JSON parser helper
@@ -117,7 +116,9 @@ struct Request_PUT_Usuario : public Request {
 				ret.code = 400;
 				ret.data = "{ \"error\": \"Atributos invalidos\" }";
 			}
-			ret.code = 201;
+			else {
+				ret.code = 201;
+			}
 		}
 
 		return ret;
@@ -138,7 +139,9 @@ struct Request_POST_Conversacion : public Request {
                         if(msg.length() == 0) {
                                 ret.code = 400;
                                 ret.data = "{ \"error\": \"Mensaje invalido\" }";
-                        }else if(!db->postearMensaje(r_user, t_user, msg)) {
+                        }else if(!db->usuarioExists(t_user)){
+				ret.code = 400;
+			}else if(!db->postearMensaje(r_user, t_user, msg)) {
 				ret.code = 500;
 			}else{
 				// Todo ok
