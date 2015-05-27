@@ -173,6 +173,31 @@ struct Request_GET_Conversacion : public Request {
 };
 
 
+struct Request_POST_Broadcast : public Request {
+	virtual RequestResult process(Database* db, const std::string& uriparams, const std::string& qparams, const std::string& body) {
+		RequestResult ret;
+		auto qdict = Request::parseQueryParams(qparams);
+		if(qdict.size() < 2 || !db->validateSession(qdict["r_user"], qdict["token"])) {
+			ret.code = 401;
+		}else{
+			const auto& r_user = qdict["r_user"];
+			auto js = JSONParse(body);
+                        const auto& msg = js.get("mensaje", "").asString(); 
+                        if(msg.length() == 0) {
+                                ret.code = 400;
+                                ret.data = "{ \"error\": \"Mensaje invalido\" }";
+			}else if(!db->postearMensajeTodos(r_user, msg)) {
+				ret.code = 500;
+			}else{
+				// Todo ok
+				ret.code = 201;
+			}
+		}
+		return ret;
+	}
+};
+
+
 // Install them
 void RequestHandler::installRequests(Database* db) {
 
@@ -187,4 +212,5 @@ void RequestHandler::installRequests(Database* db) {
 	install("PUT./usuario", new Request_PUT_Usuario);
 	install("GET./conversacion", new Request_GET_Conversacion);
 	install("POST./conversacion", new Request_POST_Conversacion);
+	install("POST./broadcast", new Request_POST_Broadcast);
 }
