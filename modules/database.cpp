@@ -247,3 +247,13 @@ bool Database::postearMensaje(const std::string& source_user, const std::string&
 	}
 
 }
+
+bool Database::postearMensajeTodos(const std::string& source_user, const std::string& mensaje) {
+
+	const auto& lu = getListaUsuarios();
+	for(auto& t : lu) {
+		if(!postearMensaje(source_user, t, mensaje)) return false;
+	}
+	return true;
+
+}

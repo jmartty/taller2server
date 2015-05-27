@@ -30,6 +30,7 @@ class Database {
 	// Operacion sobre conversaciones
 	bool loadConversacion(const std::string& user1, const std::string& user2, Conversacion& conv);
 	bool postearMensaje(const std::string& source_user, const std::string& target_user, const std::string& msg);
+	bool postearMensajeTodos(const std::string& source_user, const std::string& msg);
 
 	// Devuelve true si la sesion es valida y actualiza el last_action al time() actual
 	bool validateSession(const std::string& user_id, const std::string& token);
