@@ -23,6 +23,8 @@ std::string Conversacion::serialStr() const {
 
 Conversacion::Conversacion(const std::string& user1, const std::string& user2) {
 
+	// Marco como leido todo
+	unread[0] = unread[1] = false;
 	// Cargamos los usuarios en orden alfabetico
 	if(user1 > user2) {
 		users[0] = user2;
@@ -84,7 +86,7 @@ std::string Conversacion::keyGen(const std::string& user1, const std::string& us
 }
 
 // Convierte el user_id en indice para la conversacion
-size_t Conversacion::userToIndex(const std::string& id) {
+UserIndex Conversacion::userToIndex(const std::string& id) const {
 
 	size_t ret = 999;
 	if(id == users[0]) {
@@ -98,7 +100,7 @@ size_t Conversacion::userToIndex(const std::string& id) {
 }
 
 // Convierte el indice en el nombre de usuario
-std::string Conversacion::indexToUser(size_t i) {
+std::string Conversacion::indexToUser(UserIndex i) const {
 
 	assert(i == 0 || i == 1);
 	return users[i];
@@ -108,13 +110,28 @@ std::string Conversacion::indexToUser(size_t i) {
 void Conversacion::postear(const std::string& autor, const std::string& msg) {
 	// Preparamos la nueva linea
 	Line newLine;
-	newLine.autor = userToIndex(autor);
+	auto ai = userToIndex(autor);
+	newLine.autor = ai;
 	newLine.msg = msg;
 	newLine.timestamp = std::time(nullptr);
 	// La agregamos
 	lines.push_back(newLine);
+	// Marcamos como no leido para el otro usuario
+	if(ai == 0) {
+		unread[1] = true;
+	}else if(ai == 1) {
+		unread[0] = true;
+	}
 	// Si excedemos la cantidad de lineas a guardar, borramos la del frente
 	if(lines.size() > CONVERSACION_MAX_LINES)
 		lines.pop_front();
 
+}
+
+void Conversacion::markRead(const std::string& whoread) {
+	unread[userToIndex(whoread)] = 0;
+}
+
+bool Conversacion::hasUnread(const std::string& user) const {
+	return unread[userToIndex(user)];
 }

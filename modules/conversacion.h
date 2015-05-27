@@ -8,6 +8,8 @@
 #include <json/json.h>
 #include <deque>
 
+typedef size_t UserIndex;
+
 // Helper struct para conversaciones
 struct Line {
 
@@ -21,7 +23,7 @@ struct Line {
 	std::string msg;
 	// Valores posibles: 0, 1
 	// Index into Conversation.users
-	size_t autor;
+	UserIndex autor;
 
 };
 
@@ -29,7 +31,9 @@ struct Line {
 struct Conversacion {
 
 	// Constructor default
-	Conversacion() { }
+	Conversacion() {
+		unread[0] = unread[1] = false;
+	}
 	// Constructor para crear vacia desde 2 usuarios
 	Conversacion(const std::string& user1, const std::string& user2);
 	// Constructor from serialized string
@@ -45,7 +49,7 @@ struct Conversacion {
 	// Cereal method
 	template<class Archive>
 	void serialize(Archive& ar) {
-		ar(users, lines);
+		ar(users, lines, unread);
 	}
 	// Actual serial
 	std::string serialStr() const;
@@ -53,14 +57,22 @@ struct Conversacion {
 	void deserialStr(const std::string& str);
 
 	// Attribs
+	// Usuarios parte de la conversacion
 	std::array<std::string, 2> users;
+	// Conjunto de lineas (mensajes)
 	std::deque<Line> lines;
+	// Mensajes sin leer para cada usuario
+	bool unread[2];
+	// Marca la conversacion como leida para el usuario whoread
+	void markRead(const std::string& whoread);
+	// True si el usuario user tiene mensajes sin leer en la conversacion
+	bool hasUnread(const std::string& user) const;
 
 	// Helper
 	static std::string keyGen(const std::string& user1, const std::string& user2);
 	// Convierte el user_id en indice para la conversacion
-	size_t userToIndex(const std::string& id);
+	UserIndex userToIndex(const std::string& id) const;
 	// Convierte el indice en el nombre de usuario
-	std::string indexToUser(size_t i);
+	std::string indexToUser(UserIndex i) const;
 
 };

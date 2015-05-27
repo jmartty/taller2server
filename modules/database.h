@@ -19,7 +19,7 @@ class Database {
 	bool loadUsuario(const std::string& id, Usuario& usr);
 	bool saveUsuario(const Usuario& usr);
 	ListaUsuarios getListaUsuarios();
-	std::string getListaUsuariosJson();
+	std::string getListaUsuariosJson(const std::string& r_user);
 	bool createUsuario(const Usuario& usr);
 	bool heartbeatUsuario(const std::string& id);
 	static bool validateUser(const Usuario& usr);
@@ -31,6 +31,8 @@ class Database {
 	bool loadConversacion(const std::string& user1, const std::string& user2, Conversacion& conv);
 	bool postearMensaje(const std::string& source_user, const std::string& target_user, const std::string& msg);
 	bool postearMensajeTodos(const std::string& source_user, const std::string& msg);
+	// Marca la conversacion como leida (por source_user)
+	bool markRead(const std::string& source_user, const std::string& target_user);
 
 	// Devuelve true si la sesion es valida y actualiza el last_action al time() actual
 	bool validateSession(const std::string& user_id, const std::string& token);

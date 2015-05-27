@@ -49,11 +49,11 @@ struct Request_POST_Usuario : public Request {
         virtual RequestResult process(Database* db, const std::string& uriparams, const std::string& qparams, const std::string& body) {
                 RequestResult ret;
 		Usuario user;
-		// Cargamos el usuario del uri
-		user.id = uriparams;
 		// Parseamos el JSON para cargar los datos posteados
 		auto js = JSONParse(body);
 		user.load(js);
+		// Cargamos el usuario del uri
+		user.id = uriparams;
 		if(db->createUsuario(user)) {
 			ret.code = 201;
 		}else{
@@ -73,7 +73,7 @@ struct Request_GET_Usuarios : public Request {
 		if(qdict.size() < 2 || !db->validateSession(qdict["r_user"], qdict["token"])) {
 			ret.code = 401;
 		}else{
-			ret.data = db->getListaUsuariosJson();
+			ret.data = db->getListaUsuariosJson(qdict["r_user"]);
 		}
                 return ret;
         }
@@ -166,6 +166,7 @@ struct Request_GET_Conversacion : public Request {
 				ret.code = 500;
 			}else{
 				ret.data = conv.asJson();
+				db->markRead(r_user, t_user);
 			}
 		}
 		return ret;
