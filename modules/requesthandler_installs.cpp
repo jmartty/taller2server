@@ -31,6 +31,7 @@ struct Request_POST_Login : public Request {
 			ret.data = std::string("{ \"token\": \"") + usr.token + "\" }";
 			ret.code = 201;
 		}else{
+			ret.data = "{ \"error\": \"Usuario o clave invalidos\" }";
 			ret.code = 401;
 		}
 		return ret;
