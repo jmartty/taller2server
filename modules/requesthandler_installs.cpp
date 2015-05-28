@@ -73,6 +73,7 @@ struct Request_GET_Usuarios : public Request {
 		auto qdict = Request::parseQueryParams(qparams);
 		if(qdict.size() < 2 || !db->validateSession(qdict["r_user"], qdict["token"])) {
 			ret.code = 401;
+			ret.data = "{\"error\": \"token invalido\" }";
 		}else{
 			ret.data = db->getListaUsuariosJson(qdict["r_user"]);
 		}
@@ -87,6 +88,7 @@ struct Request_GET_Usuario : public Request {
 		Usuario usr;
 		if(qdict.size() < 2 || !db->validateSession(qdict["r_user"], qdict["token"]) || !db->loadUsuario(uriparams, usr)) {
 			ret.code = 401;
+			ret.data = "{\"error\": \"token invalido\" }";
 		}else{
 			ret.data = usr.asJson();
 		}
@@ -101,6 +103,7 @@ struct Request_PUT_Usuario : public Request {
 		Usuario usr;
 		if(qdict.size() < 2 || !db->validateSession(qdict["r_user"], qdict["token"]) || uriparams != qdict["r_user"] || !db->loadUsuario(uriparams, usr)) {
 			ret.code = 401;
+			ret.data = "{\"error\": \"token invalido\" }";
 		}else{
 			// Editamos los valores que nos pasaron (si los pasaron)
 			// Guardamos el usuario
@@ -132,6 +135,7 @@ struct Request_POST_Conversacion : public Request {
 		auto qdict = Request::parseQueryParams(qparams);
 		if(qdict.size() < 2 || !db->validateSession(qdict["r_user"], qdict["token"])) {
 			ret.code = 401;
+			ret.data = "{\"error\": \"token invalido\" }";
 		}else{
 			const auto& r_user = qdict["r_user"];
 			const auto& t_user = uriparams;
@@ -159,6 +163,7 @@ struct Request_GET_Conversacion : public Request {
 		auto qdict = Request::parseQueryParams(qparams);
 		if(qdict.size() < 2 || !db->validateSession(qdict["r_user"], qdict["token"])) {
 			ret.code = 401;
+			ret.data = "{\"error\": \"token invalido\" }";
 		}else{
 			const auto& r_user = qdict["r_user"];
 			const auto& t_user = uriparams;
@@ -181,6 +186,7 @@ struct Request_POST_Broadcast : public Request {
 		auto qdict = Request::parseQueryParams(qparams);
 		if(qdict.size() < 2 || !db->validateSession(qdict["r_user"], qdict["token"])) {
 			ret.code = 401;
+			ret.data = "{\"error\": \"token invalido\" }";
 		}else{
 			const auto& r_user = qdict["r_user"];
 			auto js = JSONParse(body);
