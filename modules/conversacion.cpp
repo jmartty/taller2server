@@ -57,9 +57,9 @@ std::string Conversacion::asJson() const {
         for(const auto& line : lines) {
                 ret += "{\"id\": \"";
                 ret += users[line.autor];
-                ret += "\", \"time\": \"";
+                ret += "\", \"time\": ";
                 ret += toString(line.timestamp);
-                ret += "\", \"msg\": \"";
+                ret += ", \"msg\": \"";
                 ret += line.msg;
                 ret += "\"}";
                 if(i+1 != c)
