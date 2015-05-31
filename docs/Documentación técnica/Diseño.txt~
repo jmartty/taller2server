@@ -1,0 +1,9 @@
+Diseño / Clases
+================
+.. automodule:: Diseño / Clases
+
+El diseño del servidor se realizó teniendo en cuenta el protocolo REST - MensajerO que se encuentra en:
+
+`Protocolo <https://github.com/jmartty/taller2server/blob/master/docs/Protocolo-REST-v1.7.pdf>`_
+
+

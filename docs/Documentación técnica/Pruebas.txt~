@@ -1,0 +1,25 @@
+Pruebas
+================
+.. automodule:: Pruebas
+
+Se han realizado tests de la base de datos, Json, Mongoose, el logger y de las diferentes funciones del servidor en general. Todas han sido efectuadas en lenguaje C++ excepto la última, la cual fue implentada en Python utilizando la librería *requests*.
+
+----------------
+Code Coverage
+----------------
+
+El code coverage de las pruebas es de COMPLETAR....
+
+----------------
+Requisitos para correr los tests (además de los ya indicado para las librerías del servidor):
+----------------
+
+* python (`sudo apt-get install python`)
+* requests (`pip install requests`)
+
+----------------
+Corriendo los tests:
+----------------
+
+* Para compilar y correr los tests de la rest api siatuarse en /tests/rest y ejecutar `python run_test.py`
+* Para compilar y correr el resto de los tests: `./build.sh test`

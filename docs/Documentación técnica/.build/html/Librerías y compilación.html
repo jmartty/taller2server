@@ -1,0 +1,148 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Librerías y compilación &mdash; documentación de server - 2.7</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '2.7',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <link rel="top" title="documentación de server - 2.7" href="index.html" />
+    <link rel="next" title="Diseño - Clases" href="Diseño - Clases.html" />
+    <link rel="prev" title="Ambiente de desarrollo" href="Ambiente de desarrollo.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navegación</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="Índice General"
+             accesskey="I">índice</a></li>
+        <li class="right" >
+          <a href="Diseño - Clases.html" title="Diseño - Clases"
+             accesskey="N">siguiente</a> |</li>
+        <li class="right" >
+          <a href="Ambiente de desarrollo.html" title="Ambiente de desarrollo"
+             accesskey="P">anterior</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">documentación de server - 2.7</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="librerias-y-compilacion">
+<h1>Librerías y compilación<a class="headerlink" href="#librerias-y-compilacion" title="Enlazar permanentemente con este título">¶</a></h1>
+<p>Para implementar el servidor se han utilizado diferentes liberías:</p>
+<ul class="simple">
+<li><strong>Rocksdb</strong>: Es la base de datos no SQL en la que se guardan todos los datos de la aplicación MensajerO</li>
+<li><strong>Moongose</strong>: Es una biblioteca que se encarga de ejecutar las diferentes instrucciones del servidor HTTP.</li>
+<li><strong>Jsoncpp</strong>: Es el formato que se usa para el intercambio de datos entre servidor-cliente.</li>
+</ul>
+<div class="section" id="compilacion-de-las-liberias">
+<h2>Compilación de las liberías<a class="headerlink" href="#compilacion-de-las-liberias" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Para compilar las librerías y el servidor necesitaremos diferentes herramientas que tendremos que instalar. Para ello utilizaremos el comando <code class="docutils literal"><span class="pre">sudo</span> <span class="pre">apt-get</span> <span class="pre">install</span></code>.</p>
+<p>Por ejemplo, si queremos instalar g++ escribiremos la siguiente instrucción:</p>
+<p><code class="docutils literal"><span class="pre">sudo</span> <span class="pre">apt-get</span> <span class="pre">install</span> <span class="pre">g++</span></code></p>
+<p>Los programas a instalar son los siguientes:</p>
+<ul class="simple">
+<li>g++</li>
+<li>cmake</li>
+<li>libsnappy-dev</li>
+<li>libgflags-dev</li>
+<li>zlib1g-dev</li>
+<li>libbz2-dev</li>
+</ul>
+<p>Una vez instalados todos los requisitos, se procede a compilar el proyecto. Para ello se debe utilizar la siguiente instrucción:</p>
+<p><code class="docutils literal"><span class="pre">./build.sh</span></code></p>
+<p>En el caso de querer limpiar el build para luego compilar el servidor desde cero:</p>
+<p><code class="docutils literal"><span class="pre">./build.sh</span> <span class="pre">clean</span></code></p>
+<p>Finalmente, para ejecutar el servidor:</p>
+<p><code class="docutils literal"><span class="pre">./build.sh</span> <span class="pre">run</span></code></p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Tabla de Contenidos</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Librerías y compilación</a><ul>
+<li><a class="reference internal" href="#compilacion-de-las-liberias">Compilación de las liberías</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Tema anterior</h4>
+  <p class="topless"><a href="Ambiente de desarrollo.html"
+                        title="capítulo anterior">Ambiente de desarrollo</a></p>
+  <h4>Próximo tema</h4>
+  <p class="topless"><a href="Diseño - Clases.html"
+                        title="próximo capítulo">Diseño - Clases</a></p>
+  <div role="note" aria-label="source link">
+    <h3>Esta página</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/Librerías y compilación.txt"
+            rel="nofollow">Mostrar el código</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Búsqueda rápida</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Ir a" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Introduzca los términos de búsqueda o un nombre de módulo, clase o función.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, Maximiliano Yacobucci, Juan Luis Martty, Nicolas Gimenez, Barbara Aguila Cudicio.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.4</a>
+      
+      |
+      <a href="_sources/Librerías y compilación.txt"
+          rel="nofollow">Page source</a></li>
+    </div>
+
+    
+
+    
+  </body>
+</html>

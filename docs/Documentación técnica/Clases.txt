@@ -1,0 +1,7 @@
+Clases
+================
+.. automodule:: Clases
+
+Para apreciar los diversos recursos que ofrece el servidor leer el protocolo REST - MensajerO que se encuentra en:
+
+`Protocolo <https://github.com/jmartty/taller2server/blob/master/docs/Protocolo-REST-v1.7.pdf>`_

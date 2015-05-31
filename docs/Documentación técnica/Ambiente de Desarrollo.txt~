@@ -1,0 +1,7 @@
+Ambiente de desarrollo
+================
+.. automodule:: Ambiente de desarrollo
+
+El servidor ha sido realizado en lenguaje C++, utilizando el control de versiones GitHub (`Repositorio <https://github.com/jmartty/taller2server/>`_). 
+
+El código se encuentra en 

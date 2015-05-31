@@ -1,0 +1,43 @@
+Librerías y compilación
+================
+.. automodule:: Librerías y compilación
+
+Para implementar el servidor se han utilizado diferentes liberías:
+
+* **Rocksdb**: Es la base de datos no SQL en la que se guardan todos los datos de la aplicación MensajerO
+
+* **Moongose**: Es una biblioteca que se encarga de ejecutar las diferentes instrucciones del servidor HTTP. 
+
+* **Jsoncpp**: Es el formato que se usa para el intercambio de datos entre servidor-cliente.
+
+=================
+Compilación de las liberías
+=================
+
+Para compilar las librerías y el servidor necesitaremos diferentes herramientas que tendremos que instalar. Para ello utilizaremos el comando ``sudo apt-get install``. 
+
+Por ejemplo, si queremos instalar g++ escribiremos la siguiente instrucción:  
+
+``sudo apt-get install g++``
+
+Los programas a instalar son los siguientes:
+
+* g++
+* cmake
+* libsnappy-dev
+* libgflags-dev
+* zlib1g-dev
+* libbz2-dev
+
+Una vez instalados todos los requisitos, se procede a compilar el proyecto. Para ello se debe utilizar la siguiente instrucción:
+
+``./build.sh``
+
+En el caso de querer limpiar el build para luego compilar el servidor desde cero:
+
+``./build.sh clean``
+
+Finalmente, para ejecutar el servidor:
+
+``./build.sh run``
+
