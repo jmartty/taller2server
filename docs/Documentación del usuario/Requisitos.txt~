@@ -1,0 +1,15 @@
+Requisitos
+================
+.. automodule:: Requisitos
+
+Instalar vía ``sudo apt-get install``:
+
+* g++
+* cmake
+* libsnappy-dev
+* libgflags-dev
+* zlib1g-dev
+* libbz2-dev
+
+Por ejemplo: 
+``sudo apt-get install g++``

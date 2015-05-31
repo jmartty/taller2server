@@ -24,3 +24,12 @@ Los argumentos extra que se pasen a 'test' o 'run' se forwardean a los programas
 
  - Para compilar y correr los tests de la rest api: Siatuarse en /tests/rest y ejecutar "python run_test.py"
  - Para compilar y correr el resto de los tests: `./build.sh test`
+
+#### Requisitos para correr la documentación técnica y del usuario:
+
+ - Instalar Sphinx: `sudo pip install -U Sphinx`
+
+#### Generando el html de la documentación:
+
+ - Pararse en la ruta de la documentación y ejecutar: `make html`
+ - Para limpiar: `make clean`

@@ -1,0 +1,19 @@
+Requisitos
+================
+.. automodule:: Requisitos
+
+Para ejecutar el servidor necesitaremos diferentes herramientas que tendremos que instalar. Para ello utilizaremos el comando ``sudo apt-get install``. 
+
+Por ejemplo, si queremos instalar g++ escribiremos la siguiente instrucción:  
+
+``sudo apt-get install g++``
+
+Los programas a instalar son los siguientes:
+
+* g++
+* cmake
+* libsnappy-dev
+* libgflags-dev
+* zlib1g-dev
+* libbz2-dev
+

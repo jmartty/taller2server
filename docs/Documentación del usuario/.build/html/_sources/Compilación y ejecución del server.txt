@@ -1,0 +1,16 @@
+Compilación y ejecución del server
+================
+.. automodule:: Compilación y ejecución del server
+
+Una vez instalados todos los requisitos, se procede a compilar el proyecto. Para ello se debe utilizar la siguiente instrucción:
+
+``./build.sh``
+
+En el caso de querer limpiar el build para luego compilar el servidor desde cero:
+
+``./build.sh clean``
+
+Finalmente, para ejecutar el servidor:
+
+``./build.sh run``
+
