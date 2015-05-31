@@ -32,7 +32,7 @@ struct Config {
 		l_warn = l_error = l_info = true;
 		l_debug = false;
 		db_file = "database.db";
-		port = "4500";
+		port = "5000";
 		start = true;
 
 		// Parse

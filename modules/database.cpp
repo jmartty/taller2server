@@ -7,7 +7,7 @@
 #include "logger.h"
 #include <iostream>
 
-//static Logger& log = Logger::get();
+static Logger& log = Logger::get();
 
 bool Database::open(const std::string& file){
 
@@ -78,8 +78,14 @@ bool Database::saveUsuario(const Usuario& usr) {
 bool Database::createUsuario(const Usuario& usr) {
 
 	// Validamos la info y nos fijamos que no exista
-	if(!validateUser(usr) || usuarioExists(usr.id))
+	if(!validateUser(usr)) {
+		log.msg(LOG_TYPE::DEBUG, "Usuario no valido");
 		return false;
+	}
+	if(usuarioExists(usr.id)) {
+		log.msg(LOG_TYPE::DEBUG, "Usuario ya existente");
+		return false;
+	}
 	// Agregamos
 	listaUsuariosAdd(usr.id);
 	return this->put(std::string("Usuario.") + usr.id, usr.serialStr());
@@ -149,20 +155,28 @@ bool Database::validateUserPwd(const std::string& pwd) {
 }
 
 bool Database::validateUser(const Usuario& usr) {
+	if(!validateUserId(usr.id)) log.msg(LOG_TYPE::DEBUG, std::string("usr.id invalido `") + usr.id + "`");
+	if(!validateUserPwd(usr.password)) log.msg(LOG_TYPE::DEBUG, std::string("usr.password invalido `") + usr.password + "`");
+	if(!validateUserName(usr.nombre)) log.msg(LOG_TYPE::DEBUG, std::string("usr.nombre invalido `") + usr.nombre + "`");
 	return validateUserId(usr.id) && validateUserPwd(usr.password) && validateUserName(usr.nombre);
 }
 
-std::string Database::getListaUsuariosJson() {
+std::string Database::getListaUsuariosJson(const std::string& r_user) {
 
-	// Pasa la lista de usuarios a JSON y ademas 
+	// Pasa la lista de usuarios a JSON y ademas
+	assert(this->heartbeatUsuario(r_user));
 	auto lu = getListaUsuarios();
-	auto c = lu.size();
+	auto c = lu.size()-1; // Resto 1 por self
 	// Build JSON reply
 	std::string ret("[ ");
 	size_t i = 0;
 	for(const auto& id : lu) {
+		// Skip self
+		if(id == r_user) {
+			continue;
+		}
+
 		Usuario usr;
-		assert(this->heartbeatUsuario(id));
 		assert(this->loadUsuario(id, usr));
 		ret += "{\"id\": \"";
 		ret += usr.id;
@@ -170,11 +184,21 @@ std::string Database::getListaUsuariosJson() {
 		ret += usr.nombre;
 		ret += "\", \"estado\": \"";
 		ret += usr.estado;
-		ret += "\"}";
-		if(i+1 != c)
+		// Nos fijamos si tiene mensajes nuevos con ese usuario
+		Conversacion conv;
+		loadConversacion(r_user, id, conv);
+		if(conv.hasUnread(r_user)) {
+			ret += "\", \"nuevomsg\": true";
+		}else{
+			ret += "\", \"nuevomsg\": false";
+		}
+		ret += "}";
+		// Separador
+		if(i+1 != c) {
 			ret += ", ";
 			i++;
 		}
+	}
 	ret += " ]";
 	return ret;
 
@@ -245,5 +269,32 @@ bool Database::postearMensaje(const std::string& source_user, const std::string&
 		conv_mutex.unlock();
 		return val;
 	}
+
+}
+
+bool Database::markRead(const std::string& source_user, const std::string& target_user) {
+
+        conv_mutex.lock();
+        Conversacion conv;
+        if(!loadConversacion(source_user, target_user, conv)) {
+                conv_mutex.unlock();
+                return false;
+        }else{
+		conv.markRead(source_user);
+                bool val = this->put(Conversacion::keyGen(source_user, target_user), conv.serialStr());
+                conv_mutex.unlock();
+                return val;
+        }
+
+
+}
+
+bool Database::postearMensajeTodos(const std::string& source_user, const std::string& mensaje) {
+
+	const auto& lu = getListaUsuarios();
+	for(auto& t : lu) {
+		if(!postearMensaje(source_user, t, mensaje)) return false;
+	}
+	return true;
 
 }

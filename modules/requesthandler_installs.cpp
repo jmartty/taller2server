@@ -31,6 +31,7 @@ struct Request_POST_Login : public Request {
 			ret.data = std::string("{ \"token\": \"") + usr.token + "\" }";
 			ret.code = 201;
 		}else{
+			ret.data = "{ \"error\": \"Usuario o clave invalidos\" }";
 			ret.code = 401;
 		}
 		return ret;
@@ -49,11 +50,11 @@ struct Request_POST_Usuario : public Request {
         virtual RequestResult process(Database* db, const std::string& uriparams, const std::string& qparams, const std::string& body) {
                 RequestResult ret;
 		Usuario user;
-		// Cargamos el usuario del uri
-		user.id = uriparams;
 		// Parseamos el JSON para cargar los datos posteados
 		auto js = JSONParse(body);
 		user.load(js);
+		// Cargamos el usuario del uri
+		user.id = uriparams;
 		if(db->createUsuario(user)) {
 			ret.code = 201;
 		}else{
@@ -72,8 +73,9 @@ struct Request_GET_Usuarios : public Request {
 		auto qdict = Request::parseQueryParams(qparams);
 		if(qdict.size() < 2 || !db->validateSession(qdict["r_user"], qdict["token"])) {
 			ret.code = 401;
+			ret.data = "{\"error\": \"token invalido\" }";
 		}else{
-			ret.data = db->getListaUsuariosJson();
+			ret.data = db->getListaUsuariosJson(qdict["r_user"]);
 		}
                 return ret;
         }
@@ -86,6 +88,7 @@ struct Request_GET_Usuario : public Request {
 		Usuario usr;
 		if(qdict.size() < 2 || !db->validateSession(qdict["r_user"], qdict["token"]) || !db->loadUsuario(uriparams, usr)) {
 			ret.code = 401;
+			ret.data = "{\"error\": \"token invalido\" }";
 		}else{
 			ret.data = usr.asJson();
 		}
@@ -100,6 +103,7 @@ struct Request_PUT_Usuario : public Request {
 		Usuario usr;
 		if(qdict.size() < 2 || !db->validateSession(qdict["r_user"], qdict["token"]) || uriparams != qdict["r_user"] || !db->loadUsuario(uriparams, usr)) {
 			ret.code = 401;
+			ret.data = "{\"error\": \"token invalido\" }";
 		}else{
 			// Editamos los valores que nos pasaron (si los pasaron)
 			// Guardamos el usuario
@@ -131,6 +135,7 @@ struct Request_POST_Conversacion : public Request {
 		auto qdict = Request::parseQueryParams(qparams);
 		if(qdict.size() < 2 || !db->validateSession(qdict["r_user"], qdict["token"])) {
 			ret.code = 401;
+			ret.data = "{\"error\": \"token invalido\" }";
 		}else{
 			const auto& r_user = qdict["r_user"];
 			const auto& t_user = uriparams;
@@ -158,6 +163,7 @@ struct Request_GET_Conversacion : public Request {
 		auto qdict = Request::parseQueryParams(qparams);
 		if(qdict.size() < 2 || !db->validateSession(qdict["r_user"], qdict["token"])) {
 			ret.code = 401;
+			ret.data = "{\"error\": \"token invalido\" }";
 		}else{
 			const auto& r_user = qdict["r_user"];
 			const auto& t_user = uriparams;
@@ -166,6 +172,33 @@ struct Request_GET_Conversacion : public Request {
 				ret.code = 500;
 			}else{
 				ret.data = conv.asJson();
+				db->markRead(r_user, t_user);
+			}
+		}
+		return ret;
+	}
+};
+
+
+struct Request_POST_Broadcast : public Request {
+	virtual RequestResult process(Database* db, const std::string& uriparams, const std::string& qparams, const std::string& body) {
+		RequestResult ret;
+		auto qdict = Request::parseQueryParams(qparams);
+		if(qdict.size() < 2 || !db->validateSession(qdict["r_user"], qdict["token"])) {
+			ret.code = 401;
+			ret.data = "{\"error\": \"token invalido\" }";
+		}else{
+			const auto& r_user = qdict["r_user"];
+			auto js = JSONParse(body);
+                        const auto& msg = js.get("mensaje", "").asString(); 
+                        if(msg.length() == 0) {
+                                ret.code = 400;
+                                ret.data = "{ \"error\": \"Mensaje invalido\" }";
+			}else if(!db->postearMensajeTodos(r_user, msg)) {
+				ret.code = 500;
+			}else{
+				// Todo ok
+				ret.code = 201;
 			}
 		}
 		return ret;
@@ -187,4 +220,5 @@ void RequestHandler::installRequests(Database* db) {
 	install("PUT./usuario", new Request_PUT_Usuario);
 	install("GET./conversacion", new Request_GET_Conversacion);
 	install("POST./conversacion", new Request_POST_Conversacion);
+	install("POST./broadcast", new Request_POST_Broadcast);
 }
