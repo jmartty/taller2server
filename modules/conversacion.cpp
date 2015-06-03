@@ -120,7 +120,7 @@ void Conversacion::postear(const std::string& autor, const std::string& msg) {
 	newLine.msg = msg;
 	newLine.timestamp = std::time(nullptr);
 	// La agregamos
-	lines.push_back(newLine);
+	lines.push_front(newLine);
 	// Marcamos como no leido para el otro usuario
 	if(ai == 0) {
 		unread[1] = true;
@@ -129,7 +129,7 @@ void Conversacion::postear(const std::string& autor, const std::string& msg) {
 	}
 	// Si excedemos la cantidad de lineas a guardar, borramos la del frente
 	if(lines.size() > CONVERSACION_MAX_LINES)
-		lines.pop_front();
+		lines.pop_back();
 
 }
 

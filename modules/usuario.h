@@ -21,7 +21,7 @@ struct Usuario {
 	// Cereal method
 	template<class Archive>
 	void serialize(Archive& ar) {
-		ar(id, password, nombre, foto, ubicacion, estado, token, last_action, email, telefono);
+		ar(id, password, nombre, foto, ubicacion, estado, token, last_action, email, telefono, broadcast_unread);
 	}
 	// Actual serial
 	std::string serialStr() const;
@@ -41,5 +41,6 @@ struct Usuario {
 	// Valores posibles para conectado
 	// "conectado", "desconectado"
 	std::string estado;
-
+	// True si tiene mensajes sin leer en el broadcast
+	bool broadcast_unread;
 };

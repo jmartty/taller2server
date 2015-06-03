@@ -168,7 +168,9 @@ std::string Database::getListaUsuariosJson(const std::string& r_user) {
 	auto lu = getListaUsuarios();
 	auto c = lu.size()-1; // Resto 1 por self
 	// Build JSON reply
-	std::string ret("[ ");
+	std::string ret("{ \"nuevobroadcast\": ");
+	ret += (hasBroadcastUnread(r_user) ? "true" : "false");
+	ret += ", \"usuarios\": [ ";
 	size_t i = 0;
 	for(const auto& id : lu) {
 		// Skip self
@@ -199,7 +201,7 @@ std::string Database::getListaUsuariosJson(const std::string& r_user) {
 			i++;
 		}
 	}
-	ret += " ]";
+	ret += " ] }";
 	return ret;
 
 }
@@ -289,12 +291,69 @@ bool Database::markRead(const std::string& source_user, const std::string& targe
 
 }
 
-bool Database::postearMensajeTodos(const std::string& source_user, const std::string& mensaje) {
+bool Database::postearMensajeBroadcast(const std::string& source_user, const std::string& mensaje) {
 
+	// Agrego el mensaje a la conversacion de broadcast
+        conv_mutex.lock();
+        Broadcast bcast;
+        if(!loadBroadcast(bcast)) {
+                conv_mutex.unlock();
+                return false;
+        }else{
+                bcast.postear(source_user, mensaje);
+                bool val = this->put("Broadcast", bcast.serialStr());
+                conv_mutex.unlock();
+                return val;
+        }
+	// Marco como no leido para todos los usuarios menos el que lo envia
 	const auto& lu = getListaUsuarios();
-	for(auto& t : lu) {
-		if(!postearMensaje(source_user, t, mensaje)) return false;
+	for(auto& u : lu) {
+		if(u != source_user) markBroadcastUnread(u, true);
 	}
 	return true;
 
 }
+
+bool Database::markBroadcastUnread(const std::string& id, bool val) {
+	// Marca el broadcast como no leido
+        Usuario usr;
+        bool res = loadUsuario(id, usr);
+        if(res) {
+                usr.broadcast_unread = val;
+                saveUsuario(usr);
+                return true;
+        }else{
+                // Si no es valida, debe loggearse nuevamente
+                return false;
+        }
+
+}
+
+bool Database::loadBroadcast(Broadcast& bcast) {
+
+        const auto key = "Broadcast";
+        // Si no existe, creamos la conversacion desde 0
+        if(!exists(key)) {
+                bcast = Broadcast();
+        }else{
+                // Si existe la cargamos
+                bcast.deserialStr(this->get(key));
+        }
+        // Falta chequeo de errores
+        return true;
+
+}
+
+
+bool Database::hasBroadcastUnread(const std::string& id) {
+
+        Usuario usr;
+        bool res = loadUsuario(id, usr);
+        if(res) {
+                return usr.broadcast_unread;
+        }else{
+                return false;
+        }
+
+}
+

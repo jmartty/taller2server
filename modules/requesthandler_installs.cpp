@@ -173,6 +173,27 @@ struct Request_GET_Conversacion : public Request {
 	}
 };
 
+struct Request_GET_Broadcast : public Request {
+        virtual RequestResult process(Database* db, const std::string& uriparams, const std::string& qparams, const std::string& body) {
+                RequestResult ret;
+                auto qdict = Request::parseQueryParams(qparams);
+                if(qdict.size() < 2 || !db->validateSession(qdict["r_user"], qdict["token"])) {
+                        ret.code = 401;
+                        ret.data = "{\"error\": \"token invalido\" }";
+                }else{
+                        Broadcast bcast;
+                        if(!db->loadBroadcast(bcast)) {
+                                ret.code = 500;
+                        }else{
+                                ret.data = bcast.asJson(std::stoi(qdict["lines"]));
+				// Marco como leido
+                                db->markBroadcastUnread(qdict["r_user"], false);
+                        }
+                }
+                return ret;
+        }
+};
+
 
 struct Request_POST_Broadcast : public Request {
 	virtual RequestResult process(Database* db, const std::string& uriparams, const std::string& qparams, const std::string& body) {
@@ -188,7 +209,7 @@ struct Request_POST_Broadcast : public Request {
                         if(msg.length() == 0) {
                                 ret.code = 400;
                                 ret.data = "{ \"error\": \"Mensaje invalido\" }";
-			}else if(!db->postearMensajeTodos(r_user, msg)) {
+			}else if(!db->postearMensajeBroadcast(r_user, msg)) {
 				ret.code = 500;
 			}else{
 				// Todo ok
@@ -215,4 +236,5 @@ void RequestHandler::installRequests(Database* db) {
 	install("GET./conversacion", new Request_GET_Conversacion);
 	install("POST./conversacion", new Request_POST_Conversacion);
 	install("POST./broadcast", new Request_POST_Broadcast);
+	install("GET./broadcast", new Request_GET_Broadcast);
 }

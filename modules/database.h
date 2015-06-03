@@ -7,6 +7,7 @@
 #include <cereal/types/set.hpp>
 #include "usuario.h"
 #include "conversacion.h"
+#include "broadcast.h"
 
 typedef std::set<std::string> ListaUsuarios;
 
@@ -30,9 +31,13 @@ class Database {
 	// Operacion sobre conversaciones
 	bool loadConversacion(const std::string& user1, const std::string& user2, Conversacion& conv);
 	bool postearMensaje(const std::string& source_user, const std::string& target_user, const std::string& msg);
-	bool postearMensajeTodos(const std::string& source_user, const std::string& msg);
 	// Marca la conversacion como leida (por source_user)
 	bool markRead(const std::string& source_user, const std::string& target_user);
+	// Operaciones de broadcast
+	bool loadBroadcast(Broadcast& conv);
+	bool postearMensajeBroadcast(const std::string& source_user, const std::string& msg);
+	bool markBroadcastUnread(const std::string& user, bool val);
+	bool hasBroadcastUnread(const std::string& user);
 
 	// Devuelve true si la sesion es valida y actualiza el last_action al time() actual
 	bool validateSession(const std::string& user_id, const std::string& token);
