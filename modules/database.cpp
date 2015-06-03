@@ -196,7 +196,7 @@ std::string Database::getListaUsuariosJson(const std::string& r_user) {
 		}
 		ret += "}";
 		// Separador
-		if(i+1 != c) {
+		if(i+1 < c) {
 			ret += ", ";
 			i++;
 		}

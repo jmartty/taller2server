@@ -134,7 +134,7 @@ struct Request_POST_Conversacion : public Request {
 			const auto& r_user = qdict["r_user"];
 			const auto& t_user = uriparams;
 			auto js = JSONParse(body);
-                        const auto& msg = js.get("mensaje", "").asString(); 
+                        const auto& msg = js.get("mensaje", "").asString();
                         if(msg.length() == 0) {
                                 ret.code = 400;
                                 ret.data = "{ \"error\": \"Mensaje invalido\" }";
@@ -165,7 +165,13 @@ struct Request_GET_Conversacion : public Request {
 			if(!db->loadConversacion(r_user, t_user, conv)) {
 				ret.code = 500;
 			}else{
-				ret.data = conv.asJson(std::stoi(qdict["lines"]));
+				int lines;
+				try {
+					lines = std::stoi(qdict["lines"]);
+				}catch(...) {
+					lines = 0;
+				}
+				ret.data = conv.asJson(lines);
 				db->markRead(r_user, t_user);
 			}
 		}
@@ -185,7 +191,13 @@ struct Request_GET_Broadcast : public Request {
                         if(!db->loadBroadcast(bcast)) {
                                 ret.code = 500;
                         }else{
-                                ret.data = bcast.asJson(std::stoi(qdict["lines"]));
+                                int lines;
+                                try {
+                                        lines = std::stoi(qdict["lines"]);
+                                }catch(...) {
+                                        lines = 0;
+                                }
+                                ret.data = bcast.asJson(lines);
 				// Marco como leido
                                 db->markBroadcastUnread(qdict["r_user"], false);
                         }
