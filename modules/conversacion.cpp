@@ -47,10 +47,12 @@ void Conversacion::deserialStr(const std::string& str) {
 
 }
 
-std::string Conversacion::asJson() const {
+std::string Conversacion::asJson(int num_lines) const {
 
         // Pasa la conversacion a JSON
         auto c = lines.size();
+	// Limitamos la cantidad de lineas
+	if(num_lines > 0 && c > num_lines) c = num_lines;
         // Build JSON reply
         std::string ret("[ ");
         size_t i = 0;

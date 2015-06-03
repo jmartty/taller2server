@@ -41,7 +41,7 @@ struct Conversacion {
 		deserialStr(str);
 	}
 	// Retornar como Json
-	std::string asJson() const;
+	std::string asJson(int num_lines=0) const;
 	// Agregar mensaje
 	void postear(const std::string& autor, const std::string& msg);
 
