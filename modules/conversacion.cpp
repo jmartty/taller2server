@@ -47,7 +47,7 @@ void Conversacion::deserialStr(const std::string& str) {
 
 }
 
-std::string Conversacion::asJson(int num_lines) const {
+std::string Conversacion::asJson(size_t num_lines) const {
 
         // Pasa la conversacion a JSON
         auto c = lines.size();
@@ -64,10 +64,13 @@ std::string Conversacion::asJson(int num_lines) const {
                 ret += ", \"msg\": \"";
                 ret += line.msg;
                 ret += "\"}";
-                if(i+1 != c)
-                        ret += ", ";
-                        i++;
-                }
+                if(i+1 < c) {
+			ret += ", ";
+		}else{
+			break;
+		}
+                i++;
+	}
         ret += " ]";
         return ret;
 

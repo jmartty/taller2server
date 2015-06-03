@@ -165,7 +165,7 @@ struct Request_GET_Conversacion : public Request {
 			if(!db->loadConversacion(r_user, t_user, conv)) {
 				ret.code = 500;
 			}else{
-				ret.data = conv.asJson(qdict["lines"]);
+				ret.data = conv.asJson(std::stoi(qdict["lines"]));
 				db->markRead(r_user, t_user);
 			}
 		}
