@@ -102,21 +102,35 @@ struct Request_PUT_Usuario : public Request {
 		auto qdict = Request::parseQueryParams(qparams);
 		Usuario usr;
 		// Debe pasar la clave tambien
-		if(qdict.size() < 2 || !db->validateSession(qdict["r_user"], qdict["token"]) || uriparams != qdict["r_user"] || !db->loadUsuario(uriparams, usr) || qdict["password"] != usr.password) {
+		if(qdict.size() < 2 || !db->validateSession(qdict["r_user"], qdict["token"])) {
 			ret.code = 401;
 			ret.data = "{\"error\": \"token invalido\" }";
+			return ret;
+		}
+		if(uriparams != qdict["r_user"]) {
+			ret.code = 401;
+			ret.data = "{\"error\": \"permiso denegado\" }";
+			return ret;
+		}
+		if(!db->loadUsuario(uriparams, usr)) {
+			ret.code = 500;
+			ret.data = "{\"error\": \"error cargando usuario\" }";
+			return ret;
+		}
+		if(qdict["password"] != usr.password) {
+			ret.code = 401;
+			ret.data = "{\"error\": \"password invalido\" }";
+			return ret;
+		}
+		// Editamos los valores que nos pasaron (si los pasaron)
+		auto js = JSONParse(body);
+		usr.load(js);
+		// Guardamos el usuario
+		if(!db->saveUsuario(usr)) {
+			ret.code = 400;
+			ret.data = "{ \"error\": \"atributos invalidos\" }";
 		}else{
-			// Editamos los valores que nos pasaron (si los pasaron)
-			auto js = JSONParse(body);
-			usr.load(js);
-			// Guardamos el usuario
-			if(!db->saveUsuario(usr)) {
-				ret.code = 400;
-				ret.data = "{ \"error\": \"Atributos invalidos\" }";
-			}
-			else {
-				ret.code = 201;
-			}
+			ret.code = 201;
 		}
 
 		return ret;
@@ -137,11 +151,13 @@ struct Request_POST_Conversacion : public Request {
                         const auto& msg = js.get("mensaje", "").asString();
                         if(msg.length() == 0) {
                                 ret.code = 400;
-                                ret.data = "{ \"error\": \"Mensaje invalido\" }";
+                                ret.data = "{ \"error\": \"mensaje invalido\" }";
                         }else if(!db->usuarioExists(t_user)){
 				ret.code = 400;
+                                ret.data = "{ \"error\": \"usuario de destino invalido\" }";
 			}else if(!db->postearMensaje(r_user, t_user, msg)) {
 				ret.code = 500;
+                                ret.data = "{ \"error\": \"error al postear mensaje\" }";
 			}else{
 				// Todo ok
 				ret.code = 201;
@@ -164,6 +180,7 @@ struct Request_GET_Conversacion : public Request {
 			Conversacion conv;
 			if(!db->loadConversacion(r_user, t_user, conv)) {
 				ret.code = 500;
+                                ret.data = "{ \"error\": \"error al cargar conversacion\" }";
 			}else{
 				int lines;
 				try {
@@ -190,6 +207,7 @@ struct Request_GET_Broadcast : public Request {
                         Broadcast bcast;
                         if(!db->loadBroadcast(bcast)) {
                                 ret.code = 500;
+                                ret.data = "{ \"error\": \"error al cargar broadcast\" }";
                         }else{
                                 int lines;
                                 try {
@@ -223,6 +241,7 @@ struct Request_POST_Broadcast : public Request {
                                 ret.data = "{ \"error\": \"Mensaje invalido\" }";
 			}else if(!db->postearMensajeBroadcast(r_user, msg)) {
 				ret.code = 500;
+                                ret.data = "{ \"error\": \"error al postear broadcast\" }";
 			}else{
 				// Todo ok
 				ret.code = 201;

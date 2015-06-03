@@ -16,11 +16,6 @@ bool Logger::open(const std::string& path) {
 
 void Logger::msg(const int& type, const std::string& str) {
 
-	// Default prints to stdout
-	std::cout << "(" << type << "): " << str << std::endl;
-
-	// Abort if stream isnt writable
-	if(!conexion.is_open() || !conexion.good()) return;
 	// Generate timestamp
 	time_t rawtime;
 	struct tm * timeinfo;
@@ -30,6 +25,13 @@ void Logger::msg(const int& type, const std::string& str) {
 	strftime(buffer,80,"%d-%m-%Y %I:%M:%S",timeinfo);
 	std::string timestamp(buffer);
 	timestamp.append(" - ");
+
+	// Default prints to stdout
+	std::cout << timestamp << "(" << type << "): " << str << std::endl;
+
+	// Abort if stream isnt writable
+	if(!conexion.is_open() || !conexion.good()) return;
+
 
 	// Switch based on log type and log level
 	if(type == LOG_TYPE::WARN) {
