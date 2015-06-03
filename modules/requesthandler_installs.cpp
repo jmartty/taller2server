@@ -101,21 +101,15 @@ struct Request_PUT_Usuario : public Request {
 		RequestResult ret;
 		auto qdict = Request::parseQueryParams(qparams);
 		Usuario usr;
-		if(qdict.size() < 2 || !db->validateSession(qdict["r_user"], qdict["token"]) || uriparams != qdict["r_user"] || !db->loadUsuario(uriparams, usr)) {
+		// Debe pasar la clave tambien
+		if(qdict.size() < 2 || !db->validateSession(qdict["r_user"], qdict["token"]) || uriparams != qdict["r_user"] || !db->loadUsuario(uriparams, usr) || qdict["password"] != usr.password) {
 			ret.code = 401;
 			ret.data = "{\"error\": \"token invalido\" }";
 		}else{
 			// Editamos los valores que nos pasaron (si los pasaron)
-			// Guardamos el usuario
 			auto js = JSONParse(body);
-			const std::string nombre = js.get("nombre", "!").asString();
-			if(nombre != "!") usr.nombre = nombre;
-			const std::string password = js.get("password", "!").asString();
-			if(password != "!") usr.password = password;
-			const std::string foto = js.get("foto", "!").asString();
-			if(foto != "!") usr.foto = foto;
-			const std::string ubicacion = js.get("ubicacion", "!").asString();
-			if(ubicacion != "!") usr.ubicacion = ubicacion;
+			usr.load(js);
+			// Guardamos el usuario
 			if(!db->saveUsuario(usr)) {
 				ret.code = 400;
 				ret.data = "{ \"error\": \"Atributos invalidos\" }";
