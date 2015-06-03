@@ -1,6 +1,7 @@
 #include "usuario.h"
 #include <sstream>
 #include <string>
+#include <cstdlib>
 #include <json/json.h>
 
 // Constructor from serialized string
@@ -57,6 +58,7 @@ std::string Usuario::asJson() const {
 	js["estado"] = this->estado;
 	js["telefono"] = this->telefono;
 	js["email"] = this->email;
+	js["ultimo_acceso"] = std::to_string(this->last_action);
 
 	std::stringstream ss;
 	ss << js;
