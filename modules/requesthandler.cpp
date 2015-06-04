@@ -79,7 +79,7 @@ int RequestHandler::web_evhandler(struct mg_connection *conn, enum mg_event ev) 
 
 int RequestHandler::serve(struct mg_connection *conn, const std::string& method, const std::string& uri, const std::string& query_params, const std::string& content) {
 
-	logger.msg(LOG_TYPE::DEBUG, std::string("Received MG_REQUEST: ") + uri);
+	logger.msg(LOG_TYPE::INFO, std::string("Request (") + method + "): " + uri);
 
 
 	// Parseamos el URI para diferenciar request de params
@@ -105,9 +105,13 @@ int RequestHandler::serve(struct mg_connection *conn, const std::string& method,
 		// Si no encontramos el methodURI en la tabla, 404
 		return MG_FALSE;
 	}else{
+		logger.msg(LOG_TYPE::DEBUG, std::string("uri_params: ") + uri_params);
+		logger.msg(LOG_TYPE::DEBUG, std::string("query_params: ") + query_params);
+		logger.msg(LOG_TYPE::DEBUG, std::string("content: ") + content);
 		auto res = routes[methodURI]->process(this->db, uri_params, query_params, content);
 		mg_send_status(conn, res.code);
 		mg_send_data(conn, res.data.c_str(), res.data.size());
+		logger.msg(LOG_TYPE::DEBUG, res);
 		return MG_TRUE;
 	}
 

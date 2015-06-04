@@ -60,7 +60,7 @@ std::string Conversacion::asJson(size_t num_lines) const {
                 ret += "{\"id\": \"";
                 ret += users[line.autor];
                 ret += "\", \"time\": ";
-                ret += toString(line.timestamp);
+                ret += std::to_string(line.timestamp);
                 ret += ", \"msg\": \"";
                 ret += line.msg;
                 ret += "\"}";

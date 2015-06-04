@@ -3,6 +3,7 @@
 #include <iostream>
 #include <fstream>
 #include <bitset>
+#include "request.h"
 
 // Log types
 namespace LOG_TYPE {
@@ -26,10 +27,14 @@ class Logger {
 	void close();
 
 	// Log and level control
-	void msg(const int& type, const std::string& msg);
+	// Overrideamos para los distintos tipos
+	void msg(const int& type, std::string msg);
+	void msg(const int& type, const RequestResult& reqres);
 	// By default all levels are off
 	void toggle(const int& type, bool val);
 
+	// Devuelve un string con el timestamp actual
+	static std::string timestamp();
 	private:
 
 	// Singleton, no permitir crear o copiar
