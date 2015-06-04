@@ -180,6 +180,7 @@ std::string Database::getListaUsuariosJson(const std::string& r_user) {
 
 		Usuario usr;
 		assert(this->loadUsuario(id, usr));
+		assert(this->heartbeatUsuario(id));
 		ret += "{\"id\": \"";
 		ret += usr.id;
 		ret += "\", \"nombre\": \"";
