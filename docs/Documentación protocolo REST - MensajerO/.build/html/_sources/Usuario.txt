@@ -1,0 +1,149 @@
+Usuario
+================
+.. automodule:: Usuario
+
+-------------------------
+Solicitar lista de usuarios
+-------------------------
+
+En la lista de usuarios se incluye el estado correspondiente a cada usuario, incluyendo si tiene mensajes sin leer. También incluye si hay mensajes nuevos en el broadcast
+
+**URI:** server/usuarios
+
+**Metodo:** GET
+
+**Params:** r_user=<str:appuser_id>&token=<str:login_token>
+
+`Reply`
+
+En caso de r_user/token inválido:
+
+* **Response code:** 401 Unauthorized request
+
+En case de token valido: 
+
+* **Response code:** 200 OK
+
+* **Body:** `{ “nuevobroadcast”: false,`“usuarios”: [ { “id”: “pepe”, “nombre”: “Pepito”,`
+	`“estado”: “conectado”, “nuevomsg”: false } ,{ “id”: “carlos”, “nombre”: “Carlos”,`
+	` “estado”: “desconectado”, “nuevomsg”: true} , … ] }`
+
+
+-------------------------
+Solicitar perfil de usuario
+-------------------------
+
+**URI:** server/usuario/<str:user_id>
+
+**Metodo:** GET
+
+**Params:** r_user=<str:appuser_id>&token=<str:login_token>
+
+`Reply`
+
+En caso de r_user, user_id o token inválido:
+
+* **Response code:** 401 Unauthorized request
+
+En caso de token válido:
+
+	Usuario inválido: 
+
+	* **Response code:** 401 Unauthorized request
+
+	Usuario válido: 
+	
+	* **Response code:** 200 OK
+
+	**Body:** `{ “nombre”: <str:nombre>,`
+	`“foto”: <str:foto>,`
+	`“ubicacion”: <str:ubicacion>,`
+	`“telefono”: <str:telefono>,`
+	`“email”: <str:email>,`
+	`“ultimoacceso”: <str:timestamp> }`
+
+-------------------------
+Crear usuario	
+-------------------------
+
+**URI:** server/usuario/<str:user_id>
+
+**Metodo:** POST
+
+**Body:** `{ “password”: <str:password>,`
+	`“nombre”: <str:nombre>,`
+	`“foto”: <str:foto>,`
+	`“ubicación”: <str:ubicacion>,`
+	`“telefono”: <str:telefono>,`
+	`“email”: <str:email>}`
+
+Formato `ubicacion`:  string que identifica la ubicación. Ej: FIUBA, Casa, etc
+Formato `foto`: base64-JPG
+Los campos ‘password’ y ‘nombre’ son obligatorios, el resto se pueden ignorar.
+
+
+*Reply*
+
+	Usuario inválido o existente: 
+
+	- **Response code:** 400 Bad request
+
+	* **Body:** `{ “error” : <str:descripcion_error> }`
+
+	Usuario válido y atributos inválidos:
+
+	* **Response code:** 400 Bad request
+
+	* **Body:** `{ “error” : <str:descripcion_error> }`
+
+	Usuario válido y atributos válidos: 
+
+	* **Response code:** 201 Created
+
+-------------------------
+Modificar usuario
+-------------------------
+
+**URI:** server/usuario/<str:user_id>
+
+**Metodo:** PUT
+
+**Params:** r_user=<str:appuser_id>&token=<str:login_token>&password=<str:password>
+
+**Body:** `{ “nombre”: <str:nombre>,`
+	`“password”: <str:password>,`
+	`“foto”: <str:foto>,`
+	`“ubicacion”: <str:ubicacion>,`
+	`“telefono”: <str:telefono>,`
+	`“email”: <str:email> }`
+
+
+Nota: Todos los keys son opcionales en el JSON. Los que no se incluyen retienen su valor original. No se puede editar el id.
+
+Nota2: No olvidar pasar el password como parámetro
+
+*Reply*
+
+En caso de r_user/token inválido:
+
+	* **Response code:** 401 Unauthorized request
+
+En caso de token válido:
+
+	Usuario inválido: 
+
+	* **Response code:** 401 Unauthorized request
+	
+	Usuario válido y atributos inválidos:
+
+	* **Response code:** 400 Bad request
+
+	* **Body:** `{ “error” : <str:descripcion_error> }`
+
+	Usuario válido y atributos válidos: 
+
+	* **Response code:** 201 Created
+
+
+
+

@@ -1,0 +1,78 @@
+Broadcast
+================
+.. automodule:: Broadcast
+
+-------------------------
+Solicitar mensajes de broadcast
+-------------------------
+
+**URI:** server/broadcast
+
+**Metodo:** GET
+
+**Params:** r_user=<str:appuser_id>&token=<str:login_token>&lines=<int:num_lines>
+
+Nota: el parametro ‘lines’ se usa para devolver las ultimas ‘num_lines’. Si se ignora, se devuelve la conversación completa.
+
+Nota2: cuando se hace el GET, se marca como leido
+
+*Reply*
+
+Nota: los mensajes se devuelven en orden ascendente según la fecha y hora de su recepción.
+
+En caso de r_user/token inválido:
+
+	* **Response code:** 401 Unauthorized request
+
+En caso de token válido:
+
+	Usuario(s) inválidos: 
+	
+	* **Response code:** 401 Unauthorized request
+	
+	Usuario válido y atributos inválidos:
+
+	* **Response code:** 400 Bad request
+
+	* **Body:** { “error” : <str:descripcion_error> }
+
+	Usuario válido y atributos válidos: 
+
+	* **Response code:** 200 OK
+
+	* **Body:** [ <str:msg1>, <str:msg2>, … ]
+
+	Format de msg: { “id”: <str:user_id>, “time”: <int:timestamp>, “msg”: “<str:mensaje>”  }
+	Format de <timestamp>: Unix time
+
+
+-------------------------
+Enviar mensaje de broadcast
+-------------------------
+
+**URI:** server/broadcast
+
+**Metodo:** POST
+
+**Params:** r_user=<str:r_user_id>&token=<str:login_token>
+
+**Body:** { “mensaje” : <str:mensaje> }
+
+*Reply*
+
+En caso de r_user/token inválido:
+
+	* **Response code:** 401 Unauthorized request
+
+En caso de token válido:
+
+	Usuario(s) o mensaje inválido: 
+
+	**Response code:** 400 Bad request
+
+	**Body:** { “error” : <str:descripcion_error> }
+	
+	Usuario válido y mensaje válidos: 
+	
+	**Response code:** 201 Created
+

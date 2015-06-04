@@ -1,0 +1,31 @@
+Login
+================
+.. automodule:: Login
+
+-------------------------
+Loguear usuario en el sistema*
+-------------------------
+
+**URI:** server/login
+
+**Método:** POST
+
+**Body:** `{ “id”: <str:usuario>,`
+	            `“password”: <str:password> }`
+
+
+Restricciones sobre identificador de usuario: alfanumérico, máximo 12 caracteres.
+
+
+*Reply* 
+
+En caso de usuario y contraseña válidos:
+
+* **Response code:** 201 Created
+* **Body:** `{ “token”: <str:login_token> }`
+
+En caso de usuario o contraseña inválido:
+
+* **Response code:** 401 Unauthorized request
+
+
