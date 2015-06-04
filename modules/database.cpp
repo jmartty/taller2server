@@ -303,7 +303,7 @@ bool Database::postearMensajeBroadcast(const std::string& source_user, const std
                 bcast.postear(source_user, mensaje);
                 bool val = this->put("Broadcast", bcast.serialStr());
                 conv_mutex.unlock();
-                return val;
+		if(!val) return false;
         }
 	// Marco como no leido para todos los usuarios menos el que lo envia
 	const auto& lu = getListaUsuarios();

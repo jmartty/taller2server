@@ -9,7 +9,7 @@
 struct Usuario {
 
 	// Constructor default
-	Usuario() : estado("desconectado") { }
+	Usuario() : estado("desconectado"), last_action(0), broadcast_unread(false) { }
 	// Constructor from serialized string
 	Usuario(const std::string& str);
 	// Cargar desde un Json::value
@@ -37,10 +37,11 @@ struct Usuario {
 	std::string email;
 	std::string telefono;
 	std::string token;
-	std::time_t last_action;
 	// Valores posibles para conectado
 	// "conectado", "desconectado"
 	std::string estado;
+	// Timestamp de ultimo request
+	std::time_t last_action;
 	// True si tiene mensajes sin leer en el broadcast
 	bool broadcast_unread;
 };
