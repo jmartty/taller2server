@@ -43,8 +43,8 @@ void Usuario::load(const Json::Value& js) {
 	this->nombre = js.get("nombre", this->nombre).asString();
 	this->foto = js.get("foto", this->foto).asString();
 	this->ubicacion = js.get("ubicacion", this->ubicacion).asString();
-	this->telefono = js.get("telefono", this->ubicacion).asString();
-	this->email = js.get("email", this->ubicacion).asString();
+	this->telefono = js.get("telefono", this->telefono).asString();
+	this->email = js.get("email", this->email).asString();
 
 }
 

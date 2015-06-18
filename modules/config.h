@@ -10,7 +10,7 @@
 // # mongoose threads
 const int NUM_THREADS = 8;
 // Segundos de inactividad para que expire la sesion
-const int SESSION_EXPIRE_SECONDS = 60;
+const int SESSION_EXPIRE_SECONDS = 15;
 // Cantidad de chars en session token
 const int TOKEN_LENGTH = 16;
 // Cantidad de lineas de conversaciones a guardar
