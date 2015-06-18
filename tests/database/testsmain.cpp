@@ -53,10 +53,11 @@ TEST(Database, TestUsuario) {
 	usr.id = "pepe";
 	usr.nombre = "Pepe";
 	usr.password = "123";
+	std::string str;
 	EXPECT_TRUE(db.open("test.db"));
 	EXPECT_FALSE(db.usuarioExists(usr.id));
 	EXPECT_FALSE(db.saveUsuario(usr));
-	EXPECT_TRUE(db.createUsuario(usr));
+	EXPECT_TRUE(db.createUsuario(usr, str));
 	EXPECT_TRUE(db.usuarioExists(usr.id));
 	auto lu = db.getListaUsuarios();
 	EXPECT_EQ(lu.size(), (size_t)1);

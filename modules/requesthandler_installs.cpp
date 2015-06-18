@@ -55,13 +55,13 @@ struct Request_POST_Usuario : public Request {
 		user.load(js);
 		// Cargamos el usuario del uri
 		user.id = uriparams;
-		if(db->createUsuario(user)) {
+		std::string err_str;
+		if(db->createUsuario(user, err_str)) {
 			ret.code = 201;
 		}else{
 			log.msg(LOG_TYPE::INFO, std::string("Error creando usuario `") + user.id + "`");
-			// TODO: desdoblar en casos distintos para cada tipo de error
-			ret.code = 400;
-	                ret.data = "{ \"error\": \"Atributos invalidos o usuario ya existe\" }";
+			ret.code = 401;
+	                ret.data = std::string("{ \"error\": \"") + err_str + "\" }";
 		}
                 return ret;
         }
@@ -127,7 +127,8 @@ struct Request_PUT_Usuario : public Request {
 		usr.load(js);
 		// Guardamos el usuario
 		if(!db->saveUsuario(usr)) {
-			ret.code = 400;
+			// TODO: desdoblar en los distintos
+			ret.code = 401;
 			ret.data = "{ \"error\": \"atributos invalidos\" }";
 		}else{
 			ret.code = 201;
@@ -150,10 +151,10 @@ struct Request_POST_Conversacion : public Request {
 			auto js = JSONParse(body);
                         const auto& msg = js.get("mensaje", "").asString();
                         if(msg.length() == 0) {
-                                ret.code = 400;
+                                ret.code = 401;
                                 ret.data = "{ \"error\": \"mensaje invalido\" }";
                         }else if(!db->usuarioExists(t_user)){
-				ret.code = 400;
+				ret.code = 401;
                                 ret.data = "{ \"error\": \"usuario de destino invalido\" }";
 			}else if(!db->postearMensaje(r_user, t_user, msg)) {
 				ret.code = 500;
@@ -237,7 +238,7 @@ struct Request_POST_Broadcast : public Request {
 			auto js = JSONParse(body);
                         const auto& msg = js.get("mensaje", "").asString(); 
                         if(msg.length() == 0) {
-                                ret.code = 400;
+                                ret.code = 401;
                                 ret.data = "{ \"error\": \"Mensaje invalido\" }";
 			}else if(!db->postearMensajeBroadcast(r_user, msg)) {
 				ret.code = 500;

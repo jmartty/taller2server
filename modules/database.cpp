@@ -75,15 +75,17 @@ bool Database::saveUsuario(const Usuario& usr) {
 
 }
 
-bool Database::createUsuario(const Usuario& usr) {
+bool Database::createUsuario(const Usuario& usr, std::string& err_str) {
 
 	// Validamos la info y nos fijamos que no exista
 	if(!validateUser(usr)) {
 		log.msg(LOG_TYPE::DEBUG, "Usuario no valido");
+		err_str = "Los campos deben tener entre 4 y 16 caracteres";
 		return false;
 	}
 	if(usuarioExists(usr.id)) {
 		log.msg(LOG_TYPE::DEBUG, "Usuario ya existente");
+		err_str = "Usuario ya existente";
 		return false;
 	}
 	// Agregamos
@@ -139,19 +141,19 @@ ListaUsuarios Database::getListaUsuarios() {
 bool Database::validateUserId(const std::string& id) {
 	// Debe tener mas de 0 caraceteres y menos de 8
 	// TODO: alphanum
-	return id.size() > 0 && id.size() <= 8;
+	return id.size() >= 4 && id.size() <= 8;
 }
 
 bool Database::validateUserName(const std::string& name) {
 	// Debe tener mas de 0 caraceteres y menos de 24
 	// TODO: alphanum
-	return name.size() > 0 && name.size() <= 24;
+	return name.size() >= 4 && name.size() <= 16;
 }
 
 bool Database::validateUserPwd(const std::string& pwd) {
 	// Debe tener mas de 0 caraceteres y menos de 24
 	// TODO: alphanum
-	return pwd.size() > 0 && pwd.size() <= 24;
+	return pwd.size() >= 4 && pwd.size() <= 16;
 }
 
 bool Database::validateUser(const Usuario& usr) {
