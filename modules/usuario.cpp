@@ -42,6 +42,7 @@ void Usuario::load(const Json::Value& js) {
 	this->password = js.get("password", this->password).asString();
 	this->nombre = js.get("nombre", this->nombre).asString();
 	this->foto = js.get("foto", this->foto).asString();
+	this->fotochica = js.get("fotochica", this->fotochica).asString();
 	this->ubicacion = js.get("ubicacion", this->ubicacion).asString();
 	this->telefono = js.get("telefono", this->telefono).asString();
 	this->email = js.get("email", this->email).asString();
@@ -55,6 +56,7 @@ std::string Usuario::asJson() const {
 	js["id"] = this->id;
 	js["nombre"] = this->nombre;
 	js["foto"] = this->foto;
+	js["fotochica"] = this->fotochica;
 	js["ubicacion"] = this->ubicacion;
 	js["estado"] = this->estado;
 	js["telefono"] = this->telefono;

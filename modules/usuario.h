@@ -21,7 +21,7 @@ struct Usuario {
 	// Cereal method
 	template<class Archive>
 	void serialize(Archive& ar) {
-		ar(id, password, nombre, foto, ubicacion, estado, token, last_action, email, telefono, broadcast_unread, appear_offline);
+		ar(id, password, nombre, foto, fotochica, ubicacion, estado, token, last_action, email, telefono, broadcast_unread, appear_offline);
 	}
 	// Actual serial
 	std::string serialStr() const;
@@ -33,6 +33,7 @@ struct Usuario {
 	std::string password;
 	std::string nombre;
 	std::string foto;
+	std::string fotochica;
 	std::string ubicacion;
 	std::string email;
 	std::string telefono;
