@@ -187,8 +187,9 @@ std::string Database::getListaUsuariosJson(const std::string& r_user) {
 		ret += usr.id;
 		ret += "\", \"nombre\": \"";
 		ret += usr.nombre;
+		// Se muestra online solo si esta online y no tiene appear_offline enabled
 		ret += "\", \"estado\": \"";
-		ret += usr.estado;
+		ret += (usr.appear_offline ? "desconectado" : usr.estado);
 		// Nos fijamos si tiene mensajes nuevos con ese usuario
 		Conversacion conv;
 		loadConversacion(r_user, id, conv);

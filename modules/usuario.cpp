@@ -45,6 +45,7 @@ void Usuario::load(const Json::Value& js) {
 	this->ubicacion = js.get("ubicacion", this->ubicacion).asString();
 	this->telefono = js.get("telefono", this->telefono).asString();
 	this->email = js.get("email", this->email).asString();
+	this->appear_offline = js.get("appear_offline", this->appear_offline).asBool();
 
 }
 

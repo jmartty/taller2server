@@ -9,7 +9,7 @@
 struct Usuario {
 
 	// Constructor default
-	Usuario() : estado("desconectado"), last_action(0), broadcast_unread(false) { }
+	Usuario() : estado("desconectado"), last_action(0), broadcast_unread(false), appear_offline(false) { }
 	// Constructor from serialized string
 	Usuario(const std::string& str);
 	// Cargar desde un Json::value
@@ -21,7 +21,7 @@ struct Usuario {
 	// Cereal method
 	template<class Archive>
 	void serialize(Archive& ar) {
-		ar(id, password, nombre, foto, ubicacion, estado, token, last_action, email, telefono, broadcast_unread);
+		ar(id, password, nombre, foto, ubicacion, estado, token, last_action, email, telefono, broadcast_unread, appear_offline);
 	}
 	// Actual serial
 	std::string serialStr() const;
@@ -44,4 +44,6 @@ struct Usuario {
 	std::time_t last_action;
 	// True si tiene mensajes sin leer en el broadcast
 	bool broadcast_unread;
+	// Aparecer como offline
+	bool appear_offline;
 };
