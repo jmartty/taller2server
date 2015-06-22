@@ -16,6 +16,7 @@ Json::Value JSONParse(const std::string& source) {
 
 
 // Define all requests here
+/// POST: /login
 struct Request_POST_Login : public Request {
 	virtual RequestResult process(Database* db, const std::string& uriparams, const std::string& qparams, const std::string& body) {
 		RequestResult ret;
@@ -38,6 +39,7 @@ struct Request_POST_Login : public Request {
 	}
 };
 
+/// GET: /test
 struct Request_GET_Test : public Request {
 	virtual RequestResult process(Database* db, const std::string& uriparams, const std::string& qparams, const std::string& body) {
 		RequestResult ret;
@@ -46,6 +48,7 @@ struct Request_GET_Test : public Request {
 	}
 };
 
+/// POST: /usuario
 struct Request_POST_Usuario : public Request {
         virtual RequestResult process(Database* db, const std::string& uriparams, const std::string& qparams, const std::string& body) {
                 RequestResult ret;
@@ -67,6 +70,7 @@ struct Request_POST_Usuario : public Request {
         }
 };
 
+/// GET: /usuarios
 struct Request_GET_Usuarios : public Request {
         virtual RequestResult process(Database* db, const std::string& uriparams, const std::string& qparams, const std::string& body) {
                 RequestResult ret;
@@ -81,6 +85,7 @@ struct Request_GET_Usuarios : public Request {
         }
 };
 
+/// GET: /usuario
 struct Request_GET_Usuario : public Request {
 	virtual RequestResult process(Database* db, const std::string& uriparams, const std::string& qparams, const std::string& body) {
 		RequestResult ret;
@@ -96,6 +101,7 @@ struct Request_GET_Usuario : public Request {
 	}
 };
 
+/// PUT: /usuario
 struct Request_PUT_Usuario : public Request {
 	virtual RequestResult process(Database* db, const std::string& uriparams, const std::string& qparams, const std::string& body) {
 		RequestResult ret;
@@ -138,6 +144,7 @@ struct Request_PUT_Usuario : public Request {
 	}
 };
 
+/// POST: conversacion
 struct Request_POST_Conversacion : public Request {
 	virtual RequestResult process(Database* db, const std::string& uriparams, const std::string& qparams, const std::string& body) {
 		RequestResult ret;
@@ -168,6 +175,7 @@ struct Request_POST_Conversacion : public Request {
 	}
 };
 
+/// GET: /conversacion
 struct Request_GET_Conversacion : public Request {
 	virtual RequestResult process(Database* db, const std::string& uriparams, const std::string& qparams, const std::string& body) {
 		RequestResult ret;
@@ -197,6 +205,7 @@ struct Request_GET_Conversacion : public Request {
 	}
 };
 
+/// GET: /broadcast
 struct Request_GET_Broadcast : public Request {
         virtual RequestResult process(Database* db, const std::string& uriparams, const std::string& qparams, const std::string& body) {
                 RequestResult ret;
@@ -225,7 +234,7 @@ struct Request_GET_Broadcast : public Request {
         }
 };
 
-
+/// POST: /broadcast
 struct Request_POST_Broadcast : public Request {
 	virtual RequestResult process(Database* db, const std::string& uriparams, const std::string& qparams, const std::string& body) {
 		RequestResult ret;

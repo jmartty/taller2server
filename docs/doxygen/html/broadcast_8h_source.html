@@ -1,0 +1,153 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.6"/>
+<title>MensajerO: Fichero Fuente broadcast.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">MensajerO
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Generado por Doxygen 1.8.6 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search",false,'Buscar');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="index.html"><span>Página&#160;principal</span></a></li>
+      <li><a href="annotated.html"><span>Clases</span></a></li>
+      <li class="current"><a href="files.html"><span>Archivos</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Buscar" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="files.html"><span>Lista&#160;de&#160;archivos</span></a></li>
+    </ul>
+  </div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>Todo</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Clases</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Funciones</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Amigas</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Páginas</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_e05d7e2b1ecd646af5bb94391405f3b5.html">modules</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle">
+<div class="title">broadcast.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#include &lt;cereal/types/string.hpp&gt;</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;cereal/types/deque.hpp&gt;</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;cereal/types/array.hpp&gt;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;cereal/archives/binary.hpp&gt;</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &lt;ctime&gt;</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &lt;json/json.h&gt;</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &lt;deque&gt;</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
+<div class="line"><a name="l00012"></a><span class="lineno"><a class="line" href="structBroadcastLine.html">   12</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structBroadcastLine.html">BroadcastLine</a> {</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    <span class="keyword">template</span>&lt;<span class="keyword">class</span> Archive&gt;</div>
+<div class="line"><a name="l00016"></a><span class="lineno"><a class="line" href="structBroadcastLine.html#aef301b1a45f42f6480626d358525327a">   16</a></span>&#160;    <span class="keywordtype">void</span> <a class="code" href="structBroadcastLine.html#aef301b1a45f42f6480626d358525327a">serialize</a>(Archive&amp; ar) {</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;        ar(<a class="code" href="structBroadcastLine.html#a54e34c87ccf7c1a5d8ea1c00d5b057c8">timestamp</a>, <a class="code" href="structBroadcastLine.html#a5aadd8f827b7e0d8634e5ca2297597af">msg</a>, <a class="code" href="structBroadcastLine.html#ab27ea212da55cd65b86f0056522472b2">autor_id</a>);</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    }</div>
+<div class="line"><a name="l00020"></a><span class="lineno"><a class="line" href="structBroadcastLine.html#a54e34c87ccf7c1a5d8ea1c00d5b057c8">   20</a></span>&#160;    time_t <a class="code" href="structBroadcastLine.html#a54e34c87ccf7c1a5d8ea1c00d5b057c8">timestamp</a>;</div>
+<div class="line"><a name="l00022"></a><span class="lineno"><a class="line" href="structBroadcastLine.html#a5aadd8f827b7e0d8634e5ca2297597af">   22</a></span>&#160;    std::string <a class="code" href="structBroadcastLine.html#a5aadd8f827b7e0d8634e5ca2297597af">msg</a>;</div>
+<div class="line"><a name="l00024"></a><span class="lineno"><a class="line" href="structBroadcastLine.html#ab27ea212da55cd65b86f0056522472b2">   24</a></span>&#160;    std::string <a class="code" href="structBroadcastLine.html#ab27ea212da55cd65b86f0056522472b2">autor_id</a>;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;};</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
+<div class="line"><a name="l00029"></a><span class="lineno"><a class="line" href="structBroadcast.html">   29</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structBroadcast.html">Broadcast</a> {</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
+<div class="line"><a name="l00032"></a><span class="lineno"><a class="line" href="structBroadcast.html#afefeb941c2b44c7a51ec3d67394b95f4">   32</a></span>&#160;    <a class="code" href="structBroadcast.html#afefeb941c2b44c7a51ec3d67394b95f4">Broadcast</a>() { }</div>
+<div class="line"><a name="l00034"></a><span class="lineno"><a class="line" href="structBroadcast.html#a5f8efec4814b84ded8cfa93c1344112b">   34</a></span>&#160;    <a class="code" href="structBroadcast.html#a5f8efec4814b84ded8cfa93c1344112b">Broadcast</a>(<span class="keyword">const</span> std::string&amp; str) {</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        <a class="code" href="structBroadcast.html#a3a2e290f56b928cf3fb422a9f356d03e">deserialStr</a>(str);</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    }</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    std::string <a class="code" href="structBroadcast.html#a475548d81ffa26087726b14ef3ecbbe2">asJson</a>(<span class="keywordtype">size_t</span> num_lines=0) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="structBroadcast.html#a329058a3a62871facce703a0910e7a96">postear</a>(<span class="keyword">const</span> std::string&amp; autor, <span class="keyword">const</span> std::string&amp; msg);</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keyword">template</span>&lt;<span class="keyword">class</span> Archive&gt;</div>
+<div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="structBroadcast.html#a32f48c2376cd0ca4cec40a227624d147">   44</a></span>&#160;    <span class="keywordtype">void</span> <a class="code" href="structBroadcast.html#a32f48c2376cd0ca4cec40a227624d147">serialize</a>(Archive&amp; ar) {</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        ar(<a class="code" href="structBroadcast.html#a125cddc5c95aefaaf93b9745d694ffcb">lines</a>);</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    }</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    std::string <a class="code" href="structBroadcast.html#a7a2b4878eccf38db31adf453c3675367">serialStr</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="structBroadcast.html#a3a2e290f56b928cf3fb422a9f356d03e">deserialStr</a>(<span class="keyword">const</span> std::string&amp; str);</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="comment">// Attribs</span></div>
+<div class="line"><a name="l00054"></a><span class="lineno"><a class="line" href="structBroadcast.html#a125cddc5c95aefaaf93b9745d694ffcb">   54</a></span>&#160;<span class="comment"></span>    std::deque&lt;BroadcastLine&gt; <a class="code" href="structBroadcast.html#a125cddc5c95aefaaf93b9745d694ffcb">lines</a>;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;};</div>
+<div class="ttc" id="structBroadcast_html_a125cddc5c95aefaaf93b9745d694ffcb"><div class="ttname"><a href="structBroadcast.html#a125cddc5c95aefaaf93b9745d694ffcb">Broadcast::lines</a></div><div class="ttdeci">std::deque&lt; BroadcastLine &gt; lines</div><div class="ttdoc">Conjunto de lineas (mensajes) </div><div class="ttdef"><b>Definition:</b> <a href="broadcast_8h_source.html#l00054">broadcast.h:54</a></div></div>
+<div class="ttc" id="structBroadcastLine_html_a5aadd8f827b7e0d8634e5ca2297597af"><div class="ttname"><a href="structBroadcastLine.html#a5aadd8f827b7e0d8634e5ca2297597af">BroadcastLine::msg</a></div><div class="ttdeci">std::string msg</div><div class="ttdoc">Mensaje en si. </div><div class="ttdef"><b>Definition:</b> <a href="broadcast_8h_source.html#l00022">broadcast.h:22</a></div></div>
+<div class="ttc" id="structBroadcast_html_a5f8efec4814b84ded8cfa93c1344112b"><div class="ttname"><a href="structBroadcast.html#a5f8efec4814b84ded8cfa93c1344112b">Broadcast::Broadcast</a></div><div class="ttdeci">Broadcast(const std::string &amp;str)</div><div class="ttdoc">Constructor from serialized string. </div><div class="ttdef"><b>Definition:</b> <a href="broadcast_8h_source.html#l00034">broadcast.h:34</a></div></div>
+<div class="ttc" id="structBroadcast_html_a3a2e290f56b928cf3fb422a9f356d03e"><div class="ttname"><a href="structBroadcast.html#a3a2e290f56b928cf3fb422a9f356d03e">Broadcast::deserialStr</a></div><div class="ttdeci">void deserialStr(const std::string &amp;str)</div><div class="ttdoc">Deserial from str. </div><div class="ttdef"><b>Definition:</b> <a href="broadcast_8cpp_source.html#l00025">broadcast.cpp:25</a></div></div>
+<div class="ttc" id="structBroadcastLine_html_aef301b1a45f42f6480626d358525327a"><div class="ttname"><a href="structBroadcastLine.html#aef301b1a45f42f6480626d358525327a">BroadcastLine::serialize</a></div><div class="ttdeci">void serialize(Archive &amp;ar)</div><div class="ttdoc">Serializacion. </div><div class="ttdef"><b>Definition:</b> <a href="broadcast_8h_source.html#l00016">broadcast.h:16</a></div></div>
+<div class="ttc" id="structBroadcastLine_html_a54e34c87ccf7c1a5d8ea1c00d5b057c8"><div class="ttname"><a href="structBroadcastLine.html#a54e34c87ccf7c1a5d8ea1c00d5b057c8">BroadcastLine::timestamp</a></div><div class="ttdeci">time_t timestamp</div><div class="ttdoc">Timestamp de mensaje. </div><div class="ttdef"><b>Definition:</b> <a href="broadcast_8h_source.html#l00020">broadcast.h:20</a></div></div>
+<div class="ttc" id="structBroadcast_html_a329058a3a62871facce703a0910e7a96"><div class="ttname"><a href="structBroadcast.html#a329058a3a62871facce703a0910e7a96">Broadcast::postear</a></div><div class="ttdeci">void postear(const std::string &amp;autor, const std::string &amp;msg)</div><div class="ttdoc">Agregar mensaje al broadcast. </div><div class="ttdef"><b>Definition:</b> <a href="broadcast_8cpp_source.html#l00066">broadcast.cpp:66</a></div></div>
+<div class="ttc" id="structBroadcast_html_afefeb941c2b44c7a51ec3d67394b95f4"><div class="ttname"><a href="structBroadcast.html#afefeb941c2b44c7a51ec3d67394b95f4">Broadcast::Broadcast</a></div><div class="ttdeci">Broadcast()</div><div class="ttdoc">Constructor default. </div><div class="ttdef"><b>Definition:</b> <a href="broadcast_8h_source.html#l00032">broadcast.h:32</a></div></div>
+<div class="ttc" id="structBroadcast_html_a32f48c2376cd0ca4cec40a227624d147"><div class="ttname"><a href="structBroadcast.html#a32f48c2376cd0ca4cec40a227624d147">Broadcast::serialize</a></div><div class="ttdeci">void serialize(Archive &amp;ar)</div><div class="ttdoc">Serializacion. Cereal method. </div><div class="ttdef"><b>Definition:</b> <a href="broadcast_8h_source.html#l00044">broadcast.h:44</a></div></div>
+<div class="ttc" id="structBroadcastLine_html_ab27ea212da55cd65b86f0056522472b2"><div class="ttname"><a href="structBroadcastLine.html#ab27ea212da55cd65b86f0056522472b2">BroadcastLine::autor_id</a></div><div class="ttdeci">std::string autor_id</div><div class="ttdoc">Id del autor del mensaje. </div><div class="ttdef"><b>Definition:</b> <a href="broadcast_8h_source.html#l00024">broadcast.h:24</a></div></div>
+<div class="ttc" id="structBroadcast_html_a475548d81ffa26087726b14ef3ecbbe2"><div class="ttname"><a href="structBroadcast.html#a475548d81ffa26087726b14ef3ecbbe2">Broadcast::asJson</a></div><div class="ttdeci">std::string asJson(size_t num_lines=0) const </div><div class="ttdoc">Retornar los mensajes como JSON. </div><div class="ttdef"><b>Definition:</b> <a href="broadcast_8cpp_source.html#l00036">broadcast.cpp:36</a></div></div>
+<div class="ttc" id="structBroadcast_html"><div class="ttname"><a href="structBroadcast.html">Broadcast</a></div><div class="ttdoc">Estructura para manejar los mensajes de broadcast. </div><div class="ttdef"><b>Definition:</b> <a href="broadcast_8h_source.html#l00029">broadcast.h:29</a></div></div>
+<div class="ttc" id="structBroadcastLine_html"><div class="ttname"><a href="structBroadcastLine.html">BroadcastLine</a></div><div class="ttdoc">Helper struct para conversaciones. </div><div class="ttdef"><b>Definition:</b> <a href="broadcast_8h_source.html#l00012">broadcast.h:12</a></div></div>
+<div class="ttc" id="structBroadcast_html_a7a2b4878eccf38db31adf453c3675367"><div class="ttname"><a href="structBroadcast.html#a7a2b4878eccf38db31adf453c3675367">Broadcast::serialStr</a></div><div class="ttdeci">std::string serialStr() const </div><div class="ttdoc">Actual serial. </div><div class="ttdef"><b>Definition:</b> <a href="broadcast_8cpp_source.html#l00013">broadcast.cpp:13</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Generado el Lunes, 22 de Junio de 2015 10:01:32 para MensajerO por &#160;<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/>
+</a> 1.8.6
+</small></address>
+</body>
+</html>

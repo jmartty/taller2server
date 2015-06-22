@@ -1,0 +1,184 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.6"/>
+<title>MensajerO: Fichero Fuente database.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">MensajerO
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Generado por Doxygen 1.8.6 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search",false,'Buscar');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="index.html"><span>Página&#160;principal</span></a></li>
+      <li><a href="annotated.html"><span>Clases</span></a></li>
+      <li class="current"><a href="files.html"><span>Archivos</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Buscar" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="files.html"><span>Lista&#160;de&#160;archivos</span></a></li>
+    </ul>
+  </div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>Todo</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Clases</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Funciones</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Amigas</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Páginas</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_e05d7e2b1ecd646af5bb94391405f3b5.html">modules</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle">
+<div class="title">database.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#include &lt;iostream&gt;</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;rocksdb/db.h&gt;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;set&gt;</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;mutex&gt;</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &lt;cereal/types/set.hpp&gt;</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &quot;usuario.h&quot;</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &quot;conversacion.h&quot;</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &quot;broadcast.h&quot;</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">typedef</span> std::set&lt;std::string&gt; ListaUsuarios;</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
+<div class="line"><a name="l00016"></a><span class="lineno"><a class="line" href="classDatabase.html">   16</a></span>&#160;<span class="keyword">class </span><a class="code" href="classDatabase.html">Database</a> {</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <span class="comment">// Operaciones sobre usuarios</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="comment"></span>    <span class="keywordtype">bool</span> <a class="code" href="classDatabase.html#a041b449568a0f9011a6c1674fba33841">usuarioExists</a>(<span class="keyword">const</span> std::string&amp; <span class="keywordtype">id</span>);</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classDatabase.html#a247556cea7668c6e708262c81c46a5ee">loadUsuario</a>(<span class="keyword">const</span> std::string&amp; <span class="keywordtype">id</span>, <a class="code" href="structUsuario.html">Usuario</a>&amp; usr);</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classDatabase.html#add8b6ccae20d7ff0d75236140c87f7d7">saveUsuario</a>(<span class="keyword">const</span> <a class="code" href="structUsuario.html">Usuario</a>&amp; usr);</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    ListaUsuarios <a class="code" href="classDatabase.html#ac363d0ecb8b3fa03549789dd08444d27">getListaUsuarios</a>();</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    std::string <a class="code" href="classDatabase.html#afa985046bee9235829a5829f3cc8712e">getListaUsuariosJson</a>(<span class="keyword">const</span> std::string&amp; r_user);</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classDatabase.html#a9d6be7a7357b06ded5df229511e875d1">createUsuario</a>(<span class="keyword">const</span> <a class="code" href="structUsuario.html">Usuario</a>&amp; usr, std::string&amp; err_str);</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classDatabase.html#afc6ebd717ccebb1dc13e81298cfe1fe3">heartbeatUsuario</a>(<span class="keyword">const</span> std::string&amp; <span class="keywordtype">id</span>);</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code" href="classDatabase.html#a9cc158be40178e826e2a8834950ef692">validateUser</a>(<span class="keyword">const</span> <a class="code" href="structUsuario.html">Usuario</a>&amp; usr);</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code" href="classDatabase.html#a7c29ad6253d9865c24dd9a9a5f67a44e">validateUserId</a>(<span class="keyword">const</span> std::string&amp; <span class="keywordtype">id</span>);</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code" href="classDatabase.html#a80ad97b8a0329a3f340d0843cb378a99">validateUserName</a>(<span class="keyword">const</span> std::string&amp; name);</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code" href="classDatabase.html#af86919589719a48cc639d27b9d5b8257">validateUserPwd</a>(<span class="keyword">const</span> std::string&amp; pwd);</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="comment">// Operacion sobre conversaciones</span></div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="comment"></span>    <span class="keywordtype">bool</span> <a class="code" href="classDatabase.html#ad0361f5c96536be9a289a9b88b8d2a3b">loadConversacion</a>(<span class="keyword">const</span> std::string&amp; user1, <span class="keyword">const</span> std::string&amp; user2, <a class="code" href="structConversacion.html">Conversacion</a>&amp; conv);</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classDatabase.html#a09915f3d98ebdc1c9840d4d6911bcbfd">postearMensaje</a>(<span class="keyword">const</span> std::string&amp; source_user, <span class="keyword">const</span> std::string&amp; target_user, <span class="keyword">const</span> std::string&amp; msg);</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classDatabase.html#ad7b4d108852469d34e2c8457ca9b9ec3">markRead</a>(<span class="keyword">const</span> std::string&amp; source_user, <span class="keyword">const</span> std::string&amp; target_user);</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="comment">// Operaciones de broadcast</span></div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="comment"></span>    <span class="keywordtype">bool</span> <a class="code" href="classDatabase.html#acab2984905ac245bc76458c53bbb2315">loadBroadcast</a>(<a class="code" href="structBroadcast.html">Broadcast</a>&amp; conv);</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classDatabase.html#af70e3c68f8a4beeb8cda1292bd8a66e9">postearMensajeBroadcast</a>(<span class="keyword">const</span> std::string&amp; source_user, <span class="keyword">const</span> std::string&amp; msg);</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classDatabase.html#a6c52272b1f4b6a0dcf3e3f9b39a5de6e">markBroadcastUnread</a>(<span class="keyword">const</span> std::string&amp; user, <span class="keywordtype">bool</span> val);</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classDatabase.html#ac680cb1415bf74943e9df8abe04cba61">hasBroadcastUnread</a>(<span class="keyword">const</span> std::string&amp; user);</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classDatabase.html#a228f949808f1789f20d35fbe728b0eec">validateSession</a>(<span class="keyword">const</span> std::string&amp; user_id, <span class="keyword">const</span> std::string&amp; token);</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <span class="comment">// Operaciones basicas de bajo nivel</span></div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    <span class="comment">// No deberian ser llamadas en general</span></div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classDatabase.html#a23b67e62f0442f7e263dffe4ac389660">open</a>(<span class="keyword">const</span> std::string&amp; file);</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classDatabase.html#a1117ff2d6a246b24d4529a700e297db5">put</a>(<span class="keyword">const</span> std::string&amp; key, <span class="keyword">const</span> std::string&amp; value);</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classDatabase.html#ae39b1887d8b3a1e020937187ac6deff1">exists</a>(<span class="keyword">const</span> std::string&amp; key);</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classDatabase.html#a6f52f010e0d2cbe94e048fc4c85b2958">del</a>(<span class="keyword">const</span> std::string&amp; key);</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    std::string <span class="keyword">get</span>(<span class="keyword">const</span> std::string&amp; key);</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classDatabase.html#ab89cb07242f0ab1d4058974bf3e7cf19">close</a>();</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    rocksdb::DB* db;</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    <span class="keywordtype">void</span> listaUsuariosAdd(<span class="keyword">const</span> std::string&amp; <span class="keywordtype">id</span>);</div>
+<div class="line"><a name="l00112"></a><span class="lineno"><a class="line" href="classDatabase.html#ab2f44cbb59a08132f4c843e5225bba0e">  112</a></span>&#160;    <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classDatabase.html#ab2f44cbb59a08132f4c843e5225bba0e">cereal::access</a>;</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    std::mutex conv_mutex;</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;};</div>
+<div class="ttc" id="classDatabase_html_a23b67e62f0442f7e263dffe4ac389660"><div class="ttname"><a href="classDatabase.html#a23b67e62f0442f7e263dffe4ac389660">Database::open</a></div><div class="ttdeci">bool open(const std::string &amp;file)</div><div class="ttdef"><b>Definition:</b> <a href="database_8cpp_source.html#l00012">database.cpp:12</a></div></div>
+<div class="ttc" id="classDatabase_html_a7c29ad6253d9865c24dd9a9a5f67a44e"><div class="ttname"><a href="classDatabase.html#a7c29ad6253d9865c24dd9a9a5f67a44e">Database::validateUserId</a></div><div class="ttdeci">static bool validateUserId(const std::string &amp;id)</div><div class="ttdoc">Validacion de id de usuario. </div><div class="ttdef"><b>Definition:</b> <a href="database_8cpp_source.html#l00141">database.cpp:141</a></div></div>
+<div class="ttc" id="classDatabase_html_ac680cb1415bf74943e9df8abe04cba61"><div class="ttname"><a href="classDatabase.html#ac680cb1415bf74943e9df8abe04cba61">Database::hasBroadcastUnread</a></div><div class="ttdeci">bool hasBroadcastUnread(const std::string &amp;user)</div><div class="ttdef"><b>Definition:</b> <a href="database_8cpp_source.html#l00354">database.cpp:354</a></div></div>
+<div class="ttc" id="classDatabase_html_ad7b4d108852469d34e2c8457ca9b9ec3"><div class="ttname"><a href="classDatabase.html#ad7b4d108852469d34e2c8457ca9b9ec3">Database::markRead</a></div><div class="ttdeci">bool markRead(const std::string &amp;source_user, const std::string &amp;target_user)</div><div class="ttdef"><b>Definition:</b> <a href="database_8cpp_source.html#l00283">database.cpp:283</a></div></div>
+<div class="ttc" id="classDatabase_html"><div class="ttname"><a href="classDatabase.html">Database</a></div><div class="ttdoc">Clase para manejar persistencia del sistema. </div><div class="ttdef"><b>Definition:</b> <a href="database_8h_source.html#l00016">database.h:16</a></div></div>
+<div class="ttc" id="classDatabase_html_ad0361f5c96536be9a289a9b88b8d2a3b"><div class="ttname"><a href="classDatabase.html#ad0361f5c96536be9a289a9b88b8d2a3b">Database::loadConversacion</a></div><div class="ttdeci">bool loadConversacion(const std::string &amp;user1, const std::string &amp;user2, Conversacion &amp;conv)</div><div class="ttdef"><b>Definition:</b> <a href="database_8cpp_source.html#l00252">database.cpp:252</a></div></div>
+<div class="ttc" id="structUsuario_html"><div class="ttname"><a href="structUsuario.html">Usuario</a></div><div class="ttdoc">Clase para el manejo de usuarios. </div><div class="ttdef"><b>Definition:</b> <a href="usuario_8h_source.html#l00010">usuario.h:10</a></div></div>
+<div class="ttc" id="classDatabase_html_ab2f44cbb59a08132f4c843e5225bba0e"><div class="ttname"><a href="classDatabase.html#ab2f44cbb59a08132f4c843e5225bba0e">Database::access</a></div><div class="ttdeci">friend class cereal::access</div><div class="ttdoc">Permite acceso a la clase de serializacion. </div><div class="ttdef"><b>Definition:</b> <a href="database_8h_source.html#l00112">database.h:112</a></div></div>
+<div class="ttc" id="classDatabase_html_a247556cea7668c6e708262c81c46a5ee"><div class="ttname"><a href="classDatabase.html#a247556cea7668c6e708262c81c46a5ee">Database::loadUsuario</a></div><div class="ttdeci">bool loadUsuario(const std::string &amp;id, Usuario &amp;usr)</div><div class="ttdef"><b>Definition:</b> <a href="database_8cpp_source.html#l00057">database.cpp:57</a></div></div>
+<div class="ttc" id="classDatabase_html_af70e3c68f8a4beeb8cda1292bd8a66e9"><div class="ttname"><a href="classDatabase.html#af70e3c68f8a4beeb8cda1292bd8a66e9">Database::postearMensajeBroadcast</a></div><div class="ttdeci">bool postearMensajeBroadcast(const std::string &amp;source_user, const std::string &amp;msg)</div><div class="ttdef"><b>Definition:</b> <a href="database_8cpp_source.html#l00300">database.cpp:300</a></div></div>
+<div class="ttc" id="classDatabase_html_a80ad97b8a0329a3f340d0843cb378a99"><div class="ttname"><a href="classDatabase.html#a80ad97b8a0329a3f340d0843cb378a99">Database::validateUserName</a></div><div class="ttdeci">static bool validateUserName(const std::string &amp;name)</div><div class="ttdoc">Validacion de nombre de usuario. </div><div class="ttdef"><b>Definition:</b> <a href="database_8cpp_source.html#l00147">database.cpp:147</a></div></div>
+<div class="ttc" id="classDatabase_html_a228f949808f1789f20d35fbe728b0eec"><div class="ttname"><a href="classDatabase.html#a228f949808f1789f20d35fbe728b0eec">Database::validateSession</a></div><div class="ttdeci">bool validateSession(const std::string &amp;user_id, const std::string &amp;token)</div><div class="ttdef"><b>Definition:</b> <a href="database_8cpp_source.html#l00215">database.cpp:215</a></div></div>
+<div class="ttc" id="classDatabase_html_af86919589719a48cc639d27b9d5b8257"><div class="ttname"><a href="classDatabase.html#af86919589719a48cc639d27b9d5b8257">Database::validateUserPwd</a></div><div class="ttdeci">static bool validateUserPwd(const std::string &amp;pwd)</div><div class="ttdoc">Validacion de clave del usuario. </div><div class="ttdef"><b>Definition:</b> <a href="database_8cpp_source.html#l00153">database.cpp:153</a></div></div>
+<div class="ttc" id="classDatabase_html_ae39b1887d8b3a1e020937187ac6deff1"><div class="ttname"><a href="classDatabase.html#ae39b1887d8b3a1e020937187ac6deff1">Database::exists</a></div><div class="ttdeci">bool exists(const std::string &amp;key)</div><div class="ttdef"><b>Definition:</b> <a href="database_8cpp_source.html#l00029">database.cpp:29</a></div></div>
+<div class="ttc" id="structConversacion_html"><div class="ttname"><a href="structConversacion.html">Conversacion</a></div><div class="ttdoc">Estructura para manejar conversaciones. </div><div class="ttdef"><b>Definition:</b> <a href="conversacion_8h_source.html#l00034">conversacion.h:34</a></div></div>
+<div class="ttc" id="classDatabase_html_a6f52f010e0d2cbe94e048fc4c85b2958"><div class="ttname"><a href="classDatabase.html#a6f52f010e0d2cbe94e048fc4c85b2958">Database::del</a></div><div class="ttdeci">bool del(const std::string &amp;key)</div><div class="ttdef"><b>Definition:</b> <a href="database_8cpp_source.html#l00035">database.cpp:35</a></div></div>
+<div class="ttc" id="classDatabase_html_ac363d0ecb8b3fa03549789dd08444d27"><div class="ttname"><a href="classDatabase.html#ac363d0ecb8b3fa03549789dd08444d27">Database::getListaUsuarios</a></div><div class="ttdeci">ListaUsuarios getListaUsuarios()</div><div class="ttdoc">Get de lista de usuarios. </div><div class="ttdef"><b>Definition:</b> <a href="database_8cpp_source.html#l00113">database.cpp:113</a></div></div>
+<div class="ttc" id="classDatabase_html_a6c52272b1f4b6a0dcf3e3f9b39a5de6e"><div class="ttname"><a href="classDatabase.html#a6c52272b1f4b6a0dcf3e3f9b39a5de6e">Database::markBroadcastUnread</a></div><div class="ttdeci">bool markBroadcastUnread(const std::string &amp;user, bool val)</div><div class="ttdef"><b>Definition:</b> <a href="database_8cpp_source.html#l00323">database.cpp:323</a></div></div>
+<div class="ttc" id="classDatabase_html_a9cc158be40178e826e2a8834950ef692"><div class="ttname"><a href="classDatabase.html#a9cc158be40178e826e2a8834950ef692">Database::validateUser</a></div><div class="ttdeci">static bool validateUser(const Usuario &amp;usr)</div><div class="ttdoc">Validacion completa de atributos de usuario. </div><div class="ttdef"><b>Definition:</b> <a href="database_8cpp_source.html#l00159">database.cpp:159</a></div></div>
+<div class="ttc" id="classDatabase_html_acab2984905ac245bc76458c53bbb2315"><div class="ttname"><a href="classDatabase.html#acab2984905ac245bc76458c53bbb2315">Database::loadBroadcast</a></div><div class="ttdeci">bool loadBroadcast(Broadcast &amp;conv)</div><div class="ttdef"><b>Definition:</b> <a href="database_8cpp_source.html#l00338">database.cpp:338</a></div></div>
+<div class="ttc" id="classDatabase_html_a9d6be7a7357b06ded5df229511e875d1"><div class="ttname"><a href="classDatabase.html#a9d6be7a7357b06ded5df229511e875d1">Database::createUsuario</a></div><div class="ttdeci">bool createUsuario(const Usuario &amp;usr, std::string &amp;err_str)</div><div class="ttdef"><b>Definition:</b> <a href="database_8cpp_source.html#l00078">database.cpp:78</a></div></div>
+<div class="ttc" id="structBroadcast_html"><div class="ttname"><a href="structBroadcast.html">Broadcast</a></div><div class="ttdoc">Estructura para manejar los mensajes de broadcast. </div><div class="ttdef"><b>Definition:</b> <a href="broadcast_8h_source.html#l00029">broadcast.h:29</a></div></div>
+<div class="ttc" id="classDatabase_html_afa985046bee9235829a5829f3cc8712e"><div class="ttname"><a href="classDatabase.html#afa985046bee9235829a5829f3cc8712e">Database::getListaUsuariosJson</a></div><div class="ttdeci">std::string getListaUsuariosJson(const std::string &amp;r_user)</div><div class="ttdef"><b>Definition:</b> <a href="database_8cpp_source.html#l00166">database.cpp:166</a></div></div>
+<div class="ttc" id="classDatabase_html_ab89cb07242f0ab1d4058974bf3e7cf19"><div class="ttname"><a href="classDatabase.html#ab89cb07242f0ab1d4058974bf3e7cf19">Database::close</a></div><div class="ttdeci">void close()</div><div class="ttdoc">Cierra la base de datos. </div><div class="ttdef"><b>Definition:</b> <a href="database_8cpp_source.html#l00047">database.cpp:47</a></div></div>
+<div class="ttc" id="classDatabase_html_a041b449568a0f9011a6c1674fba33841"><div class="ttname"><a href="classDatabase.html#a041b449568a0f9011a6c1674fba33841">Database::usuarioExists</a></div><div class="ttdeci">bool usuarioExists(const std::string &amp;id)</div><div class="ttdef"><b>Definition:</b> <a href="database_8cpp_source.html#l00051">database.cpp:51</a></div></div>
+<div class="ttc" id="classDatabase_html_afc6ebd717ccebb1dc13e81298cfe1fe3"><div class="ttname"><a href="classDatabase.html#afc6ebd717ccebb1dc13e81298cfe1fe3">Database::heartbeatUsuario</a></div><div class="ttdeci">bool heartbeatUsuario(const std::string &amp;id)</div><div class="ttdoc">Mantiene al usuario como conectado (ping) </div><div class="ttdef"><b>Definition:</b> <a href="database_8cpp_source.html#l00235">database.cpp:235</a></div></div>
+<div class="ttc" id="classDatabase_html_a1117ff2d6a246b24d4529a700e297db5"><div class="ttname"><a href="classDatabase.html#a1117ff2d6a246b24d4529a700e297db5">Database::put</a></div><div class="ttdeci">bool put(const std::string &amp;key, const std::string &amp;value)</div><div class="ttdef"><b>Definition:</b> <a href="database_8cpp_source.html#l00023">database.cpp:23</a></div></div>
+<div class="ttc" id="classDatabase_html_add8b6ccae20d7ff0d75236140c87f7d7"><div class="ttname"><a href="classDatabase.html#add8b6ccae20d7ff0d75236140c87f7d7">Database::saveUsuario</a></div><div class="ttdeci">bool saveUsuario(const Usuario &amp;usr)</div><div class="ttdef"><b>Definition:</b> <a href="database_8cpp_source.html#l00070">database.cpp:70</a></div></div>
+<div class="ttc" id="classDatabase_html_a09915f3d98ebdc1c9840d4d6911bcbfd"><div class="ttname"><a href="classDatabase.html#a09915f3d98ebdc1c9840d4d6911bcbfd">Database::postearMensaje</a></div><div class="ttdeci">bool postearMensaje(const std::string &amp;source_user, const std::string &amp;target_user, const std::string &amp;msg)</div><div class="ttdef"><b>Definition:</b> <a href="database_8cpp_source.html#l00267">database.cpp:267</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Generado el Lunes, 22 de Junio de 2015 10:01:32 para MensajerO por &#160;<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/>
+</a> 1.8.6
+</small></address>
+</body>
+</html>

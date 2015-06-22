@@ -1,0 +1,155 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.6"/>
+<title>MensajerO: Fichero Fuente usuario.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() { searchBox.OnSelectItem(0); });
+</script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">MensajerO
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Generado por Doxygen 1.8.6 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search",false,'Buscar');
+</script>
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="index.html"><span>Página&#160;principal</span></a></li>
+      <li><a href="annotated.html"><span>Clases</span></a></li>
+      <li class="current"><a href="files.html"><span>Archivos</span></a></li>
+      <li>
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <img id="MSearchSelect" src="search/mag_sel.png"
+               onmouseover="return searchBox.OnSearchSelectShow()"
+               onmouseout="return searchBox.OnSearchSelectHide()"
+               alt=""/>
+          <input type="text" id="MSearchField" value="Buscar" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
+          </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="files.html"><span>Lista&#160;de&#160;archivos</span></a></li>
+    </ul>
+  </div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>Todo</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Clases</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Funciones</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Amigas</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Páginas</a></div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_e05d7e2b1ecd646af5bb94391405f3b5.html">modules</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle">
+<div class="title">usuario.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#include &lt;cereal/types/string.hpp&gt;</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;cereal/archives/binary.hpp&gt;</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;ctime&gt;</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;json/json.h&gt;</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment">// POD con serializacion</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno"><a class="line" href="structUsuario.html">   10</a></span>&#160;<span class="comment"></span><span class="keyword">struct </span><a class="code" href="structUsuario.html">Usuario</a> {</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div>
+<div class="line"><a name="l00013"></a><span class="lineno"><a class="line" href="structUsuario.html#aa85a5371a098dfba5449140d9b8a472f">   13</a></span>&#160;    <a class="code" href="structUsuario.html#aa85a5371a098dfba5449140d9b8a472f">Usuario</a>() : <a class="code" href="structUsuario.html#af37f6ceeacffd5a8baabaa086822b495">estado</a>(<span class="stringliteral">&quot;desconectado&quot;</span>), <a class="code" href="structUsuario.html#ad63533ec5fa2486edbb23494ed94aca8">last_action</a>(0), <a class="code" href="structUsuario.html#a521380cbbfa0d4062a30e6a3ff846037">broadcast_unread</a>(false), <a class="code" href="structUsuario.html#a422fdbc682dac2a57317ca8c29b91682">appear_offline</a>(false) { }</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    <a class="code" href="structUsuario.html#aa85a5371a098dfba5449140d9b8a472f">Usuario</a>(<span class="keyword">const</span> std::string&amp; str);</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="structUsuario.html#ab988365772fae1256a3d8e8e425554b3">load</a>(<span class="keyword">const</span> Json::Value&amp; js);</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    std::string <a class="code" href="structUsuario.html#a9f196805953f67f7d024e3eea2cecdcd">asJson</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <span class="comment">// Cereal method</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <span class="keyword">template</span>&lt;<span class="keyword">class</span> Archive&gt;</div>
+<div class="line"><a name="l00024"></a><span class="lineno"><a class="line" href="structUsuario.html#a18a43e7d944167e2ddbfdf8901803e52">   24</a></span>&#160;    <span class="keywordtype">void</span> <a class="code" href="structUsuario.html#a18a43e7d944167e2ddbfdf8901803e52">serialize</a>(Archive&amp; ar) {</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        ar(<span class="keywordtype">id</span>, <a class="code" href="structUsuario.html#af8b6502d3591bb87c9ec67c985505740">password</a>, <a class="code" href="structUsuario.html#a3041332871d06c6c56e62988fed4ed40">nombre</a>, <a class="code" href="structUsuario.html#a1b5443e1e72d02672c72a735f43c5b8f">foto</a>, <a class="code" href="structUsuario.html#a2047d42ef36fc12c0878b80ef6ad02cf">fotochica</a>, <a class="code" href="structUsuario.html#a8bf0f2210c03739711632cd38aaea7ab">ubicacion</a>, <a class="code" href="structUsuario.html#af37f6ceeacffd5a8baabaa086822b495">estado</a>, <a class="code" href="structUsuario.html#a930f44f50130fcd874d960db08b627d9">token</a>, <a class="code" href="structUsuario.html#ad63533ec5fa2486edbb23494ed94aca8">last_action</a>, <a class="code" href="structUsuario.html#aa068d5dd3ec8f4cb1f45147d6ee74f1b">email</a>, <a class="code" href="structUsuario.html#a3d3172a5d10f5c0f6b384daaae142418">telefono</a>, <a class="code" href="structUsuario.html#a521380cbbfa0d4062a30e6a3ff846037">broadcast_unread</a>, <a class="code" href="structUsuario.html#a422fdbc682dac2a57317ca8c29b91682">appear_offline</a>);</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    }</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    std::string <a class="code" href="structUsuario.html#aacbaf9455a6218b06171f5c25a890c58">serialStr</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="structUsuario.html#a27c93a4d3ae93fe42700c0ae951cc38e">deserialStr</a>(<span class="keyword">const</span> std::string&amp; str);</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="comment">// Attribs</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno"><a class="line" href="structUsuario.html#a855e525e97aa906f5553905eb18d0efe">   34</a></span>&#160;<span class="comment"></span>    std::string <a class="code" href="structUsuario.html#a855e525e97aa906f5553905eb18d0efe">id</a>;</div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="structUsuario.html#af8b6502d3591bb87c9ec67c985505740">   36</a></span>&#160;    std::string <a class="code" href="structUsuario.html#af8b6502d3591bb87c9ec67c985505740">password</a>;</div>
+<div class="line"><a name="l00038"></a><span class="lineno"><a class="line" href="structUsuario.html#a3041332871d06c6c56e62988fed4ed40">   38</a></span>&#160;    std::string <a class="code" href="structUsuario.html#a3041332871d06c6c56e62988fed4ed40">nombre</a>;</div>
+<div class="line"><a name="l00040"></a><span class="lineno"><a class="line" href="structUsuario.html#a1b5443e1e72d02672c72a735f43c5b8f">   40</a></span>&#160;    std::string <a class="code" href="structUsuario.html#a1b5443e1e72d02672c72a735f43c5b8f">foto</a>;</div>
+<div class="line"><a name="l00042"></a><span class="lineno"><a class="line" href="structUsuario.html#a2047d42ef36fc12c0878b80ef6ad02cf">   42</a></span>&#160;    std::string <a class="code" href="structUsuario.html#a2047d42ef36fc12c0878b80ef6ad02cf">fotochica</a>;</div>
+<div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="structUsuario.html#a8bf0f2210c03739711632cd38aaea7ab">   44</a></span>&#160;    std::string <a class="code" href="structUsuario.html#a8bf0f2210c03739711632cd38aaea7ab">ubicacion</a>;</div>
+<div class="line"><a name="l00046"></a><span class="lineno"><a class="line" href="structUsuario.html#aa068d5dd3ec8f4cb1f45147d6ee74f1b">   46</a></span>&#160;    std::string <a class="code" href="structUsuario.html#aa068d5dd3ec8f4cb1f45147d6ee74f1b">email</a>;</div>
+<div class="line"><a name="l00048"></a><span class="lineno"><a class="line" href="structUsuario.html#a3d3172a5d10f5c0f6b384daaae142418">   48</a></span>&#160;    std::string <a class="code" href="structUsuario.html#a3d3172a5d10f5c0f6b384daaae142418">telefono</a>;</div>
+<div class="line"><a name="l00050"></a><span class="lineno"><a class="line" href="structUsuario.html#a930f44f50130fcd874d960db08b627d9">   50</a></span>&#160;    std::string <a class="code" href="structUsuario.html#a930f44f50130fcd874d960db08b627d9">token</a>;</div>
+<div class="line"><a name="l00052"></a><span class="lineno"><a class="line" href="structUsuario.html#af37f6ceeacffd5a8baabaa086822b495">   52</a></span>&#160;    std::string <a class="code" href="structUsuario.html#af37f6ceeacffd5a8baabaa086822b495">estado</a>;</div>
+<div class="line"><a name="l00054"></a><span class="lineno"><a class="line" href="structUsuario.html#ad63533ec5fa2486edbb23494ed94aca8">   54</a></span>&#160;    std::time_t <a class="code" href="structUsuario.html#ad63533ec5fa2486edbb23494ed94aca8">last_action</a>;</div>
+<div class="line"><a name="l00056"></a><span class="lineno"><a class="line" href="structUsuario.html#a521380cbbfa0d4062a30e6a3ff846037">   56</a></span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="structUsuario.html#a521380cbbfa0d4062a30e6a3ff846037">broadcast_unread</a>;</div>
+<div class="line"><a name="l00058"></a><span class="lineno"><a class="line" href="structUsuario.html#a422fdbc682dac2a57317ca8c29b91682">   58</a></span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="structUsuario.html#a422fdbc682dac2a57317ca8c29b91682">appear_offline</a>;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;};</div>
+<div class="ttc" id="structUsuario_html_a18a43e7d944167e2ddbfdf8901803e52"><div class="ttname"><a href="structUsuario.html#a18a43e7d944167e2ddbfdf8901803e52">Usuario::serialize</a></div><div class="ttdeci">void serialize(Archive &amp;ar)</div><div class="ttdoc">Serializacion. </div><div class="ttdef"><b>Definition:</b> <a href="usuario_8h_source.html#l00024">usuario.h:24</a></div></div>
+<div class="ttc" id="structUsuario_html_a3d3172a5d10f5c0f6b384daaae142418"><div class="ttname"><a href="structUsuario.html#a3d3172a5d10f5c0f6b384daaae142418">Usuario::telefono</a></div><div class="ttdeci">std::string telefono</div><div class="ttdoc">Telefono del usuario. </div><div class="ttdef"><b>Definition:</b> <a href="usuario_8h_source.html#l00048">usuario.h:48</a></div></div>
+<div class="ttc" id="structUsuario_html_a3041332871d06c6c56e62988fed4ed40"><div class="ttname"><a href="structUsuario.html#a3041332871d06c6c56e62988fed4ed40">Usuario::nombre</a></div><div class="ttdeci">std::string nombre</div><div class="ttdoc">Nombre de usuario. </div><div class="ttdef"><b>Definition:</b> <a href="usuario_8h_source.html#l00038">usuario.h:38</a></div></div>
+<div class="ttc" id="structUsuario_html_a521380cbbfa0d4062a30e6a3ff846037"><div class="ttname"><a href="structUsuario.html#a521380cbbfa0d4062a30e6a3ff846037">Usuario::broadcast_unread</a></div><div class="ttdeci">bool broadcast_unread</div><div class="ttdoc">True si tiene mensajes sin leer en el broadcast. </div><div class="ttdef"><b>Definition:</b> <a href="usuario_8h_source.html#l00056">usuario.h:56</a></div></div>
+<div class="ttc" id="structUsuario_html_ad63533ec5fa2486edbb23494ed94aca8"><div class="ttname"><a href="structUsuario.html#ad63533ec5fa2486edbb23494ed94aca8">Usuario::last_action</a></div><div class="ttdeci">std::time_t last_action</div><div class="ttdoc">Timestamp de ultimo request. </div><div class="ttdef"><b>Definition:</b> <a href="usuario_8h_source.html#l00054">usuario.h:54</a></div></div>
+<div class="ttc" id="structUsuario_html_aacbaf9455a6218b06171f5c25a890c58"><div class="ttname"><a href="structUsuario.html#aacbaf9455a6218b06171f5c25a890c58">Usuario::serialStr</a></div><div class="ttdeci">std::string serialStr() const </div><div class="ttdoc">Actual serial. </div><div class="ttdef"><b>Definition:</b> <a href="usuario_8cpp_source.html#l00016">usuario.cpp:16</a></div></div>
+<div class="ttc" id="structUsuario_html_af37f6ceeacffd5a8baabaa086822b495"><div class="ttname"><a href="structUsuario.html#af37f6ceeacffd5a8baabaa086822b495">Usuario::estado</a></div><div class="ttdeci">std::string estado</div><div class="ttdoc">Estado del usuario. Valores posibles: &quot;conectado&quot;, &quot;desconectado&quot;. </div><div class="ttdef"><b>Definition:</b> <a href="usuario_8h_source.html#l00052">usuario.h:52</a></div></div>
+<div class="ttc" id="structUsuario_html_a1b5443e1e72d02672c72a735f43c5b8f"><div class="ttname"><a href="structUsuario.html#a1b5443e1e72d02672c72a735f43c5b8f">Usuario::foto</a></div><div class="ttdeci">std::string foto</div><div class="ttdoc">Foto del usuario (Base64) </div><div class="ttdef"><b>Definition:</b> <a href="usuario_8h_source.html#l00040">usuario.h:40</a></div></div>
+<div class="ttc" id="structUsuario_html_aa85a5371a098dfba5449140d9b8a472f"><div class="ttname"><a href="structUsuario.html#aa85a5371a098dfba5449140d9b8a472f">Usuario::Usuario</a></div><div class="ttdeci">Usuario()</div><div class="ttdoc">Constructor default inicializa todo en 0/apagado/nunca/falso. </div><div class="ttdef"><b>Definition:</b> <a href="usuario_8h_source.html#l00013">usuario.h:13</a></div></div>
+<div class="ttc" id="structUsuario_html_aa068d5dd3ec8f4cb1f45147d6ee74f1b"><div class="ttname"><a href="structUsuario.html#aa068d5dd3ec8f4cb1f45147d6ee74f1b">Usuario::email</a></div><div class="ttdeci">std::string email</div><div class="ttdoc">Email del usuario. </div><div class="ttdef"><b>Definition:</b> <a href="usuario_8h_source.html#l00046">usuario.h:46</a></div></div>
+<div class="ttc" id="structUsuario_html_a9f196805953f67f7d024e3eea2cecdcd"><div class="ttname"><a href="structUsuario.html#a9f196805953f67f7d024e3eea2cecdcd">Usuario::asJson</a></div><div class="ttdeci">std::string asJson() const </div><div class="ttdoc">Retornar el usuario como Json. </div><div class="ttdef"><b>Definition:</b> <a href="usuario_8cpp_source.html#l00053">usuario.cpp:53</a></div></div>
+<div class="ttc" id="structUsuario_html"><div class="ttname"><a href="structUsuario.html">Usuario</a></div><div class="ttdoc">Clase para el manejo de usuarios. </div><div class="ttdef"><b>Definition:</b> <a href="usuario_8h_source.html#l00010">usuario.h:10</a></div></div>
+<div class="ttc" id="structUsuario_html_a2047d42ef36fc12c0878b80ef6ad02cf"><div class="ttname"><a href="structUsuario.html#a2047d42ef36fc12c0878b80ef6ad02cf">Usuario::fotochica</a></div><div class="ttdeci">std::string fotochica</div><div class="ttdoc">Thumbnail de foto (Base64) </div><div class="ttdef"><b>Definition:</b> <a href="usuario_8h_source.html#l00042">usuario.h:42</a></div></div>
+<div class="ttc" id="structUsuario_html_a422fdbc682dac2a57317ca8c29b91682"><div class="ttname"><a href="structUsuario.html#a422fdbc682dac2a57317ca8c29b91682">Usuario::appear_offline</a></div><div class="ttdeci">bool appear_offline</div><div class="ttdoc">Aparecer como offline. </div><div class="ttdef"><b>Definition:</b> <a href="usuario_8h_source.html#l00058">usuario.h:58</a></div></div>
+<div class="ttc" id="structUsuario_html_a855e525e97aa906f5553905eb18d0efe"><div class="ttname"><a href="structUsuario.html#a855e525e97aa906f5553905eb18d0efe">Usuario::id</a></div><div class="ttdeci">std::string id</div><div class="ttdoc">Id del usuario (unico) </div><div class="ttdef"><b>Definition:</b> <a href="usuario_8h_source.html#l00034">usuario.h:34</a></div></div>
+<div class="ttc" id="structUsuario_html_ab988365772fae1256a3d8e8e425554b3"><div class="ttname"><a href="structUsuario.html#ab988365772fae1256a3d8e8e425554b3">Usuario::load</a></div><div class="ttdeci">void load(const Json::Value &amp;js)</div><div class="ttdoc">Cargar desde un Json::value. </div><div class="ttdef"><b>Definition:</b> <a href="usuario_8cpp_source.html#l00039">usuario.cpp:39</a></div></div>
+<div class="ttc" id="structUsuario_html_a27c93a4d3ae93fe42700c0ae951cc38e"><div class="ttname"><a href="structUsuario.html#a27c93a4d3ae93fe42700c0ae951cc38e">Usuario::deserialStr</a></div><div class="ttdeci">void deserialStr(const std::string &amp;str)</div><div class="ttdoc">Deserial from str. </div><div class="ttdef"><b>Definition:</b> <a href="usuario_8cpp_source.html#l00028">usuario.cpp:28</a></div></div>
+<div class="ttc" id="structUsuario_html_af8b6502d3591bb87c9ec67c985505740"><div class="ttname"><a href="structUsuario.html#af8b6502d3591bb87c9ec67c985505740">Usuario::password</a></div><div class="ttdeci">std::string password</div><div class="ttdoc">Password de usuario. </div><div class="ttdef"><b>Definition:</b> <a href="usuario_8h_source.html#l00036">usuario.h:36</a></div></div>
+<div class="ttc" id="structUsuario_html_a8bf0f2210c03739711632cd38aaea7ab"><div class="ttname"><a href="structUsuario.html#a8bf0f2210c03739711632cd38aaea7ab">Usuario::ubicacion</a></div><div class="ttdeci">std::string ubicacion</div><div class="ttdoc">String con ubicacion textual. </div><div class="ttdef"><b>Definition:</b> <a href="usuario_8h_source.html#l00044">usuario.h:44</a></div></div>
+<div class="ttc" id="structUsuario_html_a930f44f50130fcd874d960db08b627d9"><div class="ttname"><a href="structUsuario.html#a930f44f50130fcd874d960db08b627d9">Usuario::token</a></div><div class="ttdeci">std::string token</div><div class="ttdoc">Hash de session de usuario. </div><div class="ttdef"><b>Definition:</b> <a href="usuario_8h_source.html#l00050">usuario.h:50</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Generado el Lunes, 22 de Junio de 2015 10:01:32 para MensajerO por &#160;<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/>
+</a> 1.8.6
+</small></address>
+</body>
+</html>

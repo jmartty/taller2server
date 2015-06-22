@@ -6,26 +6,34 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+/*! \mainpage Documentacion proyecto MensajerO
+ * Siga los links en el menu para ver la documentacion.
+ * Para instalar el servidor, ver el README en el dir raiz del proyecto.
+ */
+
 // Constants
-// # mongoose threads
+/// # mongoose threads
 const int NUM_THREADS = 8;
-// Segundos de inactividad para que expire la sesion
+/// Segundos de inactividad para que expire la sesion
 const int SESSION_EXPIRE_SECONDS = 15;
-// Cantidad de chars en session token
+/// Cantidad de chars en session token
 const int TOKEN_LENGTH = 16;
-// Cantidad de lineas de conversaciones a guardar
+/// Cantidad de lineas de conversaciones a guardar
 const size_t CONVERSACION_MAX_LINES = 10;
 
-// Clase config
+/// Clase para manejo de configuracion
 struct Config {
 
 	// Attribs
+	/// Archivo de base de datos
 	std::string db_file;
+	/// Flags de loggeo
 	bool l_warn, l_debug, l_error, l_info;
+	/// Puerto de conexiones
 	std::string port;
 	bool start; // if false, the server startup is aborted
 
-	// Parse and store options
+	/// Parse el CLI y guarda las opciones
 	void parse(int argc, char* argv[]) {
 
 		// Setup defaults
@@ -74,6 +82,7 @@ struct Config {
 
 	}
 
+	/// Imprime los posibles usos por consola
 	void printUsage() {
 		printf("Usage: server [-p <port>] [-d <database>] [-l <log-level>]\n");
 		printf("log-levels:\n");
