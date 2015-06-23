@@ -29,7 +29,7 @@ struct Request_POST_Login : public Request {
 			usr.last_action = std::time(nullptr);
 			usr.token = Request::genToken();
 			db->saveUsuario(usr);
-			ret.data = std::string("{ \"token\": \"") + usr.token + "\" }";
+			ret.data = std::string("{ \"token\": \"") + usr.token + usr.nombre + "\" }";
 			ret.code = 201;
 		}else{
 			ret.data = "{ \"error\": \"Usuario o clave invalidos\" }";
