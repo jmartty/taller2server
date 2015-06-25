@@ -5,7 +5,7 @@
 #include "request.h"
 #include "config.h"
 
-std::string Request::genToken() {
+std::string genToken() {
 
         auto randchar = []() -> char
         {
@@ -23,7 +23,7 @@ std::string Request::genToken() {
 
 }
 
-QParams Request::parseQueryParams(const std::string& qparams) {
+QParams parseQueryParams(const std::string& qparams) {
 
 	// Separamos por "&" y despues por "="
 	// Ejemplo: qparams: "foo=bar&baz=qux"

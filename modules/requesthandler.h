@@ -11,7 +11,7 @@
 /// Examples:
 /// "GET./Login" -> &RequestGETLogin
 /// "POST./Usuario" -> &RequestPOSTUsuario
-typedef std::unordered_map<std::string, Request*> RequestTable;
+typedef std::unordered_map<std::string, Request> RequestTable;
 
 /// Clase para el manejo de requests
 class RequestHandler {
@@ -32,7 +32,7 @@ class RequestHandler {
 	int serve(struct mg_connection *conn, const std::string& method, const std::string& uri, const std::string& query_params, const std::string& content);
 	/// Instala un request particular
 	/// @param methodURI ruta del request, por ejemplo "GET./login"
-	void install(const std::string& methodURI, Request* req);
+	void install(const std::string& methodURI, Request req);
 
 	/// Table to store installed requests
 	RequestTable routes;

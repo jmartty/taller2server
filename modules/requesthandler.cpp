@@ -18,10 +18,6 @@ RequestHandler::RequestHandler() {
 
 RequestHandler::~RequestHandler() {
 
-	// Release allocated requests
-	for(auto it = routes.begin();it != routes.end();it++)
-		delete it->second;
-
 	// Mongoose cleanup
         servers.resize(NUM_THREADS);
         for(auto &i : servers) {
@@ -108,7 +104,7 @@ int RequestHandler::serve(struct mg_connection *conn, const std::string& method,
 		logger.msg(LOG_TYPE::DEBUG, std::string("uri_params: ") + uri_params);
 		logger.msg(LOG_TYPE::DEBUG, std::string("query_params: ") + query_params);
 		logger.msg(LOG_TYPE::DEBUG, std::string("content: ") + content);
-		auto res = routes[methodURI]->process(this->db, uri_params, query_params, content);
+		auto res = (routes[methodURI])(this->db, uri_params, query_params, content);
 		mg_send_status(conn, res.code);
 		mg_send_data(conn, res.data.c_str(), res.data.size());
 		logger.msg(LOG_TYPE::DEBUG, res);
@@ -117,7 +113,7 @@ int RequestHandler::serve(struct mg_connection *conn, const std::string& method,
 
 }
 
-void RequestHandler::install(const std::string& methodURI, Request* req) {
+void RequestHandler::install(const std::string& methodURI, Request req) {
 
 	if(routes.count(methodURI) == 0) {
 		routes[methodURI] = req;

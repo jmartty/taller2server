@@ -16,15 +16,12 @@ struct RequestResult {
 	std::string data;
 };
 
-/// Request abstract base class (interface)
-struct Request {
+/// Tipo de puntero a funcion para requests
+typedef RequestResult (*Request)(Database*, const std::string&, const std::string&, const std::string&);
 
-	virtual ~Request() {}
-	virtual RequestResult process(Database* db, const std::string& uriparams, const std::string& queryparams, const std::string& body) = 0;
-        // Helper functions
-	/// Genera un hash para usar de token de session
-        static std::string genToken();
-	/// Parsea los parametros en una query
-	static QParams parseQueryParams(const std::string& qparams);
+// Helper functions
+/// Genera un hash para usar de token de session
+std::string genToken();
 
-};
+/// Parsea los parametros en una query
+QParams parseQueryParams(const std::string& qparams);
