@@ -1,0 +1,7 @@
+Known issues y posibles mejoras
+================
+.. automodule:: Known issues y posibles mejoras
+
+Desde el punto de vista del servidor, se podría agregar algunas constantes como parámetros configurables sin la necesidad de recompilar el proyecto. Esto incluye variables como tamaño del hash de token, tiempo de timeout, cantidad de mensajes máximos por conversación a almacenar y otros.
+
+Al momento de llevar la aplicación a un ambiente de producción también se debería poner énfasis en la seguridad, tanto en la transmisión de datos (actualmente es todo texto plano) como en el almacenamiento de información de los usuarios y de conversaciones. Por la manera en la que está estructurado el programa no debería ser dificil incorporarlo, ya que hay encapsulamiento al momento de envío y recepción de los mensajes, como parte de las librerías externas utilizadas (ie, HTTPS vs HTTP y utilización de MD5 o SHA para hasheo de passwords).

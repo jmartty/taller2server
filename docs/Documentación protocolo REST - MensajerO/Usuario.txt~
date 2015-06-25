@@ -22,7 +22,7 @@ En caso de r_user/token inválido:
 
 En case de token valido: 
 
-* **Response code:** 200 OK
+* **Response code:** 201 OK
 
 * **Body:** `{ “nuevobroadcast”: false,`“usuarios”: [ { “id”: “pepe”, “nombre”: “Pepito”,`
 	`“estado”: “conectado”, “nuevomsg”: false } ,{ “id”: “carlos”, “nombre”: “Carlos”,`
@@ -63,7 +63,7 @@ En caso de token válido:
 	`“ultimoacceso”: <str:timestamp> }`
 
 -------------------------
-Acción: crear usuario	
+Crear usuario	
 -------------------------
 
 **URI:** server/usuario/<str:user_id>
@@ -86,7 +86,7 @@ Los campos ‘password’ y ‘nombre’ son obligatorios, el resto se pueden ig
 
 	Usuario inválido o existente: 
 
-	- **Response code:** 400 Bad request
+	- **Response code:** 401 Bad request
 
 	* **Body:** `{ “error” : <str:descripcion_error> }`
 
@@ -101,7 +101,7 @@ Los campos ‘password’ y ‘nombre’ son obligatorios, el resto se pueden ig
 	* **Response code:** 201 Created
 
 -------------------------
-Acción: modificar usuario
+Modificar usuario
 -------------------------
 
 **URI:** server/usuario/<str:user_id>

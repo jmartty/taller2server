@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Documentación técnica &mdash; documentación de server - 2.7</title>
+    <title>Known issues y posibles mejoras &mdash; documentación de server - 2.7</title>
     
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -24,8 +24,8 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="_static/translations.js"></script>
-    <link rel="top" title="documentación de server - 2.7" href="#" />
-    <link rel="next" title="Ambiente de desarrollo" href="Ambiente de desarrollo.html" />
+    <link rel="top" title="documentación de server - 2.7" href="index.html" />
+    <link rel="prev" title="Pruebas" href="Pruebas.html" />
    
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
@@ -39,9 +39,9 @@
           <a href="genindex.html" title="Índice General"
              accesskey="I">índice</a></li>
         <li class="right" >
-          <a href="Ambiente de desarrollo.html" title="Ambiente de desarrollo"
-             accesskey="N">siguiente</a> |</li>
-        <li class="nav-item nav-item-0"><a href="#">documentación de server - 2.7</a> &raquo;</li> 
+          <a href="Pruebas.html" title="Pruebas"
+             accesskey="P">anterior</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">documentación de server - 2.7</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -50,26 +50,10 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="documentacion-tecnica">
-<h1>Documentación técnica<a class="headerlink" href="#documentacion-tecnica" title="Enlazar permanentemente con este título">¶</a></h1>
-<p>Contenidos:</p>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="Ambiente de desarrollo.html">Ambiente de desarrollo</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Librerías y compilación.html">Librerías y compilación</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="Librerías y compilación.html#compilacion-de-las-liberias">Compilación de las liberías</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="Diseño - Clases.html">Diseño - Clases</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Pruebas.html">Pruebas</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="Pruebas.html#code-coverage">Code Coverage</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Pruebas.html#requisitos">Requisitos</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Pruebas.html#corriendo-los-tests">Corriendo los tests</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="Known issues y posibles mejoras.html">Known issues y posibles mejoras</a></li>
-</ul>
-</div>
+  <div class="section" id="known-issues-y-posibles-mejoras">
+<h1>Known issues y posibles mejoras<a class="headerlink" href="#known-issues-y-posibles-mejoras" title="Enlazar permanentemente con este título">¶</a></h1>
+<p>Desde el punto de vista del servidor, se podría agregar algunas constantes como parámetros configurables sin la necesidad de recompilar el proyecto. Esto incluye variables como tamaño del hash de token, tiempo de timeout, cantidad de mensajes máximos por conversación a almacenar y otros.</p>
+<p>Al momento de llevar la aplicación a un ambiente de producción también se debería poner énfasis en la seguridad, tanto en la transmisión de datos (actualmente es todo texto plano) como en el almacenamiento de información de los usuarios y de conversaciones. Por la manera en la que está estructurado el programa no debería ser dificil incorporarlo, ya que hay encapsulamiento al momento de envío y recepción de los mensajes, como parte de las librerías externas utilizadas (ie, HTTPS vs HTTP y utilización de MD5 o SHA para hasheo de passwords).</p>
 </div>
 
 
@@ -78,13 +62,13 @@
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h4>Próximo tema</h4>
-  <p class="topless"><a href="Ambiente de desarrollo.html"
-                        title="próximo capítulo">Ambiente de desarrollo</a></p>
+  <h4>Tema anterior</h4>
+  <p class="topless"><a href="Pruebas.html"
+                        title="capítulo anterior">Pruebas</a></p>
   <div role="note" aria-label="source link">
     <h3>Esta página</h3>
     <ul class="this-page-menu">
-      <li><a href="_sources/index.txt"
+      <li><a href="_sources/Known issues y posibles mejoras.txt"
             rel="nofollow">Mostrar el código</a></li>
     </ul>
    </div>
@@ -113,7 +97,7 @@
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.4</a>
       
       |
-      <a href="_sources/index.txt"
+      <a href="_sources/Known issues y posibles mejoras.txt"
           rel="nofollow">Page source</a></li>
     </div>
 

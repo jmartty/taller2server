@@ -15,6 +15,7 @@ Contenidos:
    Librerías y compilación
    Diseño - Clases
    Pruebas
+   Known issues y posibles mejoras
 
 
 
