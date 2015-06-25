@@ -33,3 +33,9 @@ Los argumentos extra que se pasen a 'test' o 'run' se forwardean a los programas
 
  - Pararse en la ruta de la documentación y ejecutar: `make html`
  - Para limpiar: `make clean`
+ 
+#### Para generar el HTML de la documentación del codigo:
+
+ - Requisitos: `sudo apt-get install doxygen`
+ - Pararse en la ruta de la documentación (`docs/doxygen`) y ejecutar: `doxygen`
+ 
