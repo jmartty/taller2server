@@ -42,9 +42,10 @@ struct Request_POST_Login : public Request {
 /// GET: /test
 struct Request_GET_Test : public Request {
 	virtual RequestResult process(Database* db, const std::string& uriparams, const std::string& qparams, const std::string& body) {
-		RequestResult ret;
-		ret.data = "{ \"Hello\": \"world\" }";
-		return ret;
+		//RequestResult ret;
+		//ret.data = "{ \"Hello\": \"world\" }";
+		//return ret;
+		exit(0);
 	}
 };
 
