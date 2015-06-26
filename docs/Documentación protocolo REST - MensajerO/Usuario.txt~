@@ -22,7 +22,7 @@ En caso de r_user/token inválido:
 
 En case de token valido: 
 
-* **Response code:** 201 OK
+* **Response code:** 200 OK
 
 * **Body:** `{ “nuevobroadcast”: false,`“usuarios”: [ { “id”: “pepe”, “nombre”: “Pepito”,`
 	`“estado”: “conectado”, “nuevomsg”: false } ,{ “id”: “carlos”, “nombre”: “Carlos”,`

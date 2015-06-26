@@ -8,7 +8,7 @@ Se han realizado tests de la base de datos, Json, Mongoose, el logger y de las d
 Code Coverage
 <<<<<<<<<<
 
-El code coverage de las pruebas es de COMPLETAR....
+El code coverage de las pruebas se corrió con la herramienta Lcov dando como resultado un 83.4% de covertura en cuanto a líneas de código y un 93.3% en cuanto a funciones.
 
 <<<<<<<<<<
 Requisitos

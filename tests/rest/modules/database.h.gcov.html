@@ -1,0 +1,195 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - testResult.info - modules/database.h</title>
+  <link rel="stylesheet" type="text/css" href="../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../index.html">top level</a> - <a href="index.html">modules</a> - database.h<span style="font-size: 80%;"> (source / <a href="database.h.func.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">testResult.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">1</td>
+            <td class="headerCovTableEntry">1</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2015-06-25</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">1</td>
+            <td class="headerCovTableEntry">1</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
+          </tr>
+          <tr><td><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : #pragma once</a>
+<span class="lineNum">       2 </span>            : #include &lt;iostream&gt;
+<span class="lineNum">       3 </span>            : #include &lt;string&gt;
+<span class="lineNum">       4 </span>            : #include &lt;rocksdb/db.h&gt;
+<span class="lineNum">       5 </span>            : #include &lt;set&gt;
+<span class="lineNum">       6 </span>            : #include &lt;mutex&gt;
+<span class="lineNum">       7 </span>            : #include &lt;cereal/types/set.hpp&gt;
+<span class="lineNum">       8 </span>            : #include &quot;usuario.h&quot;
+<span class="lineNum">       9 </span>            : #include &quot;conversacion.h&quot;
+<span class="lineNum">      10 </span>            : #include &quot;broadcast.h&quot;
+<span class="lineNum">      11 </span>            : 
+<span class="lineNum">      12 </span>            : /// Tipo lista de usuarios
+<span class="lineNum">      13 </span>            : typedef std::set&lt;std::string&gt; ListaUsuarios;
+<a name="14"><span class="lineNum">      14 </span>            : </a>
+<span class="lineNum">      15 </span>            : /// Clase para manejar persistencia del sistema
+<span class="lineNum">      16 </span><span class="lineCov">          1 : class Database {</span>
+<span class="lineNum">      17 </span>            : 
+<span class="lineNum">      18 </span>            :         public:
+<span class="lineNum">      19 </span>            : 
+<span class="lineNum">      20 </span>            :         // Operaciones sobre usuarios
+<span class="lineNum">      21 </span>            :         /// Usuario existe?
+<span class="lineNum">      22 </span>            :         /// @return false en caso de error
+<span class="lineNum">      23 </span>            :         bool usuarioExists(const std::string&amp; id);
+<span class="lineNum">      24 </span>            :         /// Cargar usuario dado el id
+<span class="lineNum">      25 </span>            :         /// @param usr usuario donde se carga la informacion
+<span class="lineNum">      26 </span>            :         /// @return false en caso de error
+<span class="lineNum">      27 </span>            :         bool loadUsuario(const std::string&amp; id, Usuario&amp; usr);
+<span class="lineNum">      28 </span>            :         /// Guardar usuario
+<span class="lineNum">      29 </span>            :         /// @return false en caso de error
+<span class="lineNum">      30 </span>            :         bool saveUsuario(const Usuario&amp; usr);
+<span class="lineNum">      31 </span>            :         /// Get de lista de usuarios
+<span class="lineNum">      32 </span>            :         ListaUsuarios getListaUsuarios();
+<span class="lineNum">      33 </span>            :         /// Get de lista de usuarios en JSON
+<span class="lineNum">      34 </span>            :         /// @param r_user usuario que solicita el request
+<span class="lineNum">      35 </span>            :         std::string getListaUsuariosJson(const std::string&amp; r_user);
+<span class="lineNum">      36 </span>            :         /// Crear usuario nuevo
+<span class="lineNum">      37 </span>            :         /// @param err_str en caso de error se llena el string con el mensaje
+<span class="lineNum">      38 </span>            :         /// @return false en caso de error
+<span class="lineNum">      39 </span>            :         bool createUsuario(const Usuario&amp; usr, std::string&amp; err_str);
+<span class="lineNum">      40 </span>            :         /// Mantiene al usuario como conectado (ping)
+<span class="lineNum">      41 </span>            :         bool heartbeatUsuario(const std::string&amp; id);
+<span class="lineNum">      42 </span>            :         /// Validacion completa de atributos de usuario
+<span class="lineNum">      43 </span>            :         static bool validateUser(const Usuario&amp; usr);
+<span class="lineNum">      44 </span>            :         /// Validacion de id de usuario
+<span class="lineNum">      45 </span>            :         static bool validateUserId(const std::string&amp; id);
+<span class="lineNum">      46 </span>            :         /// Validacion de nombre de usuario
+<span class="lineNum">      47 </span>            :         static bool validateUserName(const std::string&amp; name);
+<span class="lineNum">      48 </span>            :         /// Validacion de clave del usuario
+<span class="lineNum">      49 </span>            :         static bool validateUserPwd(const std::string&amp; pwd);
+<span class="lineNum">      50 </span>            : 
+<span class="lineNum">      51 </span>            :         // Operacion sobre conversaciones
+<span class="lineNum">      52 </span>            :         /// Carga la conversacion entre dos usuarios
+<span class="lineNum">      53 </span>            :         /// Crea la conversacion si no existe
+<span class="lineNum">      54 </span>            :         /// @param conv donde se carga la conversacion
+<span class="lineNum">      55 </span>            :         /// @return false en caso de error
+<span class="lineNum">      56 </span>            :         bool loadConversacion(const std::string&amp; user1, const std::string&amp; user2, Conversacion&amp; conv);
+<span class="lineNum">      57 </span>            :         /// Agregar un mensaje a una conversacion entre dos usuarios
+<span class="lineNum">      58 </span>            :         /// @return false en caso de error
+<span class="lineNum">      59 </span>            :         bool postearMensaje(const std::string&amp; source_user, const std::string&amp; target_user, const std::string&amp; msg);
+<span class="lineNum">      60 </span>            :         /// Marca la conversacion como leida (por source_user)
+<span class="lineNum">      61 </span>            :         /// @return false en caso de error
+<span class="lineNum">      62 </span>            :         bool markRead(const std::string&amp; source_user, const std::string&amp; target_user);
+<span class="lineNum">      63 </span>            :         // Operaciones de broadcast
+<span class="lineNum">      64 </span>            :         /// Carga el broadcast en una conversacion
+<span class="lineNum">      65 </span>            :         /// @return false en caso de error
+<span class="lineNum">      66 </span>            :         bool loadBroadcast(Broadcast&amp; conv);
+<span class="lineNum">      67 </span>            :         /// Agrega un mensaje al broadcast grupal
+<span class="lineNum">      68 </span>            :         /// @return false en caso de error
+<span class="lineNum">      69 </span>            :         bool postearMensajeBroadcast(const std::string&amp; source_user, const std::string&amp; msg);
+<span class="lineNum">      70 </span>            :         /// Marcar el broadcast como leido o no leido
+<span class="lineNum">      71 </span>            :         /// @param val true = no leido, false = leido
+<span class="lineNum">      72 </span>            :         /// @return false en caso de error
+<span class="lineNum">      73 </span>            :         bool markBroadcastUnread(const std::string&amp; user, bool val);
+<span class="lineNum">      74 </span>            :         /// Para averiguar si un usuario tiene mensajes sin leer en el broadcast
+<span class="lineNum">      75 </span>            :         /// @param user el usuario en cuestion
+<span class="lineNum">      76 </span>            :         /// @return true si tiene mensajes sin leer
+<span class="lineNum">      77 </span>            :         bool hasBroadcastUnread(const std::string&amp; user);
+<span class="lineNum">      78 </span>            : 
+<span class="lineNum">      79 </span>            :         /// Validar la session por tiempo/token
+<span class="lineNum">      80 </span>            :         /// @return true si la sesion es valida y actualiza el last_action al time() actual
+<span class="lineNum">      81 </span>            :         bool validateSession(const std::string&amp; user_id, const std::string&amp; token);
+<span class="lineNum">      82 </span>            : 
+<span class="lineNum">      83 </span>            :         // Operaciones basicas de bajo nivel
+<span class="lineNum">      84 </span>            :         // No deberian ser llamadas en general
+<span class="lineNum">      85 </span>            : 
+<span class="lineNum">      86 </span>            :         /// Abre la base de datos
+<span class="lineNum">      87 </span>            :         /// @param file archivo de base de datos
+<span class="lineNum">      88 </span>            :         /// Debe crear si no existe. Si existe, abrir
+<span class="lineNum">      89 </span>            :         /// @return false en caso de error
+<span class="lineNum">      90 </span>            :         bool open(const std::string&amp; file);
+<span class="lineNum">      91 </span>            :         /// Escribe una key/val a la base de datos abierta
+<span class="lineNum">      92 </span>            :         /// @return false en caso de error
+<span class="lineNum">      93 </span>            :         bool put(const std::string&amp; key, const std::string&amp; value);
+<span class="lineNum">      94 </span>            :         /// Existencia de una key en la DB
+<span class="lineNum">      95 </span>            :         /// @return true si existe, false en caso contrario
+<span class="lineNum">      96 </span>            :         bool exists(const std::string&amp; key);
+<span class="lineNum">      97 </span>            :         /// Borra una key en la DB 
+<span class="lineNum">      98 </span>            :         /// @return true si existe, false en caso contrario
+<span class="lineNum">      99 </span>            :         bool del(const std::string&amp; key);
+<span class="lineNum">     100 </span>            :         /// Escribe una key/val a la base de datos abierta
+<span class="lineNum">     101 </span>            :         /// @return false en caso de error
+<span class="lineNum">     102 </span>            :         std::string get(const std::string&amp; key);
+<span class="lineNum">     103 </span>            :         /// Cierra la base de datos
+<span class="lineNum">     104 </span>            :         void close();
+<span class="lineNum">     105 </span>            : 
+<span class="lineNum">     106 </span>            :         private:
+<span class="lineNum">     107 </span>            :         /// Link interno a la DB
+<span class="lineNum">     108 </span>            :         rocksdb::DB* db;
+<span class="lineNum">     109 </span>            :         /// Helper para agregar un usuario a la DB
+<span class="lineNum">     110 </span>            :         void listaUsuariosAdd(const std::string&amp; id);
+<span class="lineNum">     111 </span>            :         /// Permite acceso a la clase de serializacion
+<span class="lineNum">     112 </span>            :         friend class cereal::access;
+<span class="lineNum">     113 </span>            :         /// Para exclusion mutua durante operacion de escritura y lectura de mas de un key
+<span class="lineNum">     114 </span>            :         /// En el caso de conversaciones hay read seguido de write (append a conversacion)
+<span class="lineNum">     115 </span>            :         /// De esta manera se evita perder mensajes en el caso que dos usuarios hagan append en paralelo
+<span class="lineNum">     116 </span>            :         /// I.e.: read1-&gt;write1, read2-&gt;write2 podria resultar en read1-&gt;read2-&gt;write1-&gt;write2
+<span class="lineNum">     117 </span>            :         /// En ese caso write2 sobreescribe lo que escribio write1
+<span class="lineNum">     118 </span>            :         std::mutex conv_mutex;
+<span class="lineNum">     119 </span>            : };
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.10</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

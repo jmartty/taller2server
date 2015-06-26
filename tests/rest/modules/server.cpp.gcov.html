@@ -1,0 +1,132 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - testResult.info - modules/server.cpp</title>
+  <link rel="stylesheet" type="text/css" href="../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../index.html">top level</a> - <a href="index.html">modules</a> - server.cpp<span style="font-size: 80%;"> (source / <a href="server.cpp.func.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">testResult.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">17</td>
+            <td class="headerCovTableEntry">27</td>
+            <td class="headerCovTableEntryLo">63.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2015-06-25</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">4</td>
+            <td class="headerCovTableEntry">5</td>
+            <td class="headerCovTableEntryMed">80.0 %</td>
+          </tr>
+          <tr><td><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : #include &lt;exception&gt;</a>
+<span class="lineNum">       2 </span>            : #include &lt;sstream&gt;
+<span class="lineNum">       3 </span>            : #include &lt;string&gt;
+<span class="lineNum">       4 </span>            : #include &lt;stdexcept&gt;
+<span class="lineNum">       5 </span>            : 
+<span class="lineNum">       6 </span>            : #include &quot;server.h&quot;
+<a name="7"><span class="lineNum">       7 </span>            : #include &quot;logger.h&quot;</a>
+<span class="lineNum">       8 </span>            : 
+<a name="9"><span class="lineNum">       9 </span><span class="lineCov">          1 : static Logger&amp; log = Logger::get();</span></a>
+<span class="lineNum">      10 </span>            : 
+<span class="lineNum">      11 </span><span class="lineCov">          1 : bool Server::init(int argc, char* argv[]) {</span>
+<span class="lineNum">      12 </span>            : 
+<span class="lineNum">      13 </span>            :         // Parse and store settings
+<span class="lineNum">      14 </span><span class="lineCov">          1 :         config.parse(argc, argv);</span>
+<span class="lineNum">      15 </span><span class="lineCov">          1 :         if(!config.start) return false;</span>
+<span class="lineNum">      16 </span>            : 
+<span class="lineNum">      17 </span>            :         // Setup logger
+<span class="lineNum">      18 </span><span class="lineCov">          1 :         if(!log.open(&quot;event.log&quot;)) {</span>
+<span class="lineNum">      19 </span><span class="lineNoCov">          0 :                 std::cerr &lt;&lt; &quot;Error abriendo log!\n&quot;;</span>
+<span class="lineNum">      20 </span><span class="lineNoCov">          0 :                 return false;</span>
+<span class="lineNum">      21 </span>            :         }
+<span class="lineNum">      22 </span>            : 
+<span class="lineNum">      23 </span>            :         //  Ponemos todos los modos de loggeo
+<span class="lineNum">      24 </span><span class="lineCov">          1 :         log.toggle(LOG_TYPE::DEBUG, config.l_debug);</span>
+<span class="lineNum">      25 </span><span class="lineCov">          1 :         log.toggle(LOG_TYPE::WARN, config.l_warn);</span>
+<span class="lineNum">      26 </span><span class="lineCov">          1 :         log.toggle(LOG_TYPE::INFO, config.l_info);</span>
+<span class="lineNum">      27 </span><span class="lineCov">          1 :         log.toggle(LOG_TYPE::ERROR, config.l_error);</span>
+<span class="lineNum">      28 </span>            : 
+<span class="lineNum">      29 </span>            :         // Abrimos la base de datos
+<span class="lineNum">      30 </span><span class="lineCov">          1 :         if(!db.open(config.db_file)) {</span>
+<span class="lineNum">      31 </span><span class="lineNoCov">          0 :                 std::stringstream err;</span>
+<span class="lineNum">      32 </span><span class="lineNoCov">          0 :                 err &lt;&lt; &quot;Error abriendo DB `&quot; &lt;&lt; config.db_file &lt;&lt; &quot;`&quot;;</span>
+<span class="lineNum">      33 </span><span class="lineNoCov">          0 :                 log.msg(LOG_TYPE::ERROR, err.str());</span>
+<span class="lineNum">      34 </span><span class="lineNoCov">          0 :                 throw std::runtime_error(err.str());</span>
+<span class="lineNum">      35 </span>            :         }
+<span class="lineNum">      36 </span>            : 
+<span class="lineNum">      37 </span><span class="lineCov">          1 :         log.msg(LOG_TYPE::INFO, &quot;Server init&quot;);</span>
+<span class="lineNum">      38 </span><span class="lineCov">          1 :         return true;</span>
+<span class="lineNum">      39 </span>            : 
+<a name="40"><span class="lineNum">      40 </span>            : }</a>
+<span class="lineNum">      41 </span>            : 
+<span class="lineNum">      42 </span><span class="lineCov">          1 : void Server::run() {</span>
+<span class="lineNum">      43 </span>            : 
+<span class="lineNum">      44 </span><span class="lineCov">          1 :         log.msg(LOG_TYPE::INFO, &quot;Running server&quot;);</span>
+<span class="lineNum">      45 </span>            : 
+<span class="lineNum">      46 </span><span class="lineCov">          1 :         reqh.installRequests(&amp;db);</span>
+<span class="lineNum">      47 </span><span class="lineCov">          1 :         reqh.serveRequests(config.port);</span>
+<span class="lineNum">      48 </span>            : 
+<a name="49"><span class="lineNum">      49 </span><span class="lineNoCov">          0 : }</span></a>
+<span class="lineNum">      50 </span>            : 
+<span class="lineNum">      51 </span><span class="lineNoCov">          0 : Server::~Server() {</span>
+<span class="lineNum">      52 </span>            : 
+<span class="lineNum">      53 </span><span class="lineNoCov">          0 :         log.msg(LOG_TYPE::INFO, &quot;Server shutdown&quot;);</span>
+<a name="54"><span class="lineNum">      54 </span><span class="lineNoCov">          0 :         log.close();</span></a>
+<span class="lineNum">      55 </span>            : 
+<span class="lineNum">      56 </span><span class="lineCov">          3 : }</span>
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.10</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

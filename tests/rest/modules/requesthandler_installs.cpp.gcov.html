@@ -1,0 +1,340 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - testResult.info - modules/requesthandler_installs.cpp</title>
+  <link rel="stylesheet" type="text/css" href="../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../index.html">top level</a> - <a href="index.html">modules</a> - requesthandler_installs.cpp<span style="font-size: 80%;"> (source / <a href="requesthandler_installs.cpp.func.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">testResult.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">120</td>
+            <td class="headerCovTableEntry">168</td>
+            <td class="headerCovTableEntryLo">71.4 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2015-06-25</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">12</td>
+            <td class="headerCovTableEntry">14</td>
+            <td class="headerCovTableEntryMed">85.7 %</td>
+          </tr>
+          <tr><td><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : #include &quot;aux_func.h&quot;</a>
+<span class="lineNum">       2 </span>            : #include &quot;requesthandler.h&quot;
+<span class="lineNum">       3 </span>            : #include &quot;database.h&quot;
+<span class="lineNum">       4 </span>            : #include &quot;logger.h&quot;
+<span class="lineNum">       5 </span>            : #include &lt;string&gt;
+<a name="6"><span class="lineNum">       6 </span>            : #include &lt;json/json.h&gt;</a>
+<span class="lineNum">       7 </span>            : 
+<a name="8"><span class="lineNum">       8 </span><span class="lineCov">          1 : static Logger&amp; log = Logger::get();</span></a>
+<span class="lineNum">       9 </span>            : // JSON parser helper
+<span class="lineNum">      10 </span><span class="lineCov">         54 : Json::Value JSONParse(const std::string&amp; source) {</span>
+<span class="lineNum">      11 </span><span class="lineCov">         54 :         Json::Value root;</span>
+<span class="lineNum">      12 </span><span class="lineCov">        108 :         Json::Reader reader;</span>
+<span class="lineNum">      13 </span><span class="lineCov">         54 :         reader.parse(source, root);</span>
+<span class="lineNum">      14 </span><span class="lineCov">        108 :         return root;</span>
+<span class="lineNum">      15 </span>            : }
+<span class="lineNum">      16 </span>            : 
+<span class="lineNum">      17 </span>            : 
+<a name="18"><span class="lineNum">      18 </span>            : // Define all requests here</a>
+<span class="lineNum">      19 </span>            : /// POST: /login
+<span class="lineNum">      20 </span><span class="lineCov">         22 : RequestResult Request_POST_Login(Database* db, const std::string&amp; uriparams, const std::string&amp; qparams, const std::string&amp; body) {</span>
+<span class="lineNum">      21 </span><span class="lineCov">         22 :         RequestResult ret;</span>
+<span class="lineNum">      22 </span>            :         // Parse and check credentials
+<span class="lineNum">      23 </span><span class="lineCov">         44 :         auto js = JSONParse(body);</span>
+<span class="lineNum">      24 </span><span class="lineCov">         44 :         const std::string usr_id = js.get(&quot;id&quot;, &quot;&quot;).asString();</span>
+<span class="lineNum">      25 </span><span class="lineCov">         44 :         const std::string pwd = js.get(&quot;password&quot;, &quot;&quot;).asString();</span>
+<span class="lineNum">      26 </span><span class="lineCov">         44 :         Usuario usr;</span>
+<span class="lineNum">      27 </span><span class="lineCov">         22 :         if(db-&gt;loadUsuario(usr_id, usr) &amp;&amp; usr.password == pwd) {</span>
+<span class="lineNum">      28 </span><span class="lineCov">         20 :                 usr.last_action = std::time(nullptr);</span>
+<span class="lineNum">      29 </span><span class="lineCov">         20 :                 usr.token = genToken();</span>
+<span class="lineNum">      30 </span><span class="lineCov">         20 :                 db-&gt;saveUsuario(usr);</span>
+<span class="lineNum">      31 </span><span class="lineCov">         20 :                 ret.data = std::string(&quot;{ \&quot;token\&quot;: \&quot;&quot;) + usr.token + usr.nombre + &quot;\&quot; }&quot;;</span>
+<span class="lineNum">      32 </span><span class="lineCov">         20 :                 ret.code = 201;</span>
+<span class="lineNum">      33 </span>            :         }else{
+<span class="lineNum">      34 </span><span class="lineCov">          2 :                 ret.data = &quot;{ \&quot;error\&quot;: \&quot;Usuario o clave invalidos\&quot; }&quot;;</span>
+<span class="lineNum">      35 </span><span class="lineCov">          2 :                 ret.code = 401;</span>
+<span class="lineNum">      36 </span>            :         }
+<span class="lineNum">      37 </span><span class="lineCov">         44 :         return ret;</span>
+<span class="lineNum">      38 </span>            : }
+<a name="39"><span class="lineNum">      39 </span>            : </a>
+<span class="lineNum">      40 </span>            : /// GET: /test
+<span class="lineNum">      41 </span><span class="lineCov">          1 : RequestResult Request_GET_Test(Database* db, const std::string&amp; uriparams, const std::string&amp; qparams, const std::string&amp; body) {</span>
+<span class="lineNum">      42 </span>            :         //RequestResult ret;
+<span class="lineNum">      43 </span>            :         //ret.data = &quot;{ \&quot;Hello\&quot;: \&quot;world\&quot; }&quot;;
+<span class="lineNum">      44 </span>            :         //return ret;
+<span class="lineNum">      45 </span><span class="lineCov">          1 :         log.msg(LOG_TYPE::WARN, &quot;Cerrando servidor via /test&quot;);</span>
+<span class="lineNum">      46 </span><span class="lineCov">          1 :         exit(0);</span>
+<span class="lineNum">      47 </span>            : }
+<a name="48"><span class="lineNum">      48 </span>            : </a>
+<span class="lineNum">      49 </span>            : /// POST: /usuario
+<span class="lineNum">      50 </span><span class="lineCov">         25 : RequestResult Request_POST_Usuario(Database* db, const std::string&amp; uriparams, const std::string&amp; qparams, const std::string&amp; body) {</span>
+<span class="lineNum">      51 </span><span class="lineCov">         25 :         RequestResult ret;</span>
+<span class="lineNum">      52 </span><span class="lineCov">         50 :         Usuario user;</span>
+<span class="lineNum">      53 </span>            :         // Parseamos el JSON para cargar los datos posteados
+<span class="lineNum">      54 </span><span class="lineCov">         50 :         auto js = JSONParse(body);</span>
+<span class="lineNum">      55 </span><span class="lineCov">         25 :         user.load(js);</span>
+<span class="lineNum">      56 </span>            :         // Cargamos el usuario del uri
+<span class="lineNum">      57 </span><span class="lineCov">         25 :         user.id = uriparams;</span>
+<span class="lineNum">      58 </span><span class="lineCov">         50 :         std::string err_str;</span>
+<span class="lineNum">      59 </span><span class="lineCov">         25 :         if(db-&gt;createUsuario(user, err_str)) {</span>
+<span class="lineNum">      60 </span><span class="lineCov">         20 :                 ret.code = 201;</span>
+<span class="lineNum">      61 </span>            :         }else{
+<span class="lineNum">      62 </span><span class="lineCov">          5 :                 log.msg(LOG_TYPE::INFO, std::string(&quot;Error creando usuario `&quot;) + user.id + &quot;`&quot;);</span>
+<span class="lineNum">      63 </span><span class="lineCov">          5 :                 ret.code = 401;</span>
+<span class="lineNum">      64 </span><span class="lineCov">          5 :                 ret.data = std::string(&quot;{ \&quot;error\&quot;: \&quot;&quot;) + err_str + &quot;\&quot; }&quot;;</span>
+<span class="lineNum">      65 </span>            :         }
+<span class="lineNum">      66 </span><span class="lineCov">         50 :         return ret;</span>
+<span class="lineNum">      67 </span>            : }
+<a name="68"><span class="lineNum">      68 </span>            : </a>
+<span class="lineNum">      69 </span>            : /// GET: /usuarios
+<span class="lineNum">      70 </span><span class="lineCov">          2 : RequestResult Request_GET_Usuarios(Database* db, const std::string&amp; uriparams, const std::string&amp; qparams, const std::string&amp; body) {</span>
+<span class="lineNum">      71 </span><span class="lineCov">          2 :         RequestResult ret;</span>
+<span class="lineNum">      72 </span><span class="lineCov">          4 :         auto qdict = parseQueryParams(qparams);</span>
+<span class="lineNum">      73 </span><span class="lineCov">          2 :         if(qdict.size() &lt; 2 || !db-&gt;validateSession(qdict[&quot;r_user&quot;], qdict[&quot;token&quot;])) {</span>
+<span class="lineNum">      74 </span><span class="lineCov">          1 :                 ret.code = 401;</span>
+<span class="lineNum">      75 </span><span class="lineCov">          1 :                 ret.data = &quot;{\&quot;error\&quot;: \&quot;token invalido\&quot; }&quot;;</span>
+<span class="lineNum">      76 </span>            :         }else{
+<span class="lineNum">      77 </span><span class="lineCov">          1 :                 ret.data = db-&gt;getListaUsuariosJson(qdict[&quot;r_user&quot;]);</span>
+<span class="lineNum">      78 </span>            :         }
+<span class="lineNum">      79 </span><span class="lineCov">          4 :         return ret;</span>
+<span class="lineNum">      80 </span>            : }
+<a name="81"><span class="lineNum">      81 </span>            : </a>
+<span class="lineNum">      82 </span>            : /// GET: /usuario
+<span class="lineNum">      83 </span><span class="lineCov">          3 : RequestResult Request_GET_Usuario(Database* db, const std::string&amp; uriparams, const std::string&amp; qparams, const std::string&amp; body) {</span>
+<span class="lineNum">      84 </span><span class="lineCov">          3 :         RequestResult ret;</span>
+<span class="lineNum">      85 </span><span class="lineCov">          6 :         auto qdict = parseQueryParams(qparams);</span>
+<span class="lineNum">      86 </span><span class="lineCov">          6 :         Usuario usr;</span>
+<span class="lineNum">      87 </span><span class="lineCov">          3 :         if(qdict.size() &lt; 2 || !db-&gt;validateSession(qdict[&quot;r_user&quot;], qdict[&quot;token&quot;]) || !db-&gt;loadUsuario(uriparams, usr)) {</span>
+<span class="lineNum">      88 </span><span class="lineCov">          2 :                 ret.code = 401;</span>
+<span class="lineNum">      89 </span><span class="lineCov">          2 :                 ret.data = &quot;{\&quot;error\&quot;: \&quot;token invalido\&quot; }&quot;;</span>
+<span class="lineNum">      90 </span>            :         }else{
+<span class="lineNum">      91 </span><span class="lineCov">          1 :                 ret.data = usr.asJson();</span>
+<span class="lineNum">      92 </span>            :         }
+<span class="lineNum">      93 </span><span class="lineCov">          6 :         return ret;</span>
+<span class="lineNum">      94 </span>            : }
+<a name="95"><span class="lineNum">      95 </span>            : </a>
+<span class="lineNum">      96 </span>            : /// PUT: /usuario
+<span class="lineNum">      97 </span><span class="lineCov">          3 : RequestResult Request_PUT_Usuario(Database* db, const std::string&amp; uriparams, const std::string&amp; qparams, const std::string&amp; body) {</span>
+<span class="lineNum">      98 </span><span class="lineCov">          3 :         RequestResult ret;</span>
+<span class="lineNum">      99 </span><span class="lineCov">          6 :         auto qdict = parseQueryParams(qparams);</span>
+<span class="lineNum">     100 </span><span class="lineCov">          6 :         Usuario usr;</span>
+<span class="lineNum">     101 </span>            :         // Debe pasar la clave tambien
+<span class="lineNum">     102 </span><span class="lineCov">          3 :         if(qdict.size() &lt; 2 || !db-&gt;validateSession(qdict[&quot;r_user&quot;], qdict[&quot;token&quot;])) {</span>
+<span class="lineNum">     103 </span><span class="lineNoCov">          0 :                 ret.code = 401;</span>
+<span class="lineNum">     104 </span><span class="lineNoCov">          0 :                 ret.data = &quot;{\&quot;error\&quot;: \&quot;token invalido\&quot; }&quot;;</span>
+<span class="lineNum">     105 </span><span class="lineNoCov">          0 :                 return ret;</span>
+<span class="lineNum">     106 </span>            :         }
+<span class="lineNum">     107 </span><span class="lineCov">          3 :         if(uriparams != qdict[&quot;r_user&quot;]) {</span>
+<span class="lineNum">     108 </span><span class="lineCov">          1 :                 ret.code = 401;</span>
+<span class="lineNum">     109 </span><span class="lineCov">          1 :                 ret.data = &quot;{\&quot;error\&quot;: \&quot;permiso denegado\&quot; }&quot;;</span>
+<span class="lineNum">     110 </span><span class="lineCov">          1 :                 return ret;</span>
+<span class="lineNum">     111 </span>            :         }
+<span class="lineNum">     112 </span><span class="lineCov">          2 :         if(!db-&gt;loadUsuario(uriparams, usr)) {</span>
+<span class="lineNum">     113 </span><span class="lineNoCov">          0 :                 ret.code = 500;</span>
+<span class="lineNum">     114 </span><span class="lineNoCov">          0 :                 ret.data = &quot;{\&quot;error\&quot;: \&quot;error cargando usuario\&quot; }&quot;;</span>
+<span class="lineNum">     115 </span><span class="lineNoCov">          0 :                 return ret;</span>
+<span class="lineNum">     116 </span>            :         }
+<span class="lineNum">     117 </span><span class="lineCov">          2 :         if(qdict[&quot;password&quot;] != usr.password) {</span>
+<span class="lineNum">     118 </span><span class="lineNoCov">          0 :                 ret.code = 401;</span>
+<span class="lineNum">     119 </span><span class="lineNoCov">          0 :                 ret.data = &quot;{\&quot;error\&quot;: \&quot;password invalido\&quot; }&quot;;</span>
+<span class="lineNum">     120 </span><span class="lineNoCov">          0 :                 return ret;</span>
+<span class="lineNum">     121 </span>            :         }
+<span class="lineNum">     122 </span>            :         // Editamos los valores que nos pasaron (si los pasaron)
+<span class="lineNum">     123 </span><span class="lineCov">          4 :         auto js = JSONParse(body);</span>
+<span class="lineNum">     124 </span><span class="lineCov">          2 :         usr.load(js);</span>
+<span class="lineNum">     125 </span>            :         // Guardamos el usuario
+<span class="lineNum">     126 </span><span class="lineCov">          2 :         if(!db-&gt;saveUsuario(usr)) {</span>
+<span class="lineNum">     127 </span>            :                 // TODO: desdoblar en los distintos
+<span class="lineNum">     128 </span><span class="lineCov">          1 :                 ret.code = 401;</span>
+<span class="lineNum">     129 </span><span class="lineCov">          1 :                 ret.data = &quot;{ \&quot;error\&quot;: \&quot;atributos invalidos\&quot; }&quot;;</span>
+<span class="lineNum">     130 </span>            :         }else{
+<span class="lineNum">     131 </span><span class="lineCov">          1 :                 ret.code = 201;</span>
+<span class="lineNum">     132 </span>            :         }
+<span class="lineNum">     133 </span><span class="lineCov">          2 :         return ret;</span>
+<span class="lineNum">     134 </span>            : }
+<a name="135"><span class="lineNum">     135 </span>            : </a>
+<span class="lineNum">     136 </span>            : /// POST: conversacion
+<span class="lineNum">     137 </span><span class="lineCov">          6 : RequestResult Request_POST_Conversacion(Database* db, const std::string&amp; uriparams, const std::string&amp; qparams, const std::string&amp; body) {</span>
+<span class="lineNum">     138 </span><span class="lineCov">          6 :         RequestResult ret;</span>
+<span class="lineNum">     139 </span><span class="lineCov">         12 :         auto qdict = parseQueryParams(qparams);</span>
+<span class="lineNum">     140 </span><span class="lineCov">          6 :         if(qdict.size() &lt; 2 || !db-&gt;validateSession(qdict[&quot;r_user&quot;], qdict[&quot;token&quot;])) {</span>
+<span class="lineNum">     141 </span><span class="lineCov">          1 :                 ret.code = 401;</span>
+<span class="lineNum">     142 </span><span class="lineCov">          1 :                 ret.data = &quot;{\&quot;error\&quot;: \&quot;token invalido\&quot; }&quot;;</span>
+<span class="lineNum">     143 </span>            :         }else{
+<span class="lineNum">     144 </span><span class="lineCov">          5 :                 const auto&amp; r_user = qdict[&quot;r_user&quot;];</span>
+<span class="lineNum">     145 </span><span class="lineCov">          5 :                 const auto&amp; t_user = uriparams;</span>
+<span class="lineNum">     146 </span><span class="lineCov">          5 :                 auto js = JSONParse(body);</span>
+<span class="lineNum">     147 </span><span class="lineCov">         10 :                 const auto&amp; msg = js.get(&quot;mensaje&quot;, &quot;&quot;).asString();</span>
+<span class="lineNum">     148 </span><span class="lineCov">          5 :                 if(msg.length() == 0) {</span>
+<span class="lineNum">     149 </span><span class="lineNoCov">          0 :                         ret.code = 401;</span>
+<span class="lineNum">     150 </span><span class="lineNoCov">          0 :                         ret.data = &quot;{ \&quot;error\&quot;: \&quot;mensaje invalido\&quot; }&quot;;</span>
+<span class="lineNum">     151 </span><span class="lineCov">          5 :                 }else if(!db-&gt;usuarioExists(t_user)){</span>
+<span class="lineNum">     152 </span><span class="lineCov">          1 :                         ret.code = 401;</span>
+<span class="lineNum">     153 </span><span class="lineCov">          1 :                         ret.data = &quot;{ \&quot;error\&quot;: \&quot;usuario de destino invalido\&quot; }&quot;;</span>
+<span class="lineNum">     154 </span><span class="lineCov">          4 :                 }else if(!db-&gt;postearMensaje(r_user, t_user, msg)) {</span>
+<span class="lineNum">     155 </span><span class="lineNoCov">          0 :                         ret.code = 500;</span>
+<span class="lineNum">     156 </span><span class="lineNoCov">          0 :                         ret.data = &quot;{ \&quot;error\&quot;: \&quot;error al postear mensaje\&quot; }&quot;;</span>
+<span class="lineNum">     157 </span>            :                 }else{
+<span class="lineNum">     158 </span>            :                         // Todo ok
+<span class="lineNum">     159 </span><span class="lineCov">          4 :                         ret.code = 201;</span>
+<span class="lineNum">     160 </span><span class="lineCov">          5 :                 }</span>
+<span class="lineNum">     161 </span>            :         }
+<span class="lineNum">     162 </span><span class="lineCov">         12 :         return ret;</span>
+<span class="lineNum">     163 </span>            : }
+<span class="lineNum">     164 </span>            : 
+<a name="165"><span class="lineNum">     165 </span>            : </a>
+<span class="lineNum">     166 </span>            : /// GET: /conversacion
+<span class="lineNum">     167 </span><span class="lineCov">          3 : RequestResult Request_GET_Conversacion(Database* db, const std::string&amp; uriparams, const std::string&amp; qparams, const std::string&amp; body) {</span>
+<span class="lineNum">     168 </span><span class="lineCov">          3 :         RequestResult ret;</span>
+<span class="lineNum">     169 </span><span class="lineCov">          6 :         auto qdict = parseQueryParams(qparams);</span>
+<span class="lineNum">     170 </span><span class="lineCov">          3 :         if(qdict.size() &lt; 2 || !db-&gt;validateSession(qdict[&quot;r_user&quot;], qdict[&quot;token&quot;])) {</span>
+<span class="lineNum">     171 </span><span class="lineCov">          2 :                 ret.code = 401;</span>
+<span class="lineNum">     172 </span><span class="lineCov">          2 :                 ret.data = &quot;{\&quot;error\&quot;: \&quot;token invalido\&quot; }&quot;;</span>
+<span class="lineNum">     173 </span>            :         }else{
+<span class="lineNum">     174 </span><span class="lineCov">          1 :                 const auto&amp; r_user = qdict[&quot;r_user&quot;];</span>
+<span class="lineNum">     175 </span><span class="lineCov">          1 :                 const auto&amp; t_user = uriparams;</span>
+<span class="lineNum">     176 </span><span class="lineCov">          1 :                 Conversacion conv;</span>
+<span class="lineNum">     177 </span><span class="lineCov">          1 :                 if(!db-&gt;loadConversacion(r_user, t_user, conv)) {</span>
+<span class="lineNum">     178 </span><span class="lineNoCov">          0 :                         ret.code = 500;</span>
+<span class="lineNum">     179 </span><span class="lineNoCov">          0 :                         ret.data = &quot;{ \&quot;error\&quot;: \&quot;error al cargar conversacion\&quot; }&quot;;</span>
+<span class="lineNum">     180 </span>            :                 }else{
+<span class="lineNum">     181 </span>            :                         int lines;
+<span class="lineNum">     182 </span>            :                         try {
+<span class="lineNum">     183 </span><span class="lineCov">          2 :                                 lines = std::stoi(qdict[&quot;lines&quot;]);</span>
+<span class="lineNum">     184 </span><span class="lineCov">          2 :                         }catch(...) {</span>
+<span class="lineNum">     185 </span><span class="lineCov">          1 :                                 lines = 0;</span>
+<span class="lineNum">     186 </span>            :                         }
+<span class="lineNum">     187 </span><span class="lineCov">          1 :                         ret.data = conv.asJson(lines);</span>
+<span class="lineNum">     188 </span><span class="lineCov">          1 :                         db-&gt;markRead(r_user, t_user);</span>
+<span class="lineNum">     189 </span><span class="lineCov">          1 :                 }</span>
+<span class="lineNum">     190 </span>            :         }
+<span class="lineNum">     191 </span><span class="lineCov">          6 :         return ret;</span>
+<span class="lineNum">     192 </span>            : }
+<span class="lineNum">     193 </span>            : 
+<a name="194"><span class="lineNum">     194 </span>            : </a>
+<span class="lineNum">     195 </span>            : /// GET: /broadcast
+<span class="lineNum">     196 </span><span class="lineNoCov">          0 : RequestResult Request_GET_Broadcast(Database* db, const std::string&amp; uriparams, const std::string&amp; qparams, const std::string&amp; body) {</span>
+<span class="lineNum">     197 </span><span class="lineNoCov">          0 :         RequestResult ret;</span>
+<span class="lineNum">     198 </span><span class="lineNoCov">          0 :         auto qdict = parseQueryParams(qparams);</span>
+<span class="lineNum">     199 </span><span class="lineNoCov">          0 :         if(qdict.size() &lt; 2 || !db-&gt;validateSession(qdict[&quot;r_user&quot;], qdict[&quot;token&quot;])) {</span>
+<span class="lineNum">     200 </span><span class="lineNoCov">          0 :                 ret.code = 401;</span>
+<span class="lineNum">     201 </span><span class="lineNoCov">          0 :                 ret.data = &quot;{\&quot;error\&quot;: \&quot;token invalido\&quot; }&quot;;</span>
+<span class="lineNum">     202 </span>            :         }else{
+<span class="lineNum">     203 </span><span class="lineNoCov">          0 :                 Broadcast bcast;</span>
+<span class="lineNum">     204 </span><span class="lineNoCov">          0 :                 if(!db-&gt;loadBroadcast(bcast)) {</span>
+<span class="lineNum">     205 </span><span class="lineNoCov">          0 :                         ret.code = 500;</span>
+<span class="lineNum">     206 </span><span class="lineNoCov">          0 :                         ret.data = &quot;{ \&quot;error\&quot;: \&quot;error al cargar broadcast\&quot; }&quot;;</span>
+<span class="lineNum">     207 </span>            :                 }else{
+<span class="lineNum">     208 </span>            :                         int lines;
+<span class="lineNum">     209 </span>            :                         try {
+<span class="lineNum">     210 </span><span class="lineNoCov">          0 :                                 lines = std::stoi(qdict[&quot;lines&quot;]);</span>
+<span class="lineNum">     211 </span>            :                         }catch(...) {
+<span class="lineNum">     212 </span>            :                                 lines = 0;
+<span class="lineNum">     213 </span>            :                         }
+<span class="lineNum">     214 </span><span class="lineNoCov">          0 :                         ret.data = bcast.asJson(lines);</span>
+<span class="lineNum">     215 </span>            :                         // Marco como leido
+<span class="lineNum">     216 </span><span class="lineNoCov">          0 :                         db-&gt;markBroadcastUnread(qdict[&quot;r_user&quot;], false);</span>
+<span class="lineNum">     217 </span><span class="lineNoCov">          0 :                 }</span>
+<span class="lineNum">     218 </span>            :         }
+<span class="lineNum">     219 </span><span class="lineNoCov">          0 :         return ret;</span>
+<span class="lineNum">     220 </span>            : }
+<a name="221"><span class="lineNum">     221 </span>            : </a>
+<span class="lineNum">     222 </span>            : /// POST: /broadcast
+<span class="lineNum">     223 </span><span class="lineNoCov">          0 : RequestResult Request_POST_Broadcast(Database* db, const std::string&amp; uriparams, const std::string&amp; qparams, const std::string&amp; body) {</span>
+<span class="lineNum">     224 </span><span class="lineNoCov">          0 :         RequestResult ret;</span>
+<span class="lineNum">     225 </span><span class="lineNoCov">          0 :         auto qdict = parseQueryParams(qparams);</span>
+<span class="lineNum">     226 </span><span class="lineNoCov">          0 :         if(qdict.size() &lt; 2 || !db-&gt;validateSession(qdict[&quot;r_user&quot;], qdict[&quot;token&quot;])) {</span>
+<span class="lineNum">     227 </span><span class="lineNoCov">          0 :                 ret.code = 401;</span>
+<span class="lineNum">     228 </span><span class="lineNoCov">          0 :                 ret.data = &quot;{\&quot;error\&quot;: \&quot;token invalido\&quot; }&quot;;</span>
+<span class="lineNum">     229 </span>            :         }else{
+<span class="lineNum">     230 </span><span class="lineNoCov">          0 :                 const auto&amp; r_user = qdict[&quot;r_user&quot;];</span>
+<span class="lineNum">     231 </span><span class="lineNoCov">          0 :                 auto js = JSONParse(body);</span>
+<span class="lineNum">     232 </span><span class="lineNoCov">          0 :                 const auto&amp; msg = js.get(&quot;mensaje&quot;, &quot;&quot;).asString(); </span>
+<span class="lineNum">     233 </span><span class="lineNoCov">          0 :                 if(msg.length() == 0) {</span>
+<span class="lineNum">     234 </span><span class="lineNoCov">          0 :                         ret.code = 401;</span>
+<span class="lineNum">     235 </span><span class="lineNoCov">          0 :                         ret.data = &quot;{ \&quot;error\&quot;: \&quot;Mensaje invalido\&quot; }&quot;;</span>
+<span class="lineNum">     236 </span><span class="lineNoCov">          0 :                 }else if(!db-&gt;postearMensajeBroadcast(r_user, msg)) {</span>
+<span class="lineNum">     237 </span><span class="lineNoCov">          0 :                         ret.code = 500;</span>
+<span class="lineNum">     238 </span><span class="lineNoCov">          0 :                         ret.data = &quot;{ \&quot;error\&quot;: \&quot;error al postear broadcast\&quot; }&quot;;</span>
+<span class="lineNum">     239 </span>            :                 }else{
+<span class="lineNum">     240 </span>            :                         // Todo ok
+<span class="lineNum">     241 </span><span class="lineNoCov">          0 :                         ret.code = 201;</span>
+<span class="lineNum">     242 </span><span class="lineNoCov">          0 :                 }</span>
+<span class="lineNum">     243 </span>            :         }
+<span class="lineNum">     244 </span><span class="lineNoCov">          0 :         return ret;</span>
+<span class="lineNum">     245 </span>            : }
+<span class="lineNum">     246 </span>            : 
+<a name="247"><span class="lineNum">     247 </span>            : </a>
+<span class="lineNum">     248 </span>            : // Install them
+<span class="lineNum">     249 </span><span class="lineCov">          1 : void RequestHandler::installRequests(Database* db) {</span>
+<span class="lineNum">     250 </span>            : 
+<span class="lineNum">     251 </span>            :         // Store db pointer
+<span class="lineNum">     252 </span><span class="lineCov">          1 :         this-&gt;db = db;</span>
+<span class="lineNum">     253 </span>            :         // Format: install(&quot;method.URI&quot;, Request)
+<span class="lineNum">     254 </span><span class="lineCov">          1 :         install(&quot;GET./test&quot;, Request_GET_Test);</span>
+<span class="lineNum">     255 </span><span class="lineCov">          1 :         install(&quot;POST./login&quot;, Request_POST_Login);</span>
+<span class="lineNum">     256 </span><span class="lineCov">          1 :         install(&quot;GET./usuarios&quot;, Request_GET_Usuarios);</span>
+<span class="lineNum">     257 </span><span class="lineCov">          1 :         install(&quot;POST./usuario&quot;, Request_POST_Usuario);</span>
+<span class="lineNum">     258 </span><span class="lineCov">          1 :         install(&quot;GET./usuario&quot;, Request_GET_Usuario);</span>
+<span class="lineNum">     259 </span><span class="lineCov">          1 :         install(&quot;PUT./usuario&quot;, Request_PUT_Usuario);</span>
+<span class="lineNum">     260 </span><span class="lineCov">          1 :         install(&quot;GET./conversacion&quot;, Request_GET_Conversacion);</span>
+<span class="lineNum">     261 </span><span class="lineCov">          1 :         install(&quot;POST./conversacion&quot;, Request_POST_Conversacion);</span>
+<a name="262"><span class="lineNum">     262 </span><span class="lineCov">          1 :         install(&quot;POST./broadcast&quot;, Request_POST_Broadcast);</span></a>
+<span class="lineNum">     263 </span><span class="lineCov">          1 :         install(&quot;GET./broadcast&quot;, Request_GET_Broadcast);</span>
+<span class="lineNum">     264 </span><span class="lineCov">          4 : }</span>
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.10</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

@@ -11,9 +11,12 @@ class TestRestApi(unittest.TestCase):
 		self.__user_url = "/usuario/"
 		self.__ruser = "?r_user="
 		self.__token = "&token="
+		self.__pass = "&password="
 		self.__users_url = "/usuarios"
 		self.__login = "/login"
 		self.__conversation = "/conversacion/"
+		self.__broadcast = "/broadcast"
+                self.__lines = "&lines="
 
 
 
@@ -181,7 +184,7 @@ class TestRestApi(unittest.TestCase):
 		token["token"] = token["token"][0:16]
                 datos = {"nombre": "Otronombre","password": "abcde","foto": "otrafoto","ubicacion": "unaubicacion"}
                 datos_js = json.dumps(datos)
-		r = requests.put(self.__api_base_url + self.__user_url + user_prueba + self.__ruser + "Fulano5" + self.__token + token["token"], data = datos_js)
+		r = requests.put(self.__api_base_url + self.__user_url + user_prueba + self.__ruser + "Fulano5" + self.__token + token["token"]+self.__pass + "abcde", data = datos_js)
 		self.assertEqual(r.status_code, 201)
 
 
@@ -198,7 +201,7 @@ class TestRestApi(unittest.TestCase):
 		token["token"] = token["token"][0:16]
                 datos = {"nombre": "Otronombre","password": "abcde","foto": "otrafoto","ubicación": "unaubicacion"}
                 datos_js = json.dumps(datos)
-		r = requests.put(self.__api_base_url + self.__user_url + "UsuarioInvalido" + self.__ruser + "Fulano7" + self.__token + token["token"], data = datos_js)
+		r = requests.put(self.__api_base_url + self.__user_url + "UsuarioInvalido" + self.__ruser + "Fulano7" + self.__token + token["token"]+self.__pass + "abcde", data = datos_js)
 		self.assertEqual(r.status_code, 401)
 
 	def test_991modify_user_wrong_name(self):
@@ -214,8 +217,8 @@ class TestRestApi(unittest.TestCase):
 		token["token"] = token["token"][0:16]
                 datos = {"nombre": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","password": "abcde","foto": "otrafoto","ubicación": "unaubicacion"}
                 datos_js = json.dumps(datos)
-		r = requests.put(self.__api_base_url + self.__user_url + user_prueba + self.__ruser + "Fulano8" + self.__token + token["token"], data = datos_js)
-		self.assertEqual(r.status_code, 400)
+		r = requests.put(self.__api_base_url + self.__user_url + user_prueba + self.__ruser + "Fulano8" + self.__token + token["token"]+self.__pass + "abcde", data = datos_js)
+		self.assertEqual(r.status_code, 401)
 
 
 #Conversacion
@@ -424,3 +427,79 @@ class TestRestApi(unittest.TestCase):
 		r = requests.post(self.__api_base_url + self.__conversation + "sUsuarioIncorrecto"+ self.__ruser + "Fulanit6" + self.__token + token1["token"], data = mensaje_js)
 		self.assertEqual(r.status_code, 401)
 
+
+# Broadcast
+
+	def test_998get_broadcast(self):
+                '''Pruebo el envio de un mensaje entre un usuario y otro'''
+                #Registro User1
+                user_prueba = "John"
+                registro_valido = { "password": "abcde", "nombre": "Fulanit4", "foto": "mifoto", "ubicación": "miubicacion"}
+                registro_valido_js = json.dumps(registro_valido)
+		r = requests.post(self.__api_base_url + self.__user_url + user_prueba, data = registro_valido_js)
+		#Registro User2
+                user_prueba2 = "Paul"
+                registro_valido = { "password": "abcde", "nombre": "Menganito4", "foto": "mifoto", "ubicación": "miubicacion"}
+                registro_valido_js = json.dumps(registro_valido)
+		r = requests.post(self.__api_base_url + self.__user_url + user_prueba2, data = registro_valido_js)
+
+		#Login
+		user_correcto = { "id": "John", "password": "abcde" }
+		user_correcto_js = json.dumps(user_correcto)
+		r3 = requests.post(self.__api_base_url + self.__login, data = user_correcto_js)
+		token1 = r3.json()
+		token1["token"] = token1["token"][0:16]
+
+		user_correcto2 = { "id": "Paul", "password": "abcde" }
+		user_correcto2_js = json.dumps(user_correcto2)
+		r4 = requests.post(self.__api_base_url + self.__login, data = user_correcto2_js)
+		token2 = r4.json()
+		token2["token"] = token2["token"][0:16]
+		
+		mensaje = {"mensaje" : "hola"}
+		mensaje_js = json.dumps(mensaje)
+
+		r = requests.post(self.__api_base_url + self.__conversation + "Paul" + self.__ruser + "John" + self.__token + token1["token"], data = mensaje_js)
+
+                r = requests.get(self.__api_base_url + self.__broadcast + self.__ruser + "John" + self.__token + token1["token"] + self.__lines + "1")
+                
+
+		self.assertEqual(r.status_code, 200)
+
+
+	def test_999post_broadcast(self):
+                '''Pruebo el envio de un mensaje entre un usuario y otro'''
+                #Registro User1
+                user_prueba = "John"
+                registro_valido = { "password": "abcde", "nombre": "Fulanit4", "foto": "mifoto", "ubicación": "miubicacion"}
+                registro_valido_js = json.dumps(registro_valido)
+		r = requests.post(self.__api_base_url + self.__user_url + user_prueba, data = registro_valido_js)
+		#Registro User2
+                user_prueba2 = "Paul"
+                registro_valido = { "password": "abcde", "nombre": "Menganito4", "foto": "mifoto", "ubicación": "miubicacion"}
+                registro_valido_js = json.dumps(registro_valido)
+		r = requests.post(self.__api_base_url + self.__user_url + user_prueba2, data = registro_valido_js)
+
+		#Login
+		user_correcto = { "id": "John", "password": "abcde" }
+		user_correcto_js = json.dumps(user_correcto)
+		r3 = requests.post(self.__api_base_url + self.__login, data = user_correcto_js)
+		token1 = r3.json()
+		token1["token"] = token1["token"][0:16]
+
+		user_correcto2 = { "id": "Paul", "password": "abcde" }
+		user_correcto2_js = json.dumps(user_correcto2)
+		r4 = requests.post(self.__api_base_url + self.__login, data = user_correcto2_js)
+		token2 = r4.json()
+		token2["token"] = token2["token"][0:16]
+		
+		mensaje = {"mensaje" : "hola"}
+		mensaje_js = json.dumps(mensaje)
+
+		r = requests.post(self.__api_base_url + self.__conversation + "Paul" + self.__ruser + "John" + self.__token + token1["token"], data = mensaje_js)
+
+                mensaje = {"mensaje" : "hola"}
+		mensaje_js = json.dumps(mensaje)
+
+                r = requests.post(self.__api_base_url + self.__broadcast + self.__ruser + "John" + self.__token + token1["token"],data = mensaje_js)
+		self.assertEqual(r.status_code, 201)

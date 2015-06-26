@@ -1,0 +1,157 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - testResult.info - modules/conversacion.h</title>
+  <link rel="stylesheet" type="text/css" href="../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../index.html">top level</a> - <a href="index.html">modules</a> - conversacion.h<span style="font-size: 80%;"> (source / <a href="conversacion.h.func.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">testResult.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">11</td>
+            <td class="headerCovTableEntry">11</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2015-06-25</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">10</td>
+            <td class="headerCovTableEntry">10</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
+          </tr>
+          <tr><td><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : #pragma once</a>
+<span class="lineNum">       2 </span>            : #include &lt;cereal/types/string.hpp&gt;
+<span class="lineNum">       3 </span>            : #include &lt;cereal/types/deque.hpp&gt;
+<span class="lineNum">       4 </span>            : #include &lt;cereal/types/array.hpp&gt;
+<span class="lineNum">       5 </span>            : #include &lt;cereal/archives/binary.hpp&gt;
+<span class="lineNum">       6 </span>            : #include &lt;string&gt;
+<span class="lineNum">       7 </span>            : #include &lt;ctime&gt;
+<span class="lineNum">       8 </span>            : #include &lt;json/json.h&gt;
+<span class="lineNum">       9 </span>            : #include &lt;deque&gt;
+<span class="lineNum">      10 </span>            : 
+<span class="lineNum">      11 </span>            : typedef size_t UserIndex;
+<a name="12"><span class="lineNum">      12 </span>            : </a>
+<span class="lineNum">      13 </span>            : /// Helper struct para conversaciones
+<span class="lineNum">      14 </span><span class="lineCov">         20 : struct Line {</span>
+<span class="lineNum">      15 </span>            : 
+<a name="16"><span class="lineNum">      16 </span>            :         /// Serializacion</a>
+<span class="lineNum">      17 </span>            :         template&lt;class Archive&gt;
+<span class="lineNum">      18 </span><span class="lineCov">          7 :         void serialize(Archive&amp; ar) {</span>
+<span class="lineNum">      19 </span><span class="lineCov">          7 :                 ar(timestamp, msg, autor);</span>
+<span class="lineNum">      20 </span><span class="lineCov">          7 :         }</span>
+<span class="lineNum">      21 </span>            :         // Atribs
+<span class="lineNum">      22 </span>            :         /// Timestamp 
+<span class="lineNum">      23 </span>            :         time_t timestamp;
+<span class="lineNum">      24 </span>            :         /// Mensaje en si
+<span class="lineNum">      25 </span>            :         std::string msg;
+<span class="lineNum">      26 </span>            :         /// Autor del mensaje
+<span class="lineNum">      27 </span>            :         /// Valores posibles: 0, 1
+<span class="lineNum">      28 </span>            :         /// Index into Conversation.users
+<span class="lineNum">      29 </span>            :         UserIndex autor;
+<span class="lineNum">      30 </span>            : 
+<span class="lineNum">      31 </span>            : };
+<a name="32"><span class="lineNum">      32 </span>            : </a>
+<span class="lineNum">      33 </span>            : /// Estructura para manejar conversaciones
+<span class="lineNum">      34 </span><span class="lineCov">         17 : struct Conversacion {</span>
+<a name="35"><span class="lineNum">      35 </span>            : </a>
+<span class="lineNum">      36 </span>            :         /// Constructor default
+<span class="lineNum">      37 </span><span class="lineCov">          7 :         Conversacion() {</span>
+<span class="lineNum">      38 </span><span class="lineCov">          7 :                 unread[0] = unread[1] = false;</span>
+<span class="lineNum">      39 </span><span class="lineCov">          7 :         }</span>
+<span class="lineNum">      40 </span>            :         /// Constructor para crear vacia desde 2 usuarios
+<span class="lineNum">      41 </span>            :         Conversacion(const std::string&amp; user1, const std::string&amp; user2);
+<span class="lineNum">      42 </span>            :         /// Constructor from serialized string
+<span class="lineNum">      43 </span>            :         Conversacion(const std::string&amp; str) {
+<span class="lineNum">      44 </span>            :                 deserialStr(str);
+<span class="lineNum">      45 </span>            :         }
+<span class="lineNum">      46 </span>            :         /// Retornar como Json
+<span class="lineNum">      47 </span>            :         std::string asJson(size_t num_lines=0) const;
+<span class="lineNum">      48 </span>            :         /// Agregar mensaje
+<span class="lineNum">      49 </span>            :         void postear(const std::string&amp; autor, const std::string&amp; msg);
+<span class="lineNum">      50 </span>            : 
+<span class="lineNum">      51 </span>            :         /// Serializacion
+<a name="52"><span class="lineNum">      52 </span>            :         // Cereal method</a>
+<span class="lineNum">      53 </span>            :         template&lt;class Archive&gt;
+<span class="lineNum">      54 </span><span class="lineCov">          7 :         void serialize(Archive&amp; ar) {</span>
+<span class="lineNum">      55 </span><span class="lineCov">          7 :                 ar(users, lines, unread);</span>
+<span class="lineNum">      56 </span><span class="lineCov">          7 :         }</span>
+<span class="lineNum">      57 </span>            :         /// Actual serial
+<span class="lineNum">      58 </span>            :         std::string serialStr() const;
+<span class="lineNum">      59 </span>            :         /// Deserial from str
+<span class="lineNum">      60 </span>            :         void deserialStr(const std::string&amp; str);
+<span class="lineNum">      61 </span>            : 
+<span class="lineNum">      62 </span>            :         // Attribs
+<span class="lineNum">      63 </span>            :         /// Usuarios parte de la conversacion
+<span class="lineNum">      64 </span>            :         std::array&lt;std::string, 2&gt; users;
+<span class="lineNum">      65 </span>            :         /// Conjunto de lineas (mensajes)
+<span class="lineNum">      66 </span>            :         std::deque&lt;Line&gt; lines;
+<span class="lineNum">      67 </span>            :         /// Mensajes sin leer para cada usuario
+<span class="lineNum">      68 </span>            :         bool unread[2];
+<span class="lineNum">      69 </span>            :         /// Marca la conversacion como leida para el usuario whoread
+<span class="lineNum">      70 </span>            :         void markRead(const std::string&amp; whoread);
+<span class="lineNum">      71 </span>            :         /// True si el usuario user tiene mensajes sin leer en la conversacion
+<span class="lineNum">      72 </span>            :         bool hasUnread(const std::string&amp; user) const;
+<span class="lineNum">      73 </span>            : 
+<span class="lineNum">      74 </span>            :         /// Helper para generar la key en el diccionario de usuarios
+<span class="lineNum">      75 </span>            :         static std::string keyGen(const std::string&amp; user1, const std::string&amp; user2);
+<span class="lineNum">      76 </span>            :         /// Convierte el user_id en indice para la conversacion
+<span class="lineNum">      77 </span>            :         UserIndex userToIndex(const std::string&amp; id) const;
+<span class="lineNum">      78 </span>            :         /// Convierte el indice en el nombre de usuario
+<span class="lineNum">      79 </span>            :         std::string indexToUser(UserIndex i) const;
+<span class="lineNum">      80 </span>            : 
+<span class="lineNum">      81 </span>            : };
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.10</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

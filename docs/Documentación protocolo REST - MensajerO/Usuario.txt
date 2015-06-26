@@ -136,7 +136,7 @@ En caso de token válido:
 	
 	Usuario válido y atributos inválidos:
 
-	* **Response code:** 400 Bad request
+	* **Response code:** 401 Bad request
 
 	* **Body:** `{ “error” : <str:descripcion_error> }`
 

@@ -3,7 +3,16 @@
 #include <unistd.h>
 #include "requesthandler.h"
 #include "logger.h"
-
+RequestResult Request_POST_Login(Database* db, const std::string& uriparams, const std::string& qparams, const std::string& body);
+RequestResult Request_GET_Test(Database* db, const std::string& uriparams, const std::string& qparams, const std::string& body);
+RequestResult Request_POST_Usuario(Database* db, const std::string& uriparams, const std::string& qparams, const std::string& body);
+RequestResult Request_GET_Usuarios(Database* db, const std::string& uriparams, const std::string& qparams, const std::string& body);
+RequestResult Request_GET_Usuario(Database* db, const std::string& uriparams, const std::string& qparams, const std::string& body);
+RequestResult Request_PUT_Usuario(Database* db, const std::string& uriparams, const std::string& qparams, const std::string& body);
+RequestResult Request_POST_Conversacion(Database* db, const std::string& uriparams, const std::string& qparams, const std::string& body);
+RequestResult Request_GET_Conversacion(Database* db, const std::string& uriparams, const std::string& qparams, const std::string& body);
+RequestResult Request_GET_Broadcast(Database* db, const std::string& uriparams, const std::string& qparams, const std::string& body);
+RequestResult Request_POST_Broadcast(Database* db, const std::string& uriparams, const std::string& qparams, const std::string& body);
 static Logger& logger = Logger::get();
 
 RequestHandler::RequestHandler() {
@@ -104,7 +113,27 @@ int RequestHandler::serve(struct mg_connection *conn, const std::string& method,
 		logger.msg(LOG_TYPE::DEBUG, std::string("uri_params: ") + uri_params);
 		logger.msg(LOG_TYPE::DEBUG, std::string("query_params: ") + query_params);
 		logger.msg(LOG_TYPE::DEBUG, std::string("content: ") + content);
-		auto res = (routes[methodURI])(this->db, uri_params, query_params, content);
+		RequestResult res;
+		if(methodURI == "GET./test")
+			res = Request_GET_Test(this->db, uri_params, query_params, content);
+		else if(methodURI == "POST./login")
+			res = Request_POST_Login(this->db, uri_params, query_params, content);
+		else if(methodURI == "GET./usuarios")
+			res = Request_GET_Usuarios(this->db, uri_params, query_params, content);
+		else if(methodURI == "POST./usuario")
+			res = Request_POST_Usuario(this->db, uri_params, query_params, content);
+		else if(methodURI == "GET./usuario")
+			res = Request_GET_Usuario(this->db, uri_params, query_params, content);
+		else if(methodURI == "PUT./usuario")
+			res = Request_PUT_Usuario(this->db, uri_params, query_params, content);
+		else if(methodURI == "GET./conversacion")
+			res = Request_GET_Conversacion(this->db, uri_params, query_params, content);
+		else if(methodURI == "POST./conversacion")
+			res = Request_POST_Conversacion(this->db, uri_params, query_params, content);
+		else if(methodURI == "POST./broadcast")
+			res = Request_POST_Broadcast(this->db, uri_params, query_params, content);
+		else if(methodURI == "GET./broadcast")
+			res = Request_GET_Broadcast(this->db, uri_params, query_params, content);
 		mg_send_status(conn, res.code);
 		mg_send_data(conn, res.data.c_str(), res.data.size());
 		logger.msg(LOG_TYPE::DEBUG, res);

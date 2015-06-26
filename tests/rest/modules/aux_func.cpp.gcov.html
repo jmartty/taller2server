@@ -1,0 +1,110 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - testResult.info - modules/aux_func.cpp</title>
+  <link rel="stylesheet" type="text/css" href="../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../index.html">top level</a> - <a href="index.html">modules</a> - aux_func.cpp<span style="font-size: 80%;"> (source / <a href="aux_func.cpp.func.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">testResult.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">18</td>
+            <td class="headerCovTableEntry">20</td>
+            <td class="headerCovTableEntryHi">90.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2015-06-25</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">4</td>
+            <td class="headerCovTableEntry">4</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
+          </tr>
+          <tr><td><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : #include &quot;aux_func.h&quot;</a>
+<span class="lineNum">       2 </span>            : 
+<span class="lineNum">       3 </span><span class="lineCov">         54 : std::vector&lt;std::string&gt; explode(const std::string&amp; delim, const std::string&amp; str) {</span>
+<span class="lineNum">       4 </span>            : 
+<span class="lineNum">       5 </span><span class="lineCov">         54 :         if(delim.size() == 0 || str.size() == 0)</span>
+<span class="lineNum">       6 </span><span class="lineNoCov">          0 :                 return std::vector&lt;std::string&gt;();</span>
+<span class="lineNum">       7 </span>            :         // the array, intiailized with the string we're looking in
+<span class="lineNum">       8 </span>            :         // in case we don't find delim in it
+<span class="lineNum">       9 </span><span class="lineCov">         54 :         std::vector&lt;std::string&gt; retarr(1, str);</span>
+<span class="lineNum">      10 </span><span class="lineCov">         54 :         std::string::size_type loc = str.find(delim, 0);</span>
+<span class="lineNum">      11 </span><span class="lineCov">         54 :         if(loc == std::string::npos){</span>
+<span class="lineNum">      12 </span><span class="lineNoCov">          0 :                 return retarr;</span>
+<span class="lineNum">      13 </span>            :         }else{
+<span class="lineNum">      14 </span>            :                 //found delim in str, clear the array
+<span class="lineNum">      15 </span><span class="lineCov">         54 :                 std::vector&lt;std::string&gt;::iterator first = retarr.begin();</span>
+<span class="lineNum">      16 </span><span class="lineCov">         54 :                 retarr.erase(first);</span>
+<span class="lineNum">      17 </span>            :                 //add the different exploded strings
+<span class="lineNum">      18 </span><span class="lineCov">         54 :                 std::string::size_type nextloc = 0;</span>
+<span class="lineNum">      19 </span><span class="lineCov">         54 :                 loc = 0;</span>
+<span class="lineNum">      20 </span><span class="lineCov">        219 :                 while(nextloc != std::string::npos){</span>
+<span class="lineNum">      21 </span><span class="lineCov">        111 :                         nextloc = str.find(delim, loc);</span>
+<span class="lineNum">      22 </span><span class="lineCov">        111 :                         retarr.push_back(str.substr(loc, nextloc-loc));</span>
+<span class="lineNum">      23 </span><span class="lineCov">        111 :                         loc = str.find(delim,loc) + delim.size();</span>
+<span class="lineNum">      24 </span>            :                 }
+<span class="lineNum">      25 </span><span class="lineCov">         54 :                 return retarr;</span>
+<span class="lineNum">      26 </span><span class="lineCov">         54 :         }</span>
+<span class="lineNum">      27 </span>            : 
+<span class="lineNum">      28 </span>            : }
+<a name="29"><span class="lineNum">      29 </span>            : </a>
+<span class="lineNum">      30 </span>            : 
+<a name="31"><span class="lineNum">      31 </span><span class="lineCov">         13 : time_t secondsFrom(const time_t&amp; t) {</span></a>
+<span class="lineNum">      32 </span><span class="lineCov">         13 :         return std::time(nullptr) - t;</span>
+<span class="lineNum">      33 </span><span class="lineCov">          3 : }</span>
+<span class="lineNum">      34 </span>            : 
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.10</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

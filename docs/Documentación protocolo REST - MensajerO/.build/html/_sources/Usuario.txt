@@ -86,7 +86,7 @@ Los campos ‘password’ y ‘nombre’ son obligatorios, el resto se pueden ig
 
 	Usuario inválido o existente: 
 
-	- **Response code:** 400 Bad request
+	- **Response code:** 401 Bad request
 
 	* **Body:** `{ “error” : <str:descripcion_error> }`
 
@@ -136,7 +136,7 @@ En caso de token válido:
 	
 	Usuario válido y atributos inválidos:
 
-	* **Response code:** 400 Bad request
+	* **Response code:** 401 Bad request
 
 	* **Body:** `{ “error” : <str:descripcion_error> }`
 
